@@ -820,7 +820,6 @@
           <span id="syncStatus">Live Synced ✓</span>
         </div>
 
-        <!-- PILIHAN BAHASA TEPAT DI SEBELAH OPSI KELUAR -->
         <select class="lang-select" id="appLangSelect" aria-label="Language">
           <option value="id">🇮🇩 ID</option>
           <option value="en">🇬🇧 EN</option>
@@ -901,7 +900,6 @@
             <button type="button" class="btn" id="requestGpsBtn" style="font-size:0.7rem; padding:4px 8px;">📍 Sync GPS</button>
           </div>
           <div class="clocks-row">
-            <!-- KARTU PENGGUNA AKTIF -->
             <div class="clock-pill active-owner">
               <div class="clock-city" id="leftClockLabel">Kamu</div>
               <div class="clock-time-row">
@@ -909,7 +907,6 @@
                 <div class="clock-location-badge" id="leftLocationBadge">📍 GPS Off</div>
               </div>
 
-              <!-- SATU OPSI TERPADU: TEMPLATE ATAU TULIS SENDIRI -->
               <select class="unified-status-select" id="activeStatusSelect"></select>
               <div class="custom-status-wrap" id="customStatusWrap">
                 <input
@@ -923,7 +920,6 @@
               </div>
             </div>
 
-            <!-- KARTU PASANGAN -->
             <div class="clock-pill">
               <div class="clock-city partner" id="rightClockLabel">Menunggu Pasangan...</div>
               <div class="clock-time-row">
@@ -989,12 +985,15 @@
   </div>
 
   <script>
-    // Konfigurasi Firebase Anda (widg-350f9)
     const firebaseConfig = {
-      apiKey: "AIzaSyBF1LP9H26mRntsYX1kjm6Ebp3aR1QI8yU",
+      apiKey: "AIzaSyBF1LP9H26mRntsYXlkjm6Ebp3aR1QI8yU",
       authDomain: "widg-350f9.firebaseapp.com",
       databaseURL: "https://widg-350f9-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "widg-350f9"
+      projectId: "widg-350f9",
+      storageBucket: "widg-350f9.firebasestorage.app",
+      messagingSenderId: "297142153662",
+      appId: "1:297142153662:web:482b285695838b838949ef",
+      measurementId: "G-GG6Q8PM583"
     };
 
     firebase.initializeApp(firebaseConfig);
