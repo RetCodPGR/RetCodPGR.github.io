@@ -48,7 +48,6 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* SMOOTH KEYFRAMES */
     @keyframes fadeSlideUp {
       from { opacity: 0; transform: translateY(14px) scale(0.985); }
       to { opacity: 1; transform: translateY(0) scale(1); }
@@ -103,7 +102,6 @@
       transform: scale(0.95);
     }
 
-    /* PILIHAN BAHASA */
     .lang-select {
       background: rgba(255, 255, 255, 0.09);
       border: 1px solid var(--card-border);
@@ -171,8 +169,10 @@
 
     .form-group { display: flex; flex-direction: column; gap: 6px; }
     .form-group label { font-size: 0.75rem; font-weight: 700; color: rgba(255, 253, 249, 0.78); }
-    .gate-input-row { display: flex; gap: 8px; }
+    .gate-input-row { display: flex; gap: 8px; align-items: stretch; }
     .gate-input {
+      flex: 1;
+      min-width: 0;
       width: 100%;
       background: rgba(0, 0, 0, 0.26);
       border: 1px solid rgba(255, 248, 238, 0.16);
@@ -186,6 +186,15 @@
     }
     .gate-input:focus { border-color: var(--butter); box-shadow: 0 0 0 3px rgba(254, 240, 138, 0.12); }
     .gate-input::placeholder { color: rgba(255, 253, 249, 0.35); font-weight: 400; }
+
+    #genRoomCodeBtn {
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 0 13px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     .gate-error {
       background: rgba(248, 113, 113, 0.15);
@@ -606,7 +615,6 @@
     .clock-city { font-size: 0.78rem; font-weight: 800; color: var(--accent-primary); }
     .clock-city.partner { color: var(--accent-secondary); }
 
-    /* JAM + LOKASI GPS BERSEBELAHAN */
     .clock-time-row {
       display: flex;
       align-items: center;
@@ -632,7 +640,6 @@
       text-overflow: ellipsis;
     }
 
-    /* SATU OPSI STATUS TERPADU DI BAWAH JAM */
     .unified-status-select {
       width: 100%;
       background: rgba(254, 240, 138, 0.09);
@@ -966,7 +973,7 @@
     </div>
   </div>
 
-  <!-- MODAL KONFIRMASI KELUAR (AGAR TIDAK KEPENCET) -->
+  <!-- MODAL KONFIRMASI KELUAR -->
   <div id="exitConfirmModal" class="modal-overlay">
     <div class="modal-card" style="max-width: 360px; text-align: center;">
       <div style="font-size: 2rem;">🚪🧸</div>
@@ -982,17 +989,12 @@
   </div>
 
   <script>
-    // =========================================================================
-    // ISI KONFIGURASI FIREBASE REALTIME DATABASE ANDA DI BAWAH INI
-    // =========================================================================
+    // Konfigurasi Firebase Anda (widg-350f9)
     const firebaseConfig = {
-      apiKey: "ISI-API-KEY-FIREBASE-ANDA",
-      authDomain: "ISI-PROJECT-ID.firebaseapp.com",
-      databaseURL: "https://ISI-PROJECT-ID-default-rtdb.firebaseio.com",
-      projectId: "ISI-PROJECT-ID",
-      storageBucket: "ISI-PROJECT-ID.appspot.com",
-      messagingSenderId: "ISI-SENDER-ID",
-      appId: "ISI-APP-ID"
+      apiKey: "AIzaSyBF1LP9H26mRntsYX1kjm6Ebp3aR1QI8yU",
+      authDomain: "widg-350f9.firebaseapp.com",
+      databaseURL: "https://widg-350f9-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "widg-350f9"
     };
 
     firebase.initializeApp(firebaseConfig);
@@ -1013,7 +1015,6 @@
         btnCreateSubmit: "Buat & Connect Room ✨",
         btnJoinSubmit: "Masuk ke Room ✨",
         btnConnecting: "Menghubungkan...",
-        errNoConfig: "Masukkan firebaseConfig Anda di dalam kode index.html terlebih dahulu.",
         errNoName: "Isi nama panggilanmu dulu ya!",
         errShortCode: "Kode room minimal 4 karakter.",
         errShortPin: "PIN / Password minimal 4 karakter.",
@@ -1091,7 +1092,6 @@
         btnCreateSubmit: "Create & Connect Room ✨",
         btnJoinSubmit: "Enter Room ✨",
         btnConnecting: "Connecting...",
-        errNoConfig: "Please paste your firebaseConfig inside index.html first.",
         errNoName: "Please enter your nickname first!",
         errShortCode: "Room code must be at least 4 characters.",
         errShortPin: "PIN / Password must be at least 4 characters.",
@@ -1169,7 +1169,6 @@
         btnCreateSubmit: "创建并连接房间 ✨",
         btnJoinSubmit: "进入房间 ✨",
         btnConnecting: "连接中...",
-        errNoConfig: "请先在 index.html 代码中填入你的 firebaseConfig 配置。",
         errNoName: "请先输入你的昵称！",
         errShortCode: "房间号至少需要 4 个字符。",
         errShortPin: "密码至少需要 4 个字符。",
@@ -1253,7 +1252,6 @@
       return [];
     }
 
-    // Dynamic PWA Manifest untuk Add to Home Screen & Widget
     (function attachDynamicManifest() {
       const manifestObj = {
         name: "Our Virtual Desk",
@@ -1385,7 +1383,7 @@
       gateMode = mode;
       modeCreateBtn.classList.toggle("active", mode === "create");
       modeJoinBtn.classList.toggle("active", mode === "join");
-      genRoomCodeBtn.style.display = mode === "create" ? "inline-block" : "none";
+      genRoomCodeBtn.style.display = mode === "create" ? "inline-flex" : "none";
       gateErrorBox.style.display = "none";
       if (mode === "create" && !roomCodeInput.value.trim()) {
         roomCodeInput.value = generateRandomCode();
@@ -1399,7 +1397,6 @@
       roomCodeInput.value = generateRandomCode();
     });
 
-    // Isi kredensial terakhir jika user sebelumnya menekan tombol "Keluar"
     const urlParams = new URLSearchParams(window.location.search);
     const savedLastCreds = localStorage.getItem("virtual_desk_last_creds");
     if (urlParams.get("room")) {
@@ -1430,9 +1427,6 @@
       const rawCode = roomCodeInput.value.trim().toUpperCase().replace(/[^A-Z0-9-]/g, "");
       const pin = roomPinInput.value.trim();
 
-      if (firebaseConfig.apiKey.includes("ISI-API-KEY")) {
-        return showGateError(t("errNoConfig"));
-      }
       if (!myName) return showGateError(t("errNoName"));
       if (rawCode.length < 4) return showGateError(t("errShortCode"));
       if (pin.length < 4) return showGateError(t("errShortPin"));
@@ -1444,7 +1438,6 @@
         const snap = await db.ref(`rooms/${rawCode}`).once("value");
         const existing = snap.val();
 
-        // Jika room sudah ada & PIN cocok, izinkan masuk kembali baik lewat tab Gabung maupun Buat
         if (existing) {
           if (String(existing.pin) !== String(pin)) {
             connectSubmitBtn.disabled = false;
@@ -1475,7 +1468,6 @@
           return;
         }
 
-        // Jika room belum ada
         if (gateMode === "join") {
           connectSubmitBtn.disabled = false;
           connectSubmitBtn.textContent = t("btnJoinSubmit");
@@ -1528,11 +1520,8 @@
       autoRefreshGpsIfPermitted();
     }
 
-    // Auto-reconnect sesi saat dibuka dari GitHub Pages / Widget HP
     (async function tryRestoreSession() {
       applyLanguageUI();
-      if (firebaseConfig.apiKey.includes("ISI-API-KEY")) return;
-
       const saved = localStorage.getItem("virtual_desk_fb_session");
       if (!saved) return;
       try {
@@ -1546,7 +1535,7 @@
       } catch {}
     })();
 
-    // ================= KONFIRMASI KELUAR (AMAN DARI KEPENCET) =================
+    // ================= KONFIRMASI KELUAR =================
     const exitConfirmModal = document.getElementById("exitConfirmModal");
     document.getElementById("leaveRoomBtn").addEventListener("click", () => {
       exitConfirmModal.style.display = "flex";
@@ -1559,7 +1548,6 @@
       if (activeRoomRef) activeRoomRef.off("value");
       if (backgroundPollTimer) clearInterval(backgroundPollTimer);
 
-      // Simpan kredensial terakhir agar langsung bisa masuk lagi dengan kode & PIN sama
       localStorage.setItem("virtual_desk_last_creds", JSON.stringify({
         myName: session.myName,
         roomCode: session.roomCode,
@@ -2346,7 +2334,6 @@
         }
       });
 
-      // Polling latar belakang berkala agar Widget di HP tetap update otomatis
       backgroundPollTimer = setInterval(() => {
         pullLatestRoomState();
       }, 8000);
