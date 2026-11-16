@@ -1,7 +1,4 @@
-<html>
-        <head><title>Downloaded HTML</title></head>
-        <body>
-            <pre style="white-space: pre-wrap; word-wrap: break-word;"><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -31,8 +28,7 @@
       --ink: #29201c;
     }
 
-    /* TEMA KHUSUS HALAMAN PACAR (?role=her) */
-    body.theme-her {
+    body.theme-guest {
       --bg-main: #23151e;
       --bg-secondary: #311d2a;
       --card-surface: #3b2433;
@@ -62,6 +58,131 @@
       transition: background-color 0.35s ease;
     }
 
+    /* ================= CONNECT ROOM GATE (LAYAR AWAL) ================= */
+    #connectGate {
+      width: 100%;
+      max-width: 440px;
+      margin: auto;
+      background: var(--card-surface);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 28px 24px;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .gate-header {
+      text-align: center;
+    }
+    .gate-header h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--butter);
+      margin-top: 6px;
+    }
+    .gate-header p {
+      font-size: 0.82rem;
+      color: rgba(255, 253, 249, 0.68);
+      margin-top: 4px;
+      line-height: 1.45;
+    }
+
+    .gate-mode-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.28);
+      padding: 4px;
+      border-radius: 14px;
+    }
+
+    .gate-mode-btn {
+      border: none;
+      background: transparent;
+      color: rgba(255, 253, 249, 0.65);
+      padding: 9px 10px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .gate-mode-btn.active {
+      background: var(--butter);
+      color: var(--ink);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: rgba(255, 253, 249, 0.78);
+    }
+    .gate-input-row {
+      display: flex;
+      gap: 8px;
+    }
+    .gate-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.26);
+      border: 1px solid rgba(255, 248, 238, 0.16);
+      border-radius: 12px;
+      padding: 11px 13px;
+      color: var(--cream);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      outline: none;
+    }
+    .gate-input:focus {
+      border-color: var(--butter);
+    }
+    .gate-input::placeholder {
+      color: rgba(255, 253, 249, 0.35);
+      font-weight: 400;
+    }
+
+    .gate-error {
+      background: rgba(248, 113, 113, 0.15);
+      border: 1px solid rgba(248, 113, 113, 0.4);
+      color: #fecaca;
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: none;
+      text-align: center;
+    }
+
+    .btn-connect-submit {
+      width: 100%;
+      background: var(--butter);
+      color: var(--ink);
+      border: none;
+      border-radius: 14px;
+      padding: 13px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.1s ease, background 0.2s ease;
+    }
+    .btn-connect-submit:hover { background: #fde047; }
+    .btn-connect-submit:active { transform: scale(0.98); }
+
+    /* ================= DESK APP (TERSEMBUNYI SEBELUM CONNECT) ================= */
+    #deskApp {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+    }
+
     header {
       width: 100%;
       max-width: 980px;
@@ -74,8 +195,8 @@
     }
 
     .brand { display: flex; align-items: center; gap: 10px; }
-    .brand h1 { font-size: 1.32rem; font-weight: 800; color: var(--accent-primary); transition: color 0.3s; }
-    .brand-sub { font-size: 0.74rem; color: rgba(255, 253, 249, 0.65); font-weight: 600; }
+    .brand h1 { font-size: 1.32rem; font-weight: 800; color: var(--accent-primary); }
+    .brand-sub { font-size: 0.75rem; color: rgba(255, 253, 249, 0.68); font-weight: 600; }
 
     .header-actions {
       display: flex;
@@ -84,50 +205,28 @@
       flex-wrap: wrap;
     }
 
-    /* SEGMENTED ROLE SWITCHER (2 HALAMAN) */
-    .role-switcher {
-      display: inline-flex;
-      background: rgba(0, 0, 0, 0.32);
-      border: 1px solid var(--card-border);
-      border-radius: 999px;
-      padding: 3px;
-      gap: 3px;
-    }
-
-    .role-tab {
-      border: none;
-      background: transparent;
-      color: rgba(255, 253, 249, 0.65);
-      padding: 5px 12px;
-      border-radius: 999px;
-      font-size: 0.76rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .role-tab.active-me {
-      background: var(--butter);
-      color: var(--ink);
-    }
-
-    .role-tab.active-her {
-      background: var(--pink);
-      color: var(--ink);
-    }
-
-    .copy-link-btn {
+    .room-pill-btn {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--card-border);
       color: var(--cream);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .room-pill-btn:hover { background: rgba(255, 255, 255, 0.16); }
+
+    .leave-btn {
+      background: rgba(248, 113, 113, 0.14);
+      border: 1px solid rgba(248, 113, 113, 0.35);
+      color: #fecaca;
       padding: 6px 11px;
       border-radius: 999px;
       font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
-      transition: background 0.15s;
     }
-    .copy-link-btn:hover { background: rgba(255, 255, 255, 0.16); }
 
     .live-badge {
       display: inline-flex;
@@ -173,7 +272,6 @@
       border-radius: 26px;
       padding: 20px;
       box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
-      transition: background-color 0.35s ease, border-color 0.35s ease;
     }
 
     .widget-header {
@@ -193,12 +291,12 @@
       color: rgba(255, 253, 249, 0.72);
     }
 
-    /* TAB POLAROID: STUDIO KAMU VS KIRIMAN DARI DIA */
-    .polaroid-tabs {
+    /* 3 TAB POLAROID: UPLOAD POLAROID | POLAROID PIHAK 1 | POLAROID PIHAK 2 */
+    .polaroid-tabs-3 {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      background: rgba(0, 0, 0, 0.25);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      background: rgba(0, 0, 0, 0.28);
       padding: 4px;
       border-radius: 14px;
       margin-bottom: 14px;
@@ -208,32 +306,34 @@
       border: none;
       background: transparent;
       color: rgba(255, 253, 249, 0.65);
-      padding: 8px 10px;
+      padding: 8px 6px;
       border-radius: 10px;
-      font-size: 0.78rem;
+      font-size: 0.73rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 5px;
       transition: all 0.2s;
+      text-align: center;
+      line-height: 1.2;
     }
 
     .p-tab-btn.active {
       background: var(--accent-primary);
       color: var(--ink);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.22);
     }
 
     .tab-count-pill {
       background: rgba(0, 0, 0, 0.16);
-      padding: 1px 7px;
+      padding: 1px 6px;
       border-radius: 999px;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
     }
 
-    /* POLAROID STACK & NAVIGATOR */
+    /* POLAROID FRAME */
     .polaroid-frame {
       background: var(--cream);
       padding: 14px 14px 20px;
@@ -241,10 +341,6 @@
       box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
       transform: rotate(-1deg);
       position: relative;
-      transition: transform 0.25s ease;
-    }
-    body.theme-her .polaroid-frame {
-      transform: rotate(1deg);
     }
 
     .photo-stack-container {
@@ -351,7 +447,7 @@
       justify-content: space-between;
     }
 
-    .readonly-banner {
+    .gallery-info-bar {
       margin-top: 14px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px dashed var(--card-border);
@@ -359,7 +455,7 @@
       padding: 10px 14px;
       text-align: center;
       font-size: 0.78rem;
-      color: rgba(255, 253, 249, 0.75);
+      color: rgba(255, 253, 249, 0.78);
       display: none;
     }
 
@@ -392,18 +488,13 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
       padding: 7px 12px;
       border-radius: 12px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
       cursor: pointer;
     }
     .btn:hover { background: rgba(255, 255, 255, 0.18); }
     .btn-primary {
       background: var(--accent-primary);
-      color: var(--ink);
-      border: none;
-    }
-    .btn-secondary {
-      background: var(--accent-secondary);
       color: var(--ink);
       border: none;
     }
@@ -517,7 +608,7 @@
       align-items: center;
     }
 
-    /* STICKY NOTES (TERPISAH ANTARA KAMU & PACAR) */
+    /* STICKY NOTES */
     .notes-section-label {
       font-size: 0.72rem;
       font-weight: 800;
@@ -570,160 +661,190 @@
 </head>
 <body>
 
-  <header>
-    <div class="brand">
-      <span id="brandIcon" style="font-size: 1.7rem;">🧸</span>
-      <div>
-        <h1 id="headerTitle">Meja Virtual Kamu 💻</h1>
-        <div class="brand-sub" id="headerSubtitle">Ruang Kamu • Kirim foto & catatan ke Pacar</div>
+  <!-- ================= LAYAR 1: CONNECT ROOM PRIVAT ================= -->
+  <div id="connectGate">
+    <div class="gate-header">
+      <div style="font-size: 2.2rem;">🔐🧸</div>
+      <h1>Our Virtual Desk</h1>
+      <p>Masukkan nama panggilanmu dan hubungkan room privat khusus berdua agar tidak sembarang orang bisa masuk.</p>
+    </div>
+
+    <div class="gate-mode-tabs">
+      <button type="button" class="gate-mode-btn active" id="modeCreateBtn">✨ Buat Room Baru</button>
+      <button type="button" class="gate-mode-btn" id="modeJoinBtn">💌 Gabung Room Pacar</button>
+    </div>
+
+    <div class="form-group">
+      <label for="userNameInput">Nama Panggilanmu (akan muncul sebagai ID-mu)</label>
+      <input type="text" id="userNameInput" class="gate-input" maxlength="16" placeholder="Contoh: Galih / Sayang / Beb..." />
+    </div>
+
+    <div class="form-group">
+      <label for="roomCodeInput">Kode Room Privat</label>
+      <div class="gate-input-row">
+        <input type="text" id="roomCodeInput" class="gate-input" maxlength="20" placeholder="Contoh: COZY-8492" style="text-transform:uppercase;" />
+        <button type="button" class="btn" id="genRoomCodeBtn" title="Acak kode room baru">🎲 Acak</button>
       </div>
     </div>
 
-    <div class="header-actions">
-      <!-- 2 HALAMAN SWITCHER (TEST MODE / PILIH VIEW) -->
-      <div class="role-switcher" role="tablist" aria-label="Pilih Halaman Tampilan">
-        <button class="role-tab active-me" id="tabRoleMe">💻 View Kamu</button>
-        <button class="role-tab" id="tabRoleHer">🌸 View Pacar</button>
-      </div>
-
-      <button class="copy-link-btn" id="copyPartnerLinkBtn" title="Salin link khusus halaman pacar">🔗 Link Pacar</button>
-
-      <div class="live-badge">
-        <span class="live-dot"></span>
-        <span id="syncStatus">Connecting...</span>
-      </div>
+    <div class="form-group">
+      <label for="roomPinInput">PIN Rahasia Room (4–6 angka/huruf)</label>
+      <input type="password" id="roomPinInput" class="gate-input" maxlength="12" placeholder="Masukkan PIN rahasia berdua..." />
     </div>
-  </header>
 
-  <main class="bento-grid">
-    <!-- LEFT: POLAROID STACK WIDGET (2 TAB TERPISAH) -->
-    <section class="widget">
-      <div class="widget-header">
-        <span class="widget-title" id="polaroidHeaderTitle">📸 Polaroid Studio</span>
-        <div id="polaroidUploadGroup" style="display:flex; gap:6px; align-items:center;">
-          <label class="btn btn-primary" style="cursor:pointer;">
-            + Upload Foto
-            <input type="file" id="photoInput" accept="image/*" hidden />
-          </label>
-          <label class="btn btn-secondary" style="cursor:pointer;" title="Tambah 1 foto lagi ke tumpukan">
-            +1 Foto
-            <input type="file" id="addMorePhotoInput" accept="image/*" hidden />
-          </label>
+    <div class="gate-error" id="gateErrorBox"></div>
+
+    <button type="button" class="btn-connect-submit" id="connectSubmitBtn">Masuk & Connect Room ✨</button>
+  </div>
+
+  <!-- ================= LAYAR 2: HALAMAN UTAMA (MUNCUL SETELAH CONNECT) ================= -->
+  <div id="deskApp">
+    <header>
+      <div class="brand">
+        <span id="brandIcon" style="font-size: 1.7rem;">🧸</span>
+        <div>
+          <h1 id="headerTitle">Meja Virtual</h1>
+          <div class="brand-sub" id="headerSubtitle">Terhubung berdua secara privat</div>
         </div>
       </div>
 
-      <!-- TAB PEMISAH: POLAROID YANG KAMU BUAT VS KIRIMAN DARI PASANGAN -->
-      <div class="polaroid-tabs">
-        <button class="p-tab-btn active" id="pTabOwn">
-          <span id="pTabOwnLabel">🎨 Polaroid Kamu</span>
-          <span class="tab-count-pill" id="ownCountBadge">0</span>
+      <div class="header-actions">
+        <button class="room-pill-btn" id="copyInviteBtn" title="Salin Kode & PIN Room untuk dikirim ke pasangan">
+          🔑 Room: <span id="headerRoomCode">---</span> (Salin Info)
         </button>
-        <button class="p-tab-btn" id="pTabIncoming">
-          <span id="pTabIncomingLabel">💌 Dari Pacar</span>
-          <span class="tab-count-pill" id="incomingCountBadge">0</span>
-        </button>
-      </div>
 
-      <div class="polaroid-frame">
-        <div class="photo-stack-container">
-          <div class="photo-box-stack-bg2" id="stackBg2" style="display:none;"></div>
-          <div class="photo-box-stack-bg1" id="stackBg1" style="display:none;"></div>
-
-          <div class="photo-box">
-            <canvas id="polaroidCanvas" width="600" height="600"></canvas>
-            <button class="stack-nav stack-prev" id="prevPhotoBtn" title="Foto sebelumnya">&lt;</button>
-            <button class="stack-nav stack-next" id="nextPhotoBtn" title="Foto berikutnya">&gt;</button>
-          </div>
+        <div class="live-badge">
+          <span class="live-dot"></span>
+          <span id="syncStatus">Live Synced ✓</span>
         </div>
-        <div class="stack-meta-row">
-          <div class="stack-indicator" id="stackIndicator">Belum ada foto</div>
-          <button class="delete-single-btn" id="deleteSinglePhotoBtn" style="display:none;">🗑️ Hapus foto ini</button>
-        </div>
-        <input id="captionInput" class="polaroid-caption" value="miss you today ♡" maxlength="36" />
-      </div>
 
-      <!-- COLOR WIDGET & ACTIONS (AKTIF DI TAB STUDIO SENDIRI) -->
-      <div class="toolbar" id="toolbarSection">
-        <div class="swatches" id="swatchBar" title="Pilih warna kuas untuk coret-coret">
-          <button class="swatch active" data-color="#fef08a" style="background:#fef08a;"></button>
-          <button class="swatch" data-color="#fbcfe8" style="background:#fbcfe8;"></button>
-          <button class="swatch" data-color="#bbf7d0" style="background:#bbf7d0;"></button>
-          <button class="swatch" data-color="#bae6fd" style="background:#bae6fd;"></button>
-          <button class="swatch" data-color="#fca5a5" style="background:#fca5a5;"></button>
-          <button class="swatch" data-color="#ffffff" style="background:#ffffff;"></button>
-          <button class="btn" id="undoDrawBtn" style="padding:4px 8px; font-size:0.75rem; border-radius:999px;" title="Undo coretan">↩</button>
-        </div>
-        <div style="display:flex; gap:6px;">
-          <button class="btn" id="clearPhotoBtn">Reset</button>
-          <button class="btn btn-primary" id="sendLiveBtn">Kirim ke Dia ✨</button>
-        </div>
+        <button class="leave-btn" id="leaveRoomBtn" title="Keluar dari room">Keluar</button>
       </div>
+    </header>
 
-      <div class="readonly-banner" id="readonlyPolaroidBanner">
-        💌 Ini adalah Polaroid kiriman dari pasanganmu. Klik tab di sebelah kiri untuk mengedit Polaroid milikmu sendiri.
-      </div>
-    </section>
-
-    <!-- RIGHT: CLOCKS & STICKY NOTES -->
-    <div class="right-stack">
+    <main class="bento-grid">
+      <!-- LEFT: POLAROID WIDGET DENGAN 3 PILIHAN TAB -->
       <section class="widget">
         <div class="widget-header">
-          <span class="widget-title">🕰️ Zona Waktu & Kabar Singkat</span>
-          <button class="btn" id="requestGpsBtn" style="font-size:0.7rem; padding:4px 8px;">📍 Sync GPS</button>
+          <span class="widget-title">📸 Live Polaroid Widget</span>
+          <label class="btn btn-primary" id="uploadLabel" style="cursor:pointer;">
+            Upload Your Cute Photos please~
+            <input type="file" id="photoInput" accept="image/*" hidden />
+          </label>
         </div>
-        <div class="clocks-row">
-          <!-- KARTU KIRI: SELALU PEMILIK HALAMAN AKTIF (BISA DIEDIT) -->
-          <div class="clock-pill active-owner">
-            <div class="clock-city" id="leftClockLabel">Kamu (Edit)</div>
-            <div class="clock-time" id="leftClockTime">--:--</div>
-            <select class="mood-select" id="activeMoodSelect">
-              <option value="☕ Sipping coffee">☕ Sipping coffee</option>
-              <option value="🌸 Feeling cute">🌸 Feeling cute</option>
-              <option value="📚 Studying / Working">📚 Studying / Working</option>
-              <option value="🧋 Drinking milk tea">🧋 Drinking milk tea</option>
-              <option value="🏋️ Training hard">🏋️ Training hard</option>
-              <option value="💭 Missing you">💭 Missing you</option>
-              <option value="🛌 Cozy in bed">🛌 Cozy in bed</option>
-            </select>
-            <input
-              type="text"
-              id="activeShortNoteInput"
-              class="tz-short-note"
-              maxlength="50"
-              placeholder="✍️ Tulis pesan singkat untuk dia..."
-            />
-          </div>
 
-          <!-- KARTU KANAN: SELALU PASANGAN (LIVE READ-ONLY) -->
-          <div class="clock-pill">
-            <div class="clock-city partner" id="rightClockLabel">Pacar (Live)</div>
-            <div class="clock-time" id="rightClockTime">--:--</div>
-            <div class="partner-mood-badge" id="partnerMoodDisplay">💭 Thinking of you</div>
-            <div class="partner-short-bubble" id="partnerShortNoteDisplay">Belum ada pesan singkat ♡</div>
+        <!-- 3 PILIHAN TAB: UPLOAD POLAROID | POLAROID PIHAK 1 | POLAROID DARI PIHAK 2 -->
+        <div class="polaroid-tabs-3">
+          <button type="button" class="p-tab-btn active" id="pTabUpload">
+            <span>✨ Upload Polaroid</span>
+          </button>
+          <button type="button" class="p-tab-btn" id="pTabSelf">
+            <span id="pTabSelfLabel">🎨 Polaroid Kamu</span>
+            <span class="tab-count-pill" id="selfCountBadge">0</span>
+          </button>
+          <button type="button" class="p-tab-btn" id="pTabPartner">
+            <span id="pTabPartnerLabel">💌 Dari Pasangan</span>
+            <span class="tab-count-pill" id="partnerCountBadge">0</span>
+          </button>
+        </div>
+
+        <div class="polaroid-frame">
+          <div class="photo-stack-container">
+            <div class="photo-box-stack-bg2" id="stackBg2" style="display:none;"></div>
+            <div class="photo-box-stack-bg1" id="stackBg1" style="display:none;"></div>
+
+            <div class="photo-box">
+              <canvas id="polaroidCanvas" width="600" height="600"></canvas>
+              <button type="button" class="stack-nav stack-prev" id="prevPhotoBtn" title="Foto sebelumnya">&lt;</button>
+              <button type="button" class="stack-nav stack-next" id="nextPhotoBtn" title="Foto berikutnya">&gt;</button>
+            </div>
+          </div>
+          <div class="stack-meta-row">
+            <div class="stack-indicator" id="stackIndicator">Kanvas Baru</div>
+            <button type="button" class="delete-single-btn" id="deleteSinglePhotoBtn" style="display:none;">🗑️ Hapus foto ini</button>
+          </div>
+          <input id="captionInput" class="polaroid-caption" value="miss you today ♡" maxlength="36" />
+        </div>
+
+        <!-- TOOLBAR WARNA & KIRIM (MUNCUL DI TAB UPLOAD POLAROID) -->
+        <div class="toolbar" id="toolbarSection">
+          <div class="swatches" id="swatchBar" title="Pilih warna kuas untuk coret-coret">
+            <button type="button" class="swatch active" data-color="#fef08a" style="background:#fef08a;"></button>
+            <button type="button" class="swatch" data-color="#fbcfe8" style="background:#fbcfe8;"></button>
+            <button type="button" class="swatch" data-color="#bbf7d0" style="background:#bbf7d0;"></button>
+            <button type="button" class="swatch" data-color="#bae6fd" style="background:#bae6fd;"></button>
+            <button type="button" class="swatch" data-color="#fca5a5" style="background:#fca5a5;"></button>
+            <button type="button" class="swatch" data-color="#ffffff" style="background:#ffffff;"></button>
+            <button type="button" class="btn" id="undoDrawBtn" style="padding:4px 8px; font-size:0.75rem; border-radius:999px;" title="Undo coretan">↩</button>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button type="button" class="btn" id="clearDraftBtn">Reset Kanvas</button>
+            <button type="button" class="btn btn-primary" id="sendLiveBtn">Kirim ke Dia ✨</button>
           </div>
         </div>
+
+        <div class="gallery-info-bar" id="galleryInfoBar"></div>
       </section>
 
-      <section class="widget" style="flex:1;">
-        <div class="widget-header">
-          <span class="widget-title">🗒️ Live Sticky Notes</span>
-          <button class="btn btn-primary" id="addNoteBtn">+ Note Baru</button>
-        </div>
+      <!-- RIGHT: CLOCKS & STICKY NOTES -->
+      <div class="right-stack">
+        <section class="widget">
+          <div class="widget-header">
+            <span class="widget-title">🕰️ Zona Waktu & Kabar Singkat</span>
+            <button type="button" class="btn" id="requestGpsBtn" style="font-size:0.7rem; padding:4px 8px;">📍 Sync GPS</button>
+          </div>
+          <div class="clocks-row">
+            <!-- KARTU KIRI: NAMA PENGGUNA AKTIF -->
+            <div class="clock-pill active-owner">
+              <div class="clock-city" id="leftClockLabel">Kamu</div>
+              <div class="clock-time" id="leftClockTime">--:--</div>
+              <select class="mood-select" id="activeMoodSelect">
+                <option value="☕ Sipping coffee">☕ Sipping coffee</option>
+                <option value="🌸 Feeling cute">🌸 Feeling cute</option>
+                <option value="📚 Studying / Working">📚 Studying / Working</option>
+                <option value="🧋 Drinking milk tea">🧋 Drinking milk tea</option>
+                <option value="🏋️ Training hard">🏋️ Training hard</option>
+                <option value="💭 Missing you">💭 Missing you</option>
+                <option value="🛌 Cozy in bed">🛌 Cozy in bed</option>
+              </select>
+              <input
+                type="text"
+                id="activeShortNoteInput"
+                class="tz-short-note"
+                maxlength="50"
+                placeholder="✍️ Tulis pesan singkat untuk dia..."
+              />
+            </div>
 
-        <!-- BAGIAN 1: CATATAN YANG DITULIS OLEH PEMILIK HALAMAN -->
-        <div class="notes-section-label">
-          <span id="ownNotesTitle">✍️ Catatan Kamu (Untuk Dia)</span>
-        </div>
-        <div class="notes-grid" id="ownNotesGrid"></div>
+            <!-- KARTU KANAN: NAMA PASANGAN -->
+            <div class="clock-pill">
+              <div class="clock-city partner" id="rightClockLabel">Menunggu Pasangan...</div>
+              <div class="clock-time" id="rightClockTime">--:--</div>
+              <div class="partner-mood-badge" id="partnerMoodDisplay">💭 Menunggu terhubung</div>
+              <div class="partner-short-bubble" id="partnerShortNoteDisplay">Belum ada pesan singkat ♡</div>
+            </div>
+          </div>
+        </section>
 
-        <!-- BAGIAN 2: CATATAN YANG DIKIRIM OLEH PASANGAN -->
-        <div class="notes-section-label">
-          <span id="incomingNotesTitle">💌 Catatan dari Pacar</span>
-        </div>
-        <div class="notes-grid" id="incomingNotesGrid"></div>
-      </section>
-    </div>
-  </main>
+        <section class="widget" style="flex:1;">
+          <div class="widget-header">
+            <span class="widget-title">🗒️ Live Sticky Notes</span>
+            <button type="button" class="btn btn-primary" id="addNoteBtn">+ Note Baru</button>
+          </div>
+
+          <div class="notes-section-label">
+            <span id="ownNotesTitle">✍️ Catatanmu</span>
+          </div>
+          <div class="notes-grid" id="ownNotesGrid"></div>
+
+          <div class="notes-section-label">
+            <span id="incomingNotesTitle">💌 Catatan dari Pasangan</span>
+          </div>
+          <div class="notes-grid" id="incomingNotesGrid"></div>
+        </section>
+      </div>
+    </main>
+  </div>
 
   <!-- MODAL CROPPER -->
   <div id="cropModal">
@@ -737,8 +858,8 @@
         <input type="range" id="zoomRange" min="0.5" max="3" step="0.05" value="1" />
       </div>
       <div style="display:flex; gap:10px; width:100%; justify-content:flex-end; margin-top:4px;">
-        <button class="btn" id="cancelCropBtn">Batal</button>
-        <button class="btn btn-primary" id="applyCropBtn">Gunakan Foto ✓</button>
+        <button type="button" class="btn" id="cancelCropBtn">Batal</button>
+        <button type="button" class="btn btn-primary" id="applyCropBtn">Gunakan Foto ✓</button>
       </div>
     </div>
   </div>
@@ -746,7 +867,7 @@
   <!-- FIREBASE REALTIME DATABASE SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { getDatabase, ref, get, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBF1LP9H26mRntsYXlkjm6Ebp3aR1QI8yU",
@@ -759,187 +880,322 @@
       measurementId: "G-GG6Q8PM583"
     };
 
-    const ROOM_PATH = "rooms/our-cozy-desk-2026";
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-    const roomRef = ref(db, ROOM_PATH);
 
-    // STATE UTAMA 2 HALAMAN (me = Kamu, her = Pacar)
-    const urlParams = new URLSearchParams(window.location.search);
-    let currentRole = urlParams.get("role") === "her" ? "her" : "me";
-    let polaroidTab = "own"; // "own" = Polaroid milik halaman ini, "incoming" = Polaroid kiriman pasangan
+    // ================= LOGIKA CONNECT ROOM =================
+    const connectGate = document.getElementById("connectGate");
+    const deskApp = document.getElementById("deskApp");
+    const modeCreateBtn = document.getElementById("modeCreateBtn");
+    const modeJoinBtn = document.getElementById("modeJoinBtn");
+    const genRoomCodeBtn = document.getElementById("genRoomCodeBtn");
+    const userNameInput = document.getElementById("userNameInput");
+    const roomCodeInput = document.getElementById("roomCodeInput");
+    const roomPinInput = document.getElementById("roomPinInput");
+    const gateErrorBox = document.getElementById("gateErrorBox");
+    const connectSubmitBtn = document.getElementById("connectSubmitBtn");
 
-    // DATA TERPISAH UNTUK KAMU & PACAR
-    let state = {
-      polaroidMe: [],
-      captionMe: "miss you today ♡",
-      polaroidHer: [],
-      captionHer: "thinking of you ♡",
-      moodMe: "☕ Sipping coffee",
-      moodHer: "🌸 Feeling cute",
-      shortNoteMe: "",
-      shortNoteHer: "",
-      tzMe: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      tzHer: "Asia/Shanghai",
-      notesMe: [],
-      notesHer: []
+    let gateMode = "create"; // "create" atau "join"
+    let activeRoomRef = null;
+    let session = {
+      roomCode: "",
+      pin: "",
+      seat: "p1", // "p1" = pembuat room, "p2" = pasangan yang bergabung
+      myName: ""
     };
 
-    let currentPhotoIndex = 0;
-    let isPlaceholderCanvas = true;
-    let currentRenderedSrc = "";
-    let strokeUndoHistory = [];
+    // Data realtime dari Firebase
+    let roomData = {
+      pin: "",
+      p1Name: "",
+      p2Name: "",
+      polaroidP1: [],
+      polaroidP2: [],
+      moodP1: "☕ Sipping coffee",
+      moodP2: "🌸 Feeling cute",
+      shortNoteP1: "",
+      shortNoteP2: "",
+      tzP1: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      tzP2: "Asia/Shanghai",
+      notesP1: [],
+      notesP2: []
+    };
 
-    // ELEMENT REFERENCES
-    const tabRoleMe = document.getElementById("tabRoleMe");
-    const tabRoleHer = document.getElementById("tabRoleHer");
-    const headerTitle = document.getElementById("headerTitle");
-    const headerSubtitle = document.getElementById("headerSubtitle");
-    const brandIcon = document.getElementById("brandIcon");
-    const pTabOwn = document.getElementById("pTabOwn");
-    const pTabIncoming = document.getElementById("pTabIncoming");
-    const pTabOwnLabel = document.getElementById("pTabOwnLabel");
-    const pTabIncomingLabel = document.getElementById("pTabIncomingLabel");
-    const captionInput = document.getElementById("captionInput");
-    const canvas = document.getElementById("polaroidCanvas");
-    const ctx = canvas.getContext("2d");
-    const syncStatus = document.getElementById("syncStatus");
+    // Tab aktif di Polaroid: "upload" | "self" | "partner"
+    let activePolaroidTab = "upload";
+    let galleryIndex = 0;
 
-    function getOwnStack() {
-      return currentRole === "me" ? state.polaroidMe : state.polaroidHer;
+    // Draft sementara di tab "Upload Polaroid" sebelum dikirim
+    let draftImageDataUrl = "";
+    let draftIsPlaceholder = true;
+    let draftStrokeHistory = [];
+    let currentRenderedGallerySrc = "";
+
+    function generateRandomCode() {
+      const words = ["COZY", "LOVE", "DESK", "MOON", "STAR", "BEAR", "ROSE"];
+      const w = words[Math.floor(Math.random() * words.length)];
+      const num = Math.floor(1000 + Math.random() * 9000);
+      return `${w}-${num}`;
     }
-    function setOwnStack(arr) {
-      if (currentRole === "me") state.polaroidMe = arr;
-      else state.polaroidHer = arr;
-    }
-    function getIncomingStack() {
-      return currentRole === "me" ? state.polaroidHer : state.polaroidMe;
-    }
-    function getActiveStack() {
-      return polaroidTab === "own" ? getOwnStack() : getIncomingStack();
+
+    function setGateMode(mode) {
+      gateMode = mode;
+      modeCreateBtn.classList.toggle("active", mode === "create");
+      modeJoinBtn.classList.toggle("active", mode === "join");
+      genRoomCodeBtn.style.display = mode === "create" ? "inline-block" : "none";
+      gateErrorBox.style.display = "none";
+
+      if (mode === "create" && !roomCodeInput.value.trim()) {
+        roomCodeInput.value = generateRandomCode();
+      }
+      connectSubmitBtn.textContent = mode === "create"
+        ? "Buat & Connect Room ✨"
+        : "Gabung ke Room Pasangan 💌";
     }
 
-    function applyPageThemeAndView() {
-      const isMe = currentRole === "me";
-      document.body.classList.toggle("theme-her", !isMe);
+    modeCreateBtn.addEventListener("click", () => setGateMode("create"));
+    modeJoinBtn.addEventListener("click", () => {
+      roomCodeInput.value = "";
+      setGateMode("join");
+    });
+    genRoomCodeBtn.addEventListener("click", () => {
+      roomCodeInput.value = generateRandomCode();
+    });
 
-      tabRoleMe.className = isMe ? "role-tab active-me" : "role-tab";
-      tabRoleHer.className = !isMe ? "role-tab active-her" : "role-tab";
+    // Cek parameter URL ?room=XXX jika dibagikan lewat link
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("room")) {
+      roomCodeInput.value = urlParams.get("room").toUpperCase();
+      setGateMode("join");
+    } else {
+      roomCodeInput.value = generateRandomCode();
+    }
 
-      if (isMe) {
-        brandIcon.textContent = "🧸";
-        headerTitle.textContent = "Meja Virtual Kamu 💻";
-        headerSubtitle.textContent = "Tampilan Kamu • Kirim Polaroid & Catatan ke Pacar";
-        pTabOwnLabel.textContent = "🎨 Polaroid Kamu";
-        pTabIncomingLabel.textContent = "💌 Dari Pacar";
-        document.getElementById("leftClockLabel").textContent = "Kamu (Statusmu)";
-        document.getElementById("rightClockLabel").textContent = "Pacar (Live)";
-        document.getElementById("ownNotesTitle").textContent = "✍️ Catatan Kamu (Untuk Pacar)";
-        document.getElementById("incomingNotesTitle").textContent = "💌 Catatan dari Pacar";
-      } else {
-        brandIcon.textContent = "🌸";
-        headerTitle.textContent = "Meja Virtual Pacar 🌸";
-        headerSubtitle.textContent = "Tampilan Pacar • Kirim Polaroid & Catatan ke Kamu";
-        pTabOwnLabel.textContent = "🎨 Polaroid Pacar";
-        pTabIncomingLabel.textContent = "💌 Dari Kamu";
-        document.getElementById("leftClockLabel").textContent = "Pacar (Statusmu)";
-        document.getElementById("rightClockLabel").textContent = "Kamu (Live)";
-        document.getElementById("ownNotesTitle").textContent = "✍️ Catatan Pacar (Untuk Kamu)";
-        document.getElementById("incomingNotesTitle").textContent = "💌 Catatan dari Kamu";
+    function showGateError(msg) {
+      gateErrorBox.textContent = msg;
+      gateErrorBox.style.display = "block";
+    }
+
+    connectSubmitBtn.addEventListener("click", async () => {
+      gateErrorBox.style.display = "none";
+      const myName = userNameInput.value.trim();
+      const rawCode = roomCodeInput.value.trim().toUpperCase().replace(/[^A-Z0-9-]/g, "");
+      const pin = roomPinInput.value.trim();
+
+      if (!myName) return showGateError("Isi nama panggilanmu dulu ya!");
+      if (rawCode.length < 4) return showGateError("Kode room minimal 4 karakter.");
+      if (pin.length < 4) return showGateError("PIN rahasia minimal 4 karakter agar aman.");
+
+      connectSubmitBtn.disabled = true;
+      connectSubmitBtn.textContent = "Menghubungkan...";
+
+      const targetRef = ref(db, `privateRooms/${rawCode}`);
+
+      try {
+        const snap = await get(targetRef);
+
+        if (gateMode === "create") {
+          if (snap.exists()) {
+            connectSubmitBtn.disabled = false;
+            connectSubmitBtn.textContent = "Buat & Connect Room ✨";
+            return showGateError("Kode room ini sudah dipakai. Klik 'Acak' untuk kode baru atau pilih 'Gabung Room'.");
+          }
+
+          const initialPayload = {
+            pin,
+            p1Name: myName,
+            p2Name: "",
+            polaroidP1: [],
+            polaroidP2: [],
+            moodP1: "☕ Sipping coffee",
+            moodP2: "🌸 Feeling cute",
+            shortNoteP1: "",
+            shortNoteP2: "",
+            tzP1: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            tzP2: "Asia/Shanghai",
+            notesP1: [],
+            notesP2: [],
+            createdAt: Date.now()
+          };
+
+          await set(targetRef, initialPayload);
+          enterConnectedRoom(rawCode, pin, "p1", myName, initialPayload);
+        } else {
+          if (!snap.exists()) {
+            connectSubmitBtn.disabled = false;
+            connectSubmitBtn.textContent = "Gabung ke Room Pasangan 💌";
+            return showGateError("Room tidak ditemukan. Periksa kembali kode room dari pasanganmu.");
+          }
+
+          const existing = snap.val();
+          if (String(existing.pin) !== String(pin)) {
+            connectSubmitBtn.disabled = false;
+            connectSubmitBtn.textContent = "Gabung ke Room Pasangan 💌";
+            return showGateError("PIN rahasia salah! Minta PIN yang benar dari pasanganmu.");
+          }
+
+          // Tentukan apakah pengguna masuk kembali sebagai P1 atau bergabung sebagai P2
+          let assignedSeat = "p2";
+          if (existing.p1Name && existing.p1Name.toLowerCase() === myName.toLowerCase()) {
+            assignedSeat = "p1";
+          } else if (existing.p2Name && existing.p2Name.toLowerCase() !== myName.toLowerCase()) {
+            // Kunci room hanya untuk 2 orang
+            connectSubmitBtn.disabled = false;
+            connectSubmitBtn.textContent = "Gabung ke Room Pasangan 💌";
+            return showGateError(`Room ini sudah penuh (khusus ${existing.p1Name} & ${existing.p2Name}).`);
+          }
+
+          const updates = assignedSeat === "p1"
+            ? { p1Name: myName, tzP1: Intl.DateTimeFormat().resolvedOptions().timeZone }
+            : { p2Name: myName, tzP2: Intl.DateTimeFormat().resolvedOptions().timeZone };
+
+          await update(targetRef, updates);
+          enterConnectedRoom(rawCode, pin, assignedSeat, myName, { ...existing, ...updates });
+        }
+      } catch (err) {
+        connectSubmitBtn.disabled = false;
+        connectSubmitBtn.textContent = "Masuk & Connect Room ✨";
+        showGateError("Gagal terhubung ke server. Periksa koneksi internetmu.");
+      }
+    });
+
+    function enterConnectedRoom(roomCode, pin, seat, myName, initialData) {
+      session = { roomCode, pin, seat, myName };
+      roomData = { ...roomData, ...initialData };
+      activeRoomRef = ref(db, `privateRooms/${roomCode}`);
+
+      localStorage.setItem("virtual_desk_session", JSON.stringify(session));
+
+      connectGate.style.display = "none";
+      deskApp.style.display = "flex";
+      document.body.classList.toggle("theme-guest", seat === "p2");
+
+      document.getElementById("headerRoomCode").textContent = roomCode;
+      resetDraftCanvas();
+      switchPolaroidTab("upload");
+      refreshDynamicLabelsAndViews();
+      startFirebaseSyncListener();
+    }
+
+    // Auto-reconnect jika sesi tersimpan di browser
+    (async function tryRestoreSession() {
+      const saved = localStorage.getItem("virtual_desk_session");
+      if (!saved) return;
+      try {
+        const parsed = JSON.parse(saved);
+        if (!parsed.roomCode || !parsed.pin || !parsed.myName) return;
+        const snap = await get(ref(db, `privateRooms/${parsed.roomCode}`));
+        if (snap.exists() && String(snap.val().pin) === String(parsed.pin)) {
+          enterConnectedRoom(parsed.roomCode, parsed.pin, parsed.seat, parsed.myName, snap.val());
+        }
+      } catch {}
+    })();
+
+    document.getElementById("leaveRoomBtn").addEventListener("click", () => {
+      localStorage.removeItem("virtual_desk_session");
+      window.location.href = window.location.pathname;
+    });
+
+    // Salin Kode & PIN Room untuk pasangan
+    const copyInviteBtn = document.getElementById("copyInviteBtn");
+    copyInviteBtn.addEventListener("click", () => {
+      const shareLink = `${window.location.origin}${window.location.pathname}?room=${session.roomCode}`;
+      const inviteText = `Yuk connect ke Virtual Desk kita! 🧸\nLink: ${shareLink}\nKode Room: ${session.roomCode}\nPIN Rahasia: ${session.pin}`;
+      navigator.clipboard?.writeText(inviteText);
+      const oldHtml = copyInviteBtn.innerHTML;
+      copyInviteBtn.textContent = "✓ Kode & PIN Tersalin!";
+      setTimeout(() => { copyInviteBtn.innerHTML = oldHtml; }, 1800);
+    });
+
+    // ================= HELPER NAMA & DATA DINAMIS =================
+    function getMyName() {
+      return session.myName || (session.seat === "p1" ? roomData.p1Name : roomData.p2Name) || "Kamu";
+    }
+
+    function getPartnerName() {
+      const pName = session.seat === "p1" ? roomData.p2Name : roomData.p1Name;
+      return pName && pName.trim() ? pName.trim() : "Pasangan";
+    }
+
+    function getMyPolaroidList() {
+      const raw = session.seat === "p1" ? roomData.polaroidP1 : roomData.polaroidP2;
+      return Array.isArray(raw) ? raw : [];
+    }
+
+    function getPartnerPolaroidList() {
+      const raw = session.seat === "p1" ? roomData.polaroidP2 : roomData.polaroidP1;
+      return Array.isArray(raw) ? raw : [];
+    }
+
+    function refreshDynamicLabelsAndViews() {
+      const myName = getMyName();
+      const partnerName = getPartnerName();
+      const partnerJoined = Boolean((session.seat === "p1" ? roomData.p2Name : roomData.p1Name)?.trim());
+
+      // Header & Judul
+      document.getElementById("headerTitle").textContent = `${myName} & ${partnerName} ✨`;
+      document.getElementById("headerSubtitle").textContent = partnerJoined
+        ? `Terhubung di Room ${session.roomCode}`
+        : `Menunggu pasangan bergabung ke Room ${session.roomCode}...`;
+
+      // Label 3 Tab Polaroid (menggantikan "Polaroid Kamu" & "Polaroid Pacar")
+      document.getElementById("pTabSelfLabel").textContent = `🎨 Polaroid ${myName}`;
+      document.getElementById("pTabPartnerLabel").textContent = `💌 Dari ${partnerName}`;
+      document.getElementById("selfCountBadge").textContent = getMyPolaroidList().length;
+      document.getElementById("partnerCountBadge").textContent = getPartnerPolaroidList().length;
+
+      // Label Kartu Zona Waktu
+      document.getElementById("leftClockLabel").textContent = `${myName} (Kamu)`;
+      document.getElementById("rightClockLabel").textContent = partnerJoined
+        ? `${partnerName} (Live)`
+        : "Menunggu Pasangan...";
+
+      // Mood & Pesan Singkat
+      const myMood = session.seat === "p1" ? roomData.moodP1 : roomData.moodP2;
+      const partnerMood = session.seat === "p1" ? roomData.moodP2 : roomData.moodP1;
+      const myShortNote = session.seat === "p1" ? roomData.shortNoteP1 : roomData.shortNoteP2;
+      const partnerShortNote = session.seat === "p1" ? roomData.shortNoteP2 : roomData.shortNoteP1;
+
+      if (myMood) document.getElementById("activeMoodSelect").value = myMood;
+      const noteInput = document.getElementById("activeShortNoteInput");
+      if (document.activeElement !== noteInput) {
+        noteInput.value = myShortNote || "";
       }
 
-      // Update URL parameter tanpa reload
-      const newUrl = window.location.origin + window.location.pathname + "?role=" + currentRole;
-      window.history.replaceState({}, "", newUrl);
+      document.getElementById("partnerMoodDisplay").textContent = partnerJoined
+        ? (partnerMood || "💭 Thinking of you")
+        : "⏳ Belum bergabung";
 
-      // Update Tab Polaroid (Studio Sendiri vs Kiriman Pasangan)
-      const isOwnTab = polaroidTab === "own";
-      pTabOwn.classList.toggle("active", isOwnTab);
-      pTabIncoming.classList.toggle("active", !isOwnTab);
-
-      document.getElementById("polaroidUploadGroup").style.display = isOwnTab ? "flex" : "none";
-      document.getElementById("toolbarSection").style.display = isOwnTab ? "flex" : "none";
-      document.getElementById("readonlyPolaroidBanner").style.display = isOwnTab ? "none" : "block";
-      canvas.classList.toggle("readonly-mode", !isOwnTab);
-
-      if (isOwnTab) {
-        captionInput.removeAttribute("readonly");
-        captionInput.value = isMe ? state.captionMe : state.captionHer;
-      } else {
-        captionInput.setAttribute("readonly", "true");
-        captionInput.value = isMe ? state.captionHer : state.captionMe;
-      }
-
-      // Sinkronkan kartu waktu, mood, dan pesan singkat
-      document.getElementById("activeMoodSelect").value = isMe ? state.moodMe : state.moodHer;
-      const activeNoteEl = document.getElementById("activeShortNoteInput");
-      if (document.activeElement !== activeNoteEl) {
-        activeNoteEl.value = isMe ? state.shortNoteMe : state.shortNoteHer;
-      }
-
-      document.getElementById("partnerMoodDisplay").textContent = isMe ? state.moodHer : state.moodMe;
-      const partnerNote = isMe ? state.shortNoteHer : state.shortNoteMe;
       document.getElementById("partnerShortNoteDisplay").textContent =
-        partnerNote && partnerNote.trim() ? `"${partnerNote}"` : "Belum ada pesan singkat ♡";
+        partnerShortNote && partnerShortNote.trim()
+          ? `"${partnerShortNote}"`
+          : `Belum ada pesan singkat dari ${partnerName} ♡`;
+
+      // Label Sticky Notes
+      document.getElementById("ownNotesTitle").textContent = `✍️ Catatan ${myName} (Untuk ${partnerName})`;
+      document.getElementById("incomingNotesTitle").textContent = `💌 Catatan dari ${partnerName}`;
 
       updateClocks();
-      renderActivePhoto(true);
       renderNotes();
+
+      if (activePolaroidTab !== "upload") {
+        renderGalleryPolaroid(false);
+      }
     }
 
-    tabRoleMe.addEventListener("click", () => {
-      if (currentRole === "me") return;
-      currentRole = "me";
-      currentPhotoIndex = 0;
-      strokeUndoHistory = [];
-      applyPageThemeAndView();
-    });
-
-    tabRoleHer.addEventListener("click", () => {
-      if (currentRole === "her") return;
-      currentRole = "her";
-      currentPhotoIndex = 0;
-      strokeUndoHistory = [];
-      applyPageThemeAndView();
-    });
-
-    pTabOwn.addEventListener("click", () => {
-      polaroidTab = "own";
-      currentPhotoIndex = 0;
-      strokeUndoHistory = [];
-      applyPageThemeAndView();
-    });
-
-    pTabIncoming.addEventListener("click", () => {
-      polaroidTab = "incoming";
-      currentPhotoIndex = 0;
-      strokeUndoHistory = [];
-      applyPageThemeAndView();
-    });
-
-    // SALIN LINK KHUSUS PACAR (?role=her)
-    const copyPartnerLinkBtn = document.getElementById("copyPartnerLinkBtn");
-    copyPartnerLinkBtn.addEventListener("click", () => {
-      const partnerUrl = window.location.origin + window.location.pathname + "?role=her";
-      navigator.clipboard?.writeText(partnerUrl);
-      const orig = copyPartnerLinkBtn.textContent;
-      copyPartnerLinkBtn.textContent = "✓ Tersalin!";
-      setTimeout(() => { copyPartnerLinkBtn.textContent = orig; }, 1600);
-    });
-
-    // ZONA WAKTU & GPS
+    // ================= ZONA WAKTU & GPS =================
     document.getElementById("requestGpsBtn").addEventListener("click", () => {
-      if (!navigator.geolocation) return;
+      if (!navigator.geolocation || !activeRoomRef) return;
       navigator.geolocation.getCurrentPosition((position) => {
         const lon = position.coords.longitude;
         const offsetHours = Math.round(lon / 15);
         const detectedTz = "Etc/GMT" + (offsetHours <= 0 ? "+" + Math.abs(offsetHours) : "-" + offsetHours);
-        if (currentRole === "me") {
-          state.tzMe = detectedTz;
-          update(roomRef, { tzMe: detectedTz });
+        if (session.seat === "p1") {
+          roomData.tzP1 = detectedTz;
+          update(activeRoomRef, { tzP1: detectedTz });
         } else {
-          state.tzHer = detectedTz;
-          update(roomRef, { tzHer: detectedTz });
+          roomData.tzP2 = detectedTz;
+          update(activeRoomRef, { tzP2: detectedTz });
         }
         updateClocks();
       });
@@ -947,12 +1203,12 @@
 
     function updateClocks() {
       const now = new Date();
-      const leftTz = currentRole === "me" ? state.tzMe : state.tzHer;
-      const rightTz = currentRole === "me" ? state.tzHer : state.tzMe;
+      const myTz = session.seat === "p1" ? roomData.tzP1 : roomData.tzP2;
+      const partnerTz = session.seat === "p1" ? roomData.tzP2 : roomData.tzP1;
 
       try {
         document.getElementById("leftClockTime").textContent = now.toLocaleTimeString("en-GB", {
-          timeZone: leftTz, hour: "2-digit", minute: "2-digit"
+          timeZone: myTz, hour: "2-digit", minute: "2-digit"
         });
       } catch {
         document.getElementById("leftClockTime").textContent = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
@@ -960,7 +1216,7 @@
 
       try {
         document.getElementById("rightClockTime").textContent = now.toLocaleTimeString("en-GB", {
-          timeZone: rightTz, hour: "2-digit", minute: "2-digit"
+          timeZone: partnerTz, hour: "2-digit", minute: "2-digit"
         });
       } catch {
         document.getElementById("rightClockTime").textContent = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
@@ -968,29 +1224,25 @@
     }
     setInterval(updateClocks, 1000);
 
-    // SYNC MOOD & KATA SINGKAT SESUAI HALAMAN AKTIF
-    const activeMoodSelect = document.getElementById("activeMoodSelect");
-    activeMoodSelect.addEventListener("change", () => {
-      if (currentRole === "me") {
-        state.moodMe = activeMoodSelect.value;
-        update(roomRef, { moodMe: state.moodMe });
-      } else {
-        state.moodHer = activeMoodSelect.value;
-        update(roomRef, { moodHer: state.moodHer });
-      }
+    // Sync Mood & Pesan Singkat
+    document.getElementById("activeMoodSelect").addEventListener("change", (e) => {
+      if (!activeRoomRef) return;
+      const field = session.seat === "p1" ? "moodP1" : "moodP2";
+      roomData[field] = e.target.value;
+      update(activeRoomRef, { [field]: e.target.value });
     });
 
     const activeShortNoteInput = document.getElementById("activeShortNoteInput");
     let shortNoteTimer = null;
     function saveShortNote() {
+      if (!activeRoomRef) return;
+      const syncStatus = document.getElementById("syncStatus");
       syncStatus.textContent = "Syncing...";
-      if (currentRole === "me") {
-        state.shortNoteMe = activeShortNoteInput.value;
-        update(roomRef, { shortNoteMe: state.shortNoteMe }).then(() => syncStatus.textContent = "Live Synced ✓");
-      } else {
-        state.shortNoteHer = activeShortNoteInput.value;
-        update(roomRef, { shortNoteHer: state.shortNoteHer }).then(() => syncStatus.textContent = "Live Synced ✓");
-      }
+      const field = session.seat === "p1" ? "shortNoteP1" : "shortNoteP2";
+      roomData[field] = activeShortNoteInput.value;
+      update(activeRoomRef, { [field]: activeShortNoteInput.value }).then(() => {
+        syncStatus.textContent = "Live Synced ✓";
+      });
     }
     activeShortNoteInput.addEventListener("input", () => {
       clearTimeout(shortNoteTimer);
@@ -1005,14 +1257,63 @@
       }
     });
 
-    // KANVAS POLAROID & COLOR DOODLE
-    let brushColor = "#fef08a";
-    let drawing = false;
-    let lastX = 0, lastY = 0;
+    // ================= 3 TAB POLAROID & KANVAS STUDIO =================
+    const pTabUpload = document.getElementById("pTabUpload");
+    const pTabSelf = document.getElementById("pTabSelf");
+    const pTabPartner = document.getElementById("pTabPartner");
+    const canvas = document.getElementById("polaroidCanvas");
+    const ctx = canvas.getContext("2d");
+    const captionInput = document.getElementById("captionInput");
+    const prevPhotoBtn = document.getElementById("prevPhotoBtn");
+    const nextPhotoBtn = document.getElementById("nextPhotoBtn");
+    const deleteSinglePhotoBtn = document.getElementById("deleteSinglePhotoBtn");
+    const stackBg1 = document.getElementById("stackBg1");
+    const stackBg2 = document.getElementById("stackBg2");
+    const stackIndicator = document.getElementById("stackIndicator");
+    const toolbarSection = document.getElementById("toolbarSection");
+    const galleryInfoBar = document.getElementById("galleryInfoBar");
 
-    function fillCleanCanvasBackground() {
+    function switchPolaroidTab(tabName) {
+      activePolaroidTab = tabName;
+      galleryIndex = 0;
+      currentRenderedGallerySrc = "";
+
+      pTabUpload.classList.toggle("active", tabName === "upload");
+      pTabSelf.classList.toggle("active", tabName === "self");
+      pTabPartner.classList.toggle("active", tabName === "partner");
+
+      const isUploadTab = tabName === "upload";
+      toolbarSection.style.display = isUploadTab ? "flex" : "none";
+      galleryInfoBar.style.display = isUploadTab ? "none" : "block";
+      canvas.classList.toggle("readonly-mode", !isUploadTab);
+
+      if (isUploadTab) {
+        prevPhotoBtn.style.display = "none";
+        nextPhotoBtn.style.display = "none";
+        deleteSinglePhotoBtn.style.display = "none";
+        stackBg1.style.display = "none";
+        stackBg2.style.display = "none";
+        stackIndicator.textContent = "Studio Upload & Coret-Coret";
+        captionInput.removeAttribute("readonly");
+        restoreDraftToCanvas();
+      } else {
+        captionInput.setAttribute("readonly", "true");
+        if (tabName === "self") {
+          galleryInfoBar.textContent = `🎨 Koleksi Polaroid yang sudah dikirim oleh ${getMyName()}.`;
+        } else {
+          galleryInfoBar.textContent = `💌 Polaroid kiriman dari ${getPartnerName()} khusus untukmu.`;
+        }
+        renderGalleryPolaroid(true);
+      }
+    }
+
+    pTabUpload.addEventListener("click", () => switchPolaroidTab("upload"));
+    pTabSelf.addEventListener("click", () => switchPolaroidTab("self"));
+    pTabPartner.addEventListener("click", () => switchPolaroidTab("partner"));
+
+    function paintCleanBg() {
       const grad = ctx.createLinearGradient(0, 0, 600, 600);
-      if (currentRole === "me") {
+      if (session.seat === "p1") {
         grad.addColorStop(0, "#3b2c35");
         grad.addColorStop(1, "#1e1714");
       } else {
@@ -1023,27 +1324,37 @@
       ctx.fillRect(0, 0, 600, 600);
     }
 
-    function fillDefaultBg() {
-      fillCleanCanvasBackground();
-      ctx.fillStyle = currentRole === "me" ? "rgba(254, 240, 138, 0.78)" : "rgba(251, 207, 232, 0.82)";
-      ctx.font = "bold 34px 'Caveat', cursive";
+    function resetDraftCanvas() {
+      paintCleanBg();
+      ctx.fillStyle = session.seat === "p1" ? "rgba(254, 240, 138, 0.82)" : "rgba(251, 207, 232, 0.85)";
+      ctx.font = "bold 33px 'Caveat', cursive";
       ctx.textAlign = "center";
-      if (polaroidTab === "own") {
-        ctx.fillText(
-          currentRole === "me" ? "Polaroid Kamu kosong • Upload / coret di sini ✨" : "Polaroid Pacar kosong • Upload / coret di sini 🌸",
-          300,
-          305
-        );
-      } else {
-        ctx.fillText(
-          currentRole === "me" ? "Pacar belum mengirim Polaroid baru ♡" : "Kamu belum mengirim Polaroid baru ♡",
-          300,
-          305
-        );
-      }
-      isPlaceholderCanvas = true;
-      currentRenderedSrc = "";
+      ctx.fillText("Upload Your Cute Photos please~ ✨", 300, 295);
+      ctx.font = "600 22px 'Caveat', cursive";
+      ctx.fillText("(atau langsung coret pesan lucumu di sini)", 300, 332);
+
+      draftIsPlaceholder = true;
+      draftImageDataUrl = "";
+      draftStrokeHistory = [];
     }
+
+    function restoreDraftToCanvas() {
+      if (!draftImageDataUrl || draftIsPlaceholder) {
+        resetDraftCanvas();
+        return;
+      }
+      const img = new Image();
+      img.onload = () => {
+        ctx.clearRect(0, 0, 600, 600);
+        ctx.drawImage(img, 0, 0, 600, 600);
+      };
+      img.src = draftImageDataUrl;
+    }
+
+    // Color Brush & Doodle di Tab Upload Polaroid
+    let brushColor = "#fef08a";
+    let drawing = false;
+    let lastX = 0, lastY = 0;
 
     document.querySelectorAll(".swatch").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -1064,17 +1375,16 @@
     }
 
     function startDraw(e) {
-      if (polaroidTab !== "own") return; // Tidak bisa mencoret tab kiriman pasangan
+      if (activePolaroidTab !== "upload") return;
       drawing = true;
 
-      // Jika kanvas masih teks placeholder, bersihkan dulu sebelum menggambar
-      if (isPlaceholderCanvas) {
-        fillCleanCanvasBackground();
-        isPlaceholderCanvas = false;
+      if (draftIsPlaceholder) {
+        paintCleanBg();
+        draftIsPlaceholder = false;
       }
 
-      strokeUndoHistory.push(canvas.toDataURL("image/jpeg", 0.85));
-      if (strokeUndoHistory.length > 15) strokeUndoHistory.shift();
+      draftStrokeHistory.push(canvas.toDataURL("image/jpeg", 0.85));
+      if (draftStrokeHistory.length > 15) draftStrokeHistory.shift();
 
       const pos = getPos(e);
       lastX = pos.x;
@@ -1087,7 +1397,7 @@
     }
 
     function moveDraw(e) {
-      if (!drawing || polaroidTab !== "own") return;
+      if (!drawing || activePolaroidTab !== "upload") return;
       e.preventDefault();
       const pos = getPos(e);
       ctx.strokeStyle = brushColor;
@@ -1102,37 +1412,22 @@
       lastY = pos.y;
     }
 
-    function saveCanvasToOwnSlot() {
-      const drawnUrl = canvas.toDataURL("image/jpeg", 0.76);
-      currentRenderedSrc = drawnUrl;
-      isPlaceholderCanvas = false;
-      const stack = [...getOwnStack()];
-      if (stack.length === 0) {
-        stack.push(drawnUrl);
-        currentPhotoIndex = 0;
-      } else {
-        stack[currentPhotoIndex] = drawnUrl;
-      }
-      setOwnStack(stack);
-      updateStackIndicators();
-    }
-
     function endDraw() {
       if (!drawing) return;
       drawing = false;
-      saveCanvasToOwnSlot();
+      draftImageDataUrl = canvas.toDataURL("image/jpeg", 0.76);
     }
 
     document.getElementById("undoDrawBtn").addEventListener("click", () => {
-      if (polaroidTab !== "own" || strokeUndoHistory.length === 0) return;
-      const prevDataUrl = strokeUndoHistory.pop();
+      if (activePolaroidTab !== "upload" || draftStrokeHistory.length === 0) return;
+      const prevUrl = draftStrokeHistory.pop();
       const img = new Image();
       img.onload = () => {
         ctx.clearRect(0, 0, 600, 600);
         ctx.drawImage(img, 0, 0, 600, 600);
-        saveCanvasToOwnSlot();
+        draftImageDataUrl = canvas.toDataURL("image/jpeg", 0.76);
       };
-      img.src = prevDataUrl;
+      img.src = prevUrl;
     });
 
     canvas.addEventListener("mousedown", startDraw);
@@ -1142,13 +1437,17 @@
     canvas.addEventListener("touchmove", moveDraw, { passive: false });
     window.addEventListener("touchend", endDraw);
 
-    // CROPPER MODAL (+ Upload Foto & +1 Foto)
+    document.getElementById("clearDraftBtn").addEventListener("click", () => {
+      if (activePolaroidTab !== "upload") return;
+      resetDraftCanvas();
+    });
+
+    // CROPPER MODAL ("Upload Your Cute Photos please~")
     const cropModal = document.getElementById("cropModal");
     const cropCanvas = document.getElementById("cropCanvas");
     const cropCtx = cropCanvas.getContext("2d");
     const zoomRange = document.getElementById("zoomRange");
     const photoInput = document.getElementById("photoInput");
-    const addMorePhotoInput = document.getElementById("addMorePhotoInput");
 
     let uploadedImg = null;
     let imgScale = 1, imgOffsetX = 0, imgOffsetY = 0, isDraggingImg = false, startDragX = 0, startDragY = 0;
@@ -1165,8 +1464,16 @@
       cropCtx.restore();
     }
 
-    function openCropperWithFile(file) {
-      if (!file || polaroidTab !== "own") return;
+    photoInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      photoInput.value = "";
+      if (!file) return;
+
+      // Otomatis pindah ke tab Upload Polaroid jika user sedang melihat galeri
+      if (activePolaroidTab !== "upload") {
+        switchPolaroidTab("upload");
+      }
+
       const reader = new FileReader();
       reader.onload = (ev) => {
         const img = new Image();
@@ -1182,15 +1489,6 @@
         img.src = ev.target.result;
       };
       reader.readAsDataURL(file);
-    }
-
-    photoInput.addEventListener("change", (e) => {
-      openCropperWithFile(e.target.files[0]);
-      photoInput.value = "";
-    });
-    addMorePhotoInput.addEventListener("change", (e) => {
-      openCropperWithFile(e.target.files[0]);
-      addMorePhotoInput.value = "";
     });
 
     zoomRange.addEventListener("input", (e) => {
@@ -1230,8 +1528,8 @@
 
     document.getElementById("applyCropBtn").addEventListener("click", () => {
       cropModal.style.display = "none";
-      strokeUndoHistory = [];
-      isPlaceholderCanvas = false;
+      draftStrokeHistory = [];
+      draftIsPlaceholder = false;
 
       ctx.clearRect(0, 0, 600, 600);
       ctx.save();
@@ -1243,136 +1541,130 @@
       ctx.drawImage(uploadedImg, -drawW / 2, -drawH / 2, drawW, drawH);
       ctx.restore();
 
-      const newPhotoUrl = canvas.toDataURL("image/jpeg", 0.72);
-      currentRenderedSrc = newPhotoUrl;
-      const stack = [...getOwnStack(), newPhotoUrl];
-      setOwnStack(stack);
-      currentPhotoIndex = stack.length - 1;
-      updateStackIndicators();
-      syncOwnPolaroidToFirebase();
+      draftImageDataUrl = canvas.toDataURL("image/jpeg", 0.74);
     });
 
-    function updateStackIndicators() {
-      document.getElementById("ownCountBadge").textContent = getOwnStack().length;
-      document.getElementById("incomingCountBadge").textContent = getIncomingStack().length;
-
-      const activeStack = getActiveStack();
-      const total = activeStack.length;
-      const delBtn = document.getElementById("deleteSinglePhotoBtn");
-
-      if (total === 0) {
-        document.getElementById("stackIndicator").textContent = "Belum ada foto";
-        document.getElementById("stackBg1").style.display = "none";
-        document.getElementById("stackBg2").style.display = "none";
-        delBtn.style.display = "none";
-      } else {
-        document.getElementById("stackIndicator").textContent = `Foto ${currentPhotoIndex + 1} dari ${total}`;
-        document.getElementById("stackBg1").style.display = total > 1 ? "block" : "none";
-        document.getElementById("stackBg2").style.display = total > 2 ? "block" : "none";
-        delBtn.style.display = polaroidTab === "own" ? "inline-block" : "none";
-      }
-    }
-
-    document.getElementById("prevPhotoBtn").addEventListener("click", () => {
-      const stack = getActiveStack();
-      if (stack.length > 0) {
-        strokeUndoHistory = [];
-        currentPhotoIndex = (currentPhotoIndex - 1 + stack.length) % stack.length;
-        renderActivePhoto(true);
-      }
-    });
-
-    document.getElementById("nextPhotoBtn").addEventListener("click", () => {
-      const stack = getActiveStack();
-      if (stack.length > 0) {
-        strokeUndoHistory = [];
-        currentPhotoIndex = (currentPhotoIndex + 1) % stack.length;
-        renderActivePhoto(true);
-      }
-    });
-
-    document.getElementById("deleteSinglePhotoBtn").addEventListener("click", () => {
-      if (polaroidTab !== "own") return;
-      const stack = [...getOwnStack()];
-      if (stack.length === 0) return;
-      strokeUndoHistory = [];
-      stack.splice(currentPhotoIndex, 1);
-      setOwnStack(stack);
-      if (currentPhotoIndex >= stack.length) {
-        currentPhotoIndex = Math.max(0, stack.length - 1);
-      }
-      renderActivePhoto(true);
-      syncOwnPolaroidToFirebase();
-    });
-
-    function renderActivePhoto(forceRedraw = false) {
-      updateStackIndicators();
-      const stack = getActiveStack();
-      if (stack.length === 0) {
-        fillDefaultBg();
+    // KIRIM POLAROID DARI TAB UPLOAD KE GALERI SENDIRI & PASANGAN
+    const sendLiveBtn = document.getElementById("sendLiveBtn");
+    sendLiveBtn.addEventListener("click", () => {
+      if (activePolaroidTab !== "upload" || !activeRoomRef) return;
+      if (draftIsPlaceholder) {
+        alert("Upload foto dulu atau coret sesuatu di kanvas sebelum mengirim ✨");
         return;
       }
 
-      if (currentPhotoIndex >= stack.length) {
-        currentPhotoIndex = Math.max(0, stack.length - 1);
+      const finalImg = canvas.toDataURL("image/jpeg", 0.72);
+      const item = {
+        img: finalImg,
+        caption: captionInput.value.trim() || "thinking of you ♡",
+        sentAt: Date.now()
+      };
+
+      const field = session.seat === "p1" ? "polaroidP1" : "polaroidP2";
+      const updatedList = [...getMyPolaroidList(), item];
+      roomData[field] = updatedList;
+
+      const syncStatus = document.getElementById("syncStatus");
+      syncStatus.textContent = "Syncing...";
+
+      update(activeRoomRef, { [field]: updatedList }).then(() => {
+        syncStatus.textContent = "Live Synced ✓";
+        resetDraftCanvas();
+        refreshDynamicLabelsAndViews();
+        // Langsung arahkan ke tab Polaroid milik pengirim untuk melihat hasil yang baru terkirim
+        switchPolaroidTab("self");
+        galleryIndex = updatedList.length - 1;
+        renderGalleryPolaroid(true);
+      });
+    });
+
+    // RENDER GALERI TAB 2 (POLAROID PIHAK 1) & TAB 3 (DARI PIHAK 2)
+    function renderGalleryPolaroid(forceRedraw = false) {
+      if (activePolaroidTab === "upload") return;
+
+      const list = activePolaroidTab === "self" ? getMyPolaroidList() : getPartnerPolaroidList();
+      const total = list.length;
+
+      if (total === 0) {
+        prevPhotoBtn.style.display = "none";
+        nextPhotoBtn.style.display = "none";
+        deleteSinglePhotoBtn.style.display = "none";
+        stackBg1.style.display = "none";
+        stackBg2.style.display = "none";
+        stackIndicator.textContent = "Belum ada Polaroid";
+        captionInput.value = "";
+
+        paintCleanBg();
+        ctx.fillStyle = "rgba(255, 253, 249, 0.7)";
+        ctx.font = "bold 32px 'Caveat', cursive";
+        ctx.textAlign = "center";
+        const emptyMsg = activePolaroidTab === "self"
+          ? `${getMyName()} belum mengirim Polaroid ♡`
+          : `Belum ada Polaroid dari ${getPartnerName()} ♡`;
+        ctx.fillText(emptyMsg, 300, 305);
+        currentRenderedGallerySrc = "";
+        return;
       }
 
-      const targetSrc = stack[currentPhotoIndex];
-      if (!forceRedraw && targetSrc === currentRenderedSrc) return;
+      if (galleryIndex >= total) galleryIndex = total - 1;
+      if (galleryIndex < 0) galleryIndex = 0;
+
+      prevPhotoBtn.style.display = total > 1 ? "flex" : "none";
+      nextPhotoBtn.style.display = total > 1 ? "flex" : "none";
+      deleteSinglePhotoBtn.style.display = activePolaroidTab === "self" ? "inline-block" : "none";
+      stackBg1.style.display = total > 1 ? "block" : "none";
+      stackBg2.style.display = total > 2 ? "block" : "none";
+      stackIndicator.textContent = `Foto ${galleryIndex + 1} dari ${total}`;
+
+      const entry = list[galleryIndex];
+      const imgSrc = typeof entry === "string" ? entry : entry.img;
+      captionInput.value = typeof entry === "object" && entry.caption ? entry.caption : "miss you ♡";
+
+      if (!forceRedraw && imgSrc === currentRenderedGallerySrc) return;
 
       const img = new Image();
       img.onload = () => {
         ctx.clearRect(0, 0, 600, 600);
         ctx.drawImage(img, 0, 0, 600, 600);
-        currentRenderedSrc = targetSrc;
-        isPlaceholderCanvas = false;
+        currentRenderedGallerySrc = imgSrc;
       };
-      img.src = targetSrc;
+      img.src = imgSrc;
     }
 
-    document.getElementById("clearPhotoBtn").addEventListener("click", () => {
-      if (polaroidTab !== "own") return;
-      setOwnStack([]);
-      currentPhotoIndex = 0;
-      strokeUndoHistory = [];
-      fillDefaultBg();
-      updateStackIndicators();
-      syncOwnPolaroidToFirebase();
-    });
-
-    const sendLiveBtn = document.getElementById("sendLiveBtn");
-    sendLiveBtn.addEventListener("click", () => {
-      if (polaroidTab !== "own") return;
-      if (!isPlaceholderCanvas) {
-        saveCanvasToOwnSlot();
+    prevPhotoBtn.addEventListener("click", () => {
+      const list = activePolaroidTab === "self" ? getMyPolaroidList() : getPartnerPolaroidList();
+      if (list.length > 1) {
+        galleryIndex = (galleryIndex - 1 + list.length) % list.length;
+        renderGalleryPolaroid(true);
       }
-      syncOwnPolaroidToFirebase();
-      const origText = sendLiveBtn.textContent;
-      sendLiveBtn.textContent = "Terkirim! ✨";
-      setTimeout(() => { sendLiveBtn.textContent = origText; }, 1400);
     });
 
-    captionInput.addEventListener("change", () => {
-      if (polaroidTab !== "own") return;
-      if (currentRole === "me") state.captionMe = captionInput.value;
-      else state.captionHer = captionInput.value;
-      syncOwnPolaroidToFirebase();
+    nextPhotoBtn.addEventListener("click", () => {
+      const list = activePolaroidTab === "self" ? getMyPolaroidList() : getPartnerPolaroidList();
+      if (list.length > 1) {
+        galleryIndex = (galleryIndex + 1) % list.length;
+        renderGalleryPolaroid(true);
+      }
     });
 
-    function syncOwnPolaroidToFirebase() {
-      syncStatus.textContent = "Syncing...";
-      const payload = currentRole === "me"
-        ? { polaroidMe: state.polaroidMe, captionMe: captionInput.value || "miss you today ♡" }
-        : { polaroidHer: state.polaroidHer, captionHer: captionInput.value || "thinking of you ♡" };
+    deleteSinglePhotoBtn.addEventListener("click", () => {
+      if (activePolaroidTab !== "self" || !activeRoomRef) return;
+      const list = [...getMyPolaroidList()];
+      if (list.length === 0) return;
 
-      update(roomRef, payload).then(() => {
-        syncStatus.textContent = "Live Synced ✓";
-      });
-    }
+      list.splice(galleryIndex, 1);
+      const field = session.seat === "p1" ? "polaroidP1" : "polaroidP2";
+      roomData[field] = list;
+      if (galleryIndex >= list.length) galleryIndex = Math.max(0, list.length - 1);
 
-    // STICKY NOTES TERPISAH (CATATAN KAMU VS CATATAN PACAR)
-    const noteColorsMe = ["#fef08a", "#bbf7d0", "#bae6fd"];
-    const noteColorsHer = ["#fbcfe8", "#e9d5ff", "#fed7aa"];
+      refreshDynamicLabelsAndViews();
+      renderGalleryPolaroid(true);
+      update(activeRoomRef, { [field]: list });
+    });
+
+    // ================= STICKY NOTES DINAMIS =================
+    const noteColorsP1 = ["#fef08a", "#bbf7d0", "#bae6fd"];
+    const noteColorsP2 = ["#fbcfe8", "#e9d5ff", "#fed7aa"];
 
     function renderNotes() {
       const ownGrid = document.getElementById("ownNotesGrid");
@@ -1380,12 +1672,17 @@
       ownGrid.innerHTML = "";
       incomingGrid.innerHTML = "";
 
-      const ownNotes = currentRole === "me" ? state.notesMe : state.notesHer;
-      const incomingNotes = currentRole === "me" ? state.notesHer : state.notesMe;
+      const myName = getMyName();
+      const partnerName = getPartnerName();
+      const ownNotes = session.seat === "p1"
+        ? (Array.isArray(roomData.notesP1) ? roomData.notesP1 : [])
+        : (Array.isArray(roomData.notesP2) ? roomData.notesP2 : []);
+      const incomingNotes = session.seat === "p1"
+        ? (Array.isArray(roomData.notesP2) ? roomData.notesP2 : [])
+        : (Array.isArray(roomData.notesP1) ? roomData.notesP1 : []);
 
-      // 1. Render Catatan Milik Halaman Aktif (Bisa diedit & dihapus)
       if (ownNotes.length === 0) {
-        ownGrid.innerHTML = `<div class="empty-notes-box">Belum ada catatan dari kamu. Klik <b>+ Note Baru</b> untuk menulis ♡</div>`;
+        ownGrid.innerHTML = `<div class="empty-notes-box">Belum ada catatan dari ${escapeHtml(myName)}. Klik <b>+ Note Baru</b> ♡</div>`;
       } else {
         ownNotes.forEach((note, idx) => {
           const card = document.createElement("div");
@@ -1394,30 +1691,25 @@
           card.innerHTML = `
             <textarea placeholder="Tulis catatan...">${note.text || ""}</textarea>
             <div class="sticky-footer">
-              <span>${currentRole === "me" ? "Dari Kamu" : "Dari Pacar"} #${idx + 1}</span>
-              <button class="del-note" title="Hapus catatan">✕</button>
+              <span>${escapeHtml(myName)} #${idx + 1}</span>
+              <button type="button" class="del-note" title="Hapus catatan">✕</button>
             </div>
           `;
           const ta = card.querySelector("textarea");
           ta.addEventListener("change", () => {
             ownNotes[idx].text = ta.value;
-            syncNotesToFirebase();
+            syncNotesToFirebase(ownNotes);
           });
           card.querySelector(".del-note").addEventListener("click", () => {
             ownNotes.splice(idx, 1);
-            syncNotesToFirebase();
+            syncNotesToFirebase(ownNotes);
           });
           ownGrid.appendChild(card);
         });
       }
 
-      // 2. Render Catatan Kiriman Pasangan (Read-only Live)
       if (incomingNotes.length === 0) {
-        incomingGrid.innerHTML = `<div class="empty-notes-box">${
-          currentRole === "me"
-            ? "Belum ada catatan baru dari Pacar 🌸"
-            : "Belum ada catatan baru dari Kamu 💻"
-        }</div>`;
+        incomingGrid.innerHTML = `<div class="empty-notes-box">Belum ada catatan dari ${escapeHtml(partnerName)} ♡</div>`;
       } else {
         incomingNotes.forEach((note, idx) => {
           const card = document.createElement("div");
@@ -1426,7 +1718,7 @@
           card.innerHTML = `
             <div class="sticky-readonly-text">${escapeHtml(note.text || "")}</div>
             <div class="sticky-footer">
-              <span>${currentRole === "me" ? "💌 Pacar" : "💌 Kamu"} #${idx + 1}</span>
+              <span>💌 ${escapeHtml(partnerName)} #${idx + 1}</span>
               <span>Live</span>
             </div>
           `;
@@ -1436,60 +1728,39 @@
     }
 
     function escapeHtml(str) {
-      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    function syncNotesToFirebase() {
-      syncStatus.textContent = "Syncing...";
-      const payload = currentRole === "me"
-        ? { notesMe: state.notesMe }
-        : { notesHer: state.notesHer };
-      update(roomRef, payload).then(() => {
-        syncStatus.textContent = "Live Synced ✓";
-      });
+    function syncNotesToFirebase(updatedOwnNotes) {
+      if (!activeRoomRef) return;
+      const field = session.seat === "p1" ? "notesP1" : "notesP2";
+      roomData[field] = updatedOwnNotes;
+      renderNotes();
+      update(activeRoomRef, { [field]: updatedOwnNotes });
     }
 
     document.getElementById("addNoteBtn").addEventListener("click", () => {
-      if (currentRole === "me") {
-        const color = noteColorsMe[state.notesMe.length % noteColorsMe.length];
-        state.notesMe.push({ text: "Semangat hari ini ya! ♡", color });
-      } else {
-        const color = noteColorsHer[state.notesHer.length % noteColorsHer.length];
-        state.notesHer.push({ text: "Jangan lupa makan & istirahat! 🌸", color });
-      }
-      renderNotes();
-      syncNotesToFirebase();
+      if (!activeRoomRef) return;
+      const field = session.seat === "p1" ? "notesP1" : "notesP2";
+      const palette = session.seat === "p1" ? noteColorsP1 : noteColorsP2;
+      const currentList = Array.isArray(roomData[field]) ? [...roomData[field]] : [];
+      const color = palette[currentList.length % palette.length];
+      currentList.push({ text: "Semangat hari ini ya! ♡", color });
+      syncNotesToFirebase(currentList);
     });
 
-    // INITIAL VIEW RENDER
-    applyPageThemeAndView();
+    // ================= REALTIME FIREBASE LISTENER =================
+    function startFirebaseSyncListener() {
+      if (!activeRoomRef) return;
+      onValue(activeRoomRef, (snapshot) => {
+        document.getElementById("syncStatus").textContent = "Live Synced ✓";
+        const data = snapshot.val();
+        if (!data) return;
 
-    // REALTIME LISTENER FIREBASE
-    onValue(roomRef, (snapshot) => {
-      syncStatus.textContent = "Live Synced ✓";
-      const data = snapshot.val() || {};
-
-      state.polaroidMe = Array.isArray(data.polaroidMe) ? data.polaroidMe : [];
-      state.polaroidHer = Array.isArray(data.polaroidHer) ? data.polaroidHer : [];
-      if (typeof data.captionMe === "string") state.captionMe = data.captionMe;
-      if (typeof data.captionHer === "string") state.captionHer = data.captionHer;
-
-      if (data.moodMe) state.moodMe = data.moodMe;
-      if (data.moodHer) state.moodHer = data.moodHer;
-      if (typeof data.shortNoteMe === "string") state.shortNoteMe = data.shortNoteMe;
-      if (typeof data.shortNoteHer === "string") state.shortNoteHer = data.shortNoteHer;
-      if (data.tzMe) state.tzMe = data.tzMe;
-      if (data.tzHer) state.tzHer = data.tzHer;
-
-      state.notesMe = Array.isArray(data.notesMe) ? data.notesMe : [];
-      state.notesHer = Array.isArray(data.notesHer) ? data.notesHer : [];
-
-      if (!drawing) {
-        applyPageThemeAndView();
-      }
-    });
+        roomData = { ...roomData, ...data };
+        refreshDynamicLabelsAndViews();
+      });
+    }
   </script>
 </body>
-</html></pre>
-        </body>
-    </html>
+</html>
