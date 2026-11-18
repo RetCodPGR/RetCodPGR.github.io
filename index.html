@@ -254,3 +254,2898 @@
     .gate-input {
       flex: 1;
       min-width: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.26);
+      border: 1px solid rgba(255, 248, 238, 0.16);
+      border-radius: 12px;
+      padding: 11px 13px;
+      color: var(--cream);
+      font-family: var(--font-ui);
+      font-size: 0.88rem;
+      font-weight: 600;
+      outline: none;
+    }
+    .gate-input:focus { border-color: var(--butter); box-shadow: 0 0 0 3px rgba(254, 240, 138, 0.12); }
+    .gate-input::placeholder { color: rgba(255, 253, 249, 0.35); font-weight: 400; }
+
+    #genRoomCodeBtn {
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 0 13px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gate-error {
+      background: rgba(248, 113, 113, 0.15);
+      border: 1px solid rgba(248, 113, 113, 0.4);
+      color: #fecaca;
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: none;
+      text-align: center;
+      animation: popIn 0.25s var(--ease-spring);
+    }
+
+    .btn-connect-submit {
+      width: 100%;
+      background: var(--butter);
+      color: var(--ink);
+      border: none;
+      border-radius: 14px;
+      padding: 13px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .btn-connect-submit:hover { background: #fde047; transform: translateY(-1px); }
+
+    /* ================= HALAMAN UTAMA (AUTO-LOGIN LANGSUNG MASUK) ================= */
+    #deskApp {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeSlideUp 0.45s var(--ease-spring);
+    }
+
+    header {
+      width: 100%;
+      max-width: 980px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand h1 { font-size: 1.25rem; font-weight: 800; color: var(--accent-primary); transition: color 0.35s ease; }
+    .brand-sub { font-size: 0.73rem; color: rgba(255, 253, 249, 0.68); font-weight: 600; }
+
+    .header-actions {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .room-pill-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: var(--cream);
+      padding: 6px 11px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .room-pill-btn:hover { background: rgba(255, 255, 255, 0.16); }
+
+    .notif-bell-btn {
+      position: relative;
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid var(--card-border);
+      color: var(--cream);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .notif-unread-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fb7185;
+      box-shadow: 0 0 8px #fb7185;
+      display: none;
+    }
+
+    .leave-btn {
+      background: rgba(248, 113, 113, 0.14);
+      border: 1px solid rgba(248, 113, 113, 0.35);
+      color: #fecaca;
+      padding: 6px 11px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .leave-btn:hover { background: rgba(248, 113, 113, 0.25); }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(187, 247, 208, 0.14);
+      border: 1px solid rgba(187, 247, 208, 0.35);
+      color: var(--mint);
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 0.73rem;
+      font-weight: 700;
+    }
+
+    .live-dot {
+      width: 8px; height: 8px;
+      background: var(--mint);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--mint);
+      animation: pulse 1.8s infinite;
+    }
+
+    /* ================= PAGE SWITCHER (MEJA VIRTUAL VS PELIHARAAN) ================= */
+    .main-page-nav {
+      width: 100%;
+      max-width: 980px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--card-border);
+      padding: 5px;
+      border-radius: 18px;
+      margin-bottom: 18px;
+    }
+
+    .page-nav-btn {
+      border: none;
+      background: transparent;
+      color: rgba(255, 253, 249, 0.7);
+      padding: 10px 14px;
+      border-radius: 13px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .page-nav-btn:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--cream);
+    }
+    .page-nav-btn.active {
+      background: var(--accent-primary);
+      color: var(--ink);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+    }
+
+    .coin-pill-mini {
+      background: rgba(0, 0, 0, 0.18);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 800;
+    }
+
+    /* ================= VIEW 1: BENTO GRID MEJA VIRTUAL ================= */
+    .bento-grid {
+      width: 100%;
+      max-width: 980px;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 20px;
+      animation: fadeSlideUp 0.4s var(--ease-spring);
+    }
+
+    @media (max-width: 780px) {
+      .bento-grid { grid-template-columns: 1fr; }
+    }
+
+    .widget {
+      background: var(--card-surface);
+      border: 1px solid var(--card-border);
+      border-radius: 26px;
+      padding: 20px;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
+      transition: background-color 0.4s var(--ease-spring), border-color 0.4s ease;
+    }
+
+    .widget-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .widget-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-weight: 800;
+      color: rgba(255, 253, 249, 0.72);
+    }
+
+    .polaroid-action-btns {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    /* 3 TAB POLAROID */
+    .polaroid-tabs-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      background: rgba(0, 0, 0, 0.28);
+      padding: 4px;
+      border-radius: 14px;
+      margin-bottom: 14px;
+    }
+
+    .p-tab-btn {
+      border: none;
+      background: transparent;
+      color: rgba(255, 253, 249, 0.65);
+      padding: 8px 6px;
+      border-radius: 10px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .p-tab-btn:hover:not(.active) {
+      color: var(--cream);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .p-tab-btn.active {
+      background: var(--accent-primary);
+      color: var(--ink);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.22);
+      transform: scale(1.01);
+    }
+
+    .tab-count-pill {
+      background: rgba(0, 0, 0, 0.16);
+      padding: 1px 6px;
+      border-radius: 999px;
+      font-size: 0.68rem;
+    }
+
+    /* POLAROID FRAME */
+    .polaroid-frame {
+      background: var(--cream);
+      padding: 14px 14px 20px;
+      border-radius: 8px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+      transform: rotate(-1deg);
+      position: relative;
+      transition: transform 0.35s var(--ease-spring), box-shadow 0.35s ease;
+    }
+    .polaroid-frame.animate-switch {
+      animation: frameSwitch 0.34s var(--ease-spring);
+    }
+
+    .photo-stack-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+    }
+
+    .photo-box-stack-bg1, .photo-box-stack-bg2 {
+      position: absolute;
+      inset: 0;
+      background: var(--bg-secondary);
+      border-radius: 4px;
+      border: 2px dashed rgba(255,255,255,0.2);
+      transition: transform 0.35s var(--ease-spring), opacity 0.35s ease;
+    }
+    .photo-box-stack-bg1 { transform: rotate(3deg) scale(0.95); opacity: 0.6; }
+    .photo-box-stack-bg2 { transform: rotate(-3deg) scale(0.9); opacity: 0.3; }
+
+    .photo-box {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #1a1412;
+      border-radius: 4px;
+      overflow: hidden;
+      touch-action: none;
+      z-index: 2;
+    }
+
+    canvas#polaroidCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: crosshair;
+    }
+    canvas#polaroidCanvas.readonly-mode { cursor: default; }
+
+    .stack-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.65);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.25);
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      font-weight: 800;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stack-nav:hover { background: rgba(0, 0, 0, 0.88); transform: translateY(-50%) scale(1.08); }
+    .stack-prev { left: 8px; }
+    .stack-next { right: 8px; }
+
+    .stack-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      padding: 0 4px;
+    }
+
+    .stack-indicator { font-size: 0.75rem; font-weight: 700; color: rgba(0,0,0,0.65); }
+
+    .delete-single-btn {
+      background: rgba(41, 32, 28, 0.08);
+      border: none;
+      color: #991b1b;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .polaroid-caption {
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-family: var(--font-hand);
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--ink);
+      text-align: center;
+      margin-top: 6px;
+      outline: none;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeSlideUp 0.3s var(--ease-spring);
+    }
+
+    .gallery-info-bar {
+      margin-top: 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px dashed var(--card-border);
+      border-radius: 14px;
+      padding: 10px 14px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: rgba(255, 253, 249, 0.78);
+      display: none;
+      animation: fadeSlideUp 0.3s var(--ease-spring);
+    }
+
+    .swatches {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.24);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .swatch {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 0, 0, 0.35);
+      cursor: pointer;
+    }
+    .swatch.active {
+      border-color: #fff;
+      transform: scale(1.22);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.65);
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--cream);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 7px 12px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    .btn:hover { background: rgba(255, 255, 255, 0.18); transform: translateY(-1px); }
+    .btn-primary {
+      background: var(--accent-primary);
+      color: var(--ink);
+      border: none;
+    }
+    .btn-primary:hover { filter: brightness(1.05); }
+
+    /* RIGHT COLUMN: CLOCKS + GPS + STICKY NOTES */
+    .right-stack { display: flex; flex-direction: column; gap: 20px; }
+    .clocks-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 480px) { .clocks-row { grid-template-columns: 1fr; } }
+
+    .clock-pill {
+      background: var(--bg-secondary);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .clock-pill.active-owner { border-color: var(--accent-primary); }
+    .clock-city { font-size: 0.78rem; font-weight: 800; color: var(--accent-primary); }
+    .clock-city.partner { color: var(--accent-secondary); }
+
+    .clock-time-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .clock-time { font-size: 1.55rem; font-weight: 800; line-height: 1.1; }
+    .clock-location-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(255, 253, 249, 0.88);
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      max-width: 135px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .unified-status-select {
+      width: 100%;
+      background: rgba(254, 240, 138, 0.09);
+      color: var(--accent-primary);
+      border: 1px solid rgba(254, 240, 138, 0.28);
+      border-radius: 11px;
+      padding: 8px 10px;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+    }
+    .unified-status-select option { background: #1e1714; color: #fffdf9; }
+
+    .custom-status-wrap {
+      display: none;
+      width: 100%;
+      align-items: center;
+      gap: 5px;
+      animation: popIn 0.2s var(--ease-spring);
+    }
+    .unified-status-input {
+      flex: 1;
+      min-width: 0;
+      background: rgba(254, 240, 138, 0.12);
+      color: var(--accent-primary);
+      border: 1px solid var(--accent-primary);
+      border-radius: 11px;
+      padding: 8px 10px;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 600;
+      outline: none;
+    }
+    .switch-template-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: var(--cream);
+      border-radius: 10px;
+      padding: 7px 9px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .partner-unified-status {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 11px;
+      padding: 8px 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent-secondary);
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* STICKY NOTES */
+    .notes-section-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: rgba(255, 253, 249, 0.6);
+      margin-bottom: 8px;
+    }
+
+    .notes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .notes-grid:last-child { margin-bottom: 0; }
+
+    .sticky {
+      border-radius: 16px; padding: 12px; color: var(--ink); min-height: 102px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+      animation: popIn 0.3s var(--ease-spring);
+      transition: transform 0.2s var(--ease-spring);
+    }
+    .sticky:hover { transform: translateY(-2px); }
+    .sticky textarea {
+      width: 100%; border: none; background: transparent; resize: none;
+      font-family: var(--font-hand); font-size: 1.25rem; font-weight: 700; color: var(--ink); outline: none; flex: 1;
+    }
+    .sticky-readonly-text {
+      font-family: var(--font-hand);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+      word-break: break-word;
+    }
+    .sticky-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.7rem; font-weight: 700; opacity: 0.75; margin-top: 6px;
+    }
+    .del-note { background: none; border: none; font-weight: 800; cursor: pointer; color: var(--ink); }
+
+    .empty-notes-box {
+      grid-column: 1 / -1;
+      background: rgba(0, 0, 0, 0.18);
+      border: 1px dashed var(--card-border);
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: rgba(255, 253, 249, 0.55);
+    }
+
+    /* ================= VIEW 2: COUPLE PET SYSTEM ================= */
+    #petView {
+      display: none;
+      width: 100%;
+      max-width: 980px;
+      flex-direction: column;
+      gap: 20px;
+      animation: fadeSlideUp 0.45s var(--ease-spring);
+    }
+
+    .breed-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 14px 0;
+    }
+    @media (min-width: 720px) {
+      .breed-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .breed-card {
+      background: var(--bg-secondary);
+      border: 2px solid var(--card-border);
+      border-radius: 20px;
+      padding: 14px 10px;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.25s var(--ease-spring), border-color 0.25s ease, background-color 0.25s ease;
+    }
+    .breed-card:hover { transform: translateY(-3px); border-color: rgba(254, 240, 138, 0.45); }
+    .breed-card.selected {
+      border-color: var(--accent-primary);
+      background: rgba(254, 240, 138, 0.12);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+    }
+    .breed-name { font-size: 0.9rem; font-weight: 800; color: var(--cream); }
+    .breed-desc { font-size: 0.72rem; color: rgba(255, 253, 249, 0.68); line-height: 1.35; }
+
+    .pet-dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 780px) {
+      .pet-dashboard-grid { grid-template-columns: 1fr; }
+    }
+
+    .pet-stage-box {
+      background: radial-gradient(circle at 50% 65%, rgba(254, 240, 138, 0.16), rgba(0, 0, 0, 0.28));
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 250px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .pet-speech-bubble {
+      background: var(--cream);
+      color: var(--ink);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.28);
+      margin-bottom: 10px;
+      animation: popIn 0.3s var(--ease-spring);
+    }
+
+    .pet-svg-wrap {
+      width: 155px;
+      height: 155px;
+      animation: petFloat 3s ease-in-out infinite;
+    }
+    .pet-svg-wrap.happy-jump {
+      animation: petHappyJump 0.75s var(--ease-spring);
+    }
+    .pet-tail {
+      transform-origin: 140px 135px;
+      animation: tailWag 1.1s ease-in-out infinite;
+    }
+
+    .stat-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .stat-row { display: flex; flex-direction: column; gap: 4px; }
+    .stat-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: rgba(255, 253, 249, 0.8);
+    }
+    .progress-track {
+      width: 100%;
+      height: 9px;
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.5s var(--ease-spring);
+    }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .shop-item-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .shop-item-top { display: flex; align-items: center; gap: 8px; }
+    .shop-item-icon { font-size: 1.5rem; }
+    .shop-item-name { font-size: 0.82rem; font-weight: 800; color: var(--cream); }
+    .shop-item-effect { font-size: 0.7rem; color: var(--mint); font-weight: 600; }
+
+    .mission-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .mission-row {
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 9px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .mission-reward-tag {
+      background: rgba(254, 240, 138, 0.16);
+      color: var(--butter);
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    /* ================= MODALS (CAMERA, CROPPER, NOTIFICATIONS) ================= */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.84);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      animation: modalBackdropIn 0.25s ease;
+    }
+    .modal-card {
+      background: var(--card-surface);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 22px;
+      width: 100%;
+      max-width: 410px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.55);
+      animation: modalCardIn 0.3s var(--ease-spring);
+    }
+
+    .camera-view-box {
+      width: 290px;
+      height: 290px;
+      background: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      border: 2px solid var(--accent-primary);
+    }
+    #cameraVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    #cameraVideo.mirrored {
+      transform: scaleX(-1);
+    }
+
+    .crop-preview-container {
+      width: 280px;
+      height: 280px;
+      background: #111;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      touch-action: none;
+      border: 2px dashed rgba(255,255,255,0.3);
+    }
+    #cropCanvas { width: 100%; height: 100%; display: block; cursor: grab; }
+    .crop-controls { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+    .crop-controls label { font-size: 0.75rem; font-weight: 700; color: rgba(255,253,249,0.7); }
+    .crop-controls input[type="range"] { width: 100%; accent-color: var(--accent-primary); }
+
+    .notif-list-box {
+      width: 100%;
+      max-height: 280px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .notif-item-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-size: 0.8rem;
+      line-height: 1.35;
+    }
+    .notif-item-time {
+      font-size: 0.68rem;
+      color: rgba(255, 253, 249, 0.5);
+      margin-top: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LIVE NOTIFICATION TOAST -->
+  <div id="liveToastBanner" class="live-toast-banner" role="alert">
+    <div class="toast-icon-circle" id="liveToastIcon">📸</div>
+    <div class="toast-content">
+      <div class="toast-title" id="liveToastTitle">New Update ✨</div>
+      <div class="toast-body" id="liveToastBody">Partner waiting for you to see his/her cute picture ~</div>
+    </div>
+  </div>
+
+  <!-- LAYAR 1: CONNECT ROOM PRIVAT (HANYA MUNCUL JIKA BELUM ADA SESI) -->
+  <div id="connectGate">
+    <div class="gate-top-bar">
+      <select class="lang-select" id="gateLangSelect" aria-label="Language">
+        <option value="id">🇮🇩 Bahasa Indonesia</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="zh">🇨🇳 简体中文</option>
+      </select>
+    </div>
+
+    <div class="gate-header">
+      <div style="font-size: 2.2rem;">🔐🧸</div>
+      <h1>Our Virtual Desk</h1>
+      <p id="gateSubtitle">Masukkan nama panggilanmu dan hubungkan room privat khusus berdua.</p>
+    </div>
+
+    <div class="gate-mode-tabs">
+      <button type="button" class="gate-mode-btn active" id="modeCreateBtn">✨ Buat Room Baru</button>
+      <button type="button" class="gate-mode-btn" id="modeJoinBtn">💌 Gabung / Masuk Room</button>
+    </div>
+
+    <div class="form-group">
+      <label for="userNameInput" id="lblUserName">Nama Panggilanmu (ID Tampilan)</label>
+      <input type="text" id="userNameInput" class="gate-input" maxlength="16" placeholder="Contoh: Galih / Sayang..." />
+    </div>
+
+    <div class="form-group">
+      <label for="roomCodeInput" id="lblRoomCode">Kode Room Privat</label>
+      <div class="gate-input-row">
+        <input type="text" id="roomCodeInput" class="gate-input" maxlength="20" placeholder="COZY-8492" style="text-transform:uppercase;" />
+        <button type="button" class="btn" id="genRoomCodeBtn">🎲 Acak</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="roomPinInput" id="lblRoomPin">PIN / Password Rahasia Room</label>
+      <input type="password" id="roomPinInput" class="gate-input" maxlength="16" placeholder="Masukkan PIN rahasia berdua..." />
+    </div>
+
+    <div class="gate-error" id="gateErrorBox"></div>
+
+    <button type="button" class="btn-connect-submit" id="connectSubmitBtn">Masuk & Connect Room ✨</button>
+  </div>
+
+  <!-- LAYAR 2: HALAMAN UTAMA (AUTO-LOGIN TANPA KONFIRMASI ULANG) -->
+  <div id="deskApp">
+    <header>
+      <div class="brand">
+        <span style="font-size: 1.7rem;">🧸</span>
+        <div>
+          <h1 id="headerTitle">Meja Virtual</h1>
+          <div class="brand-sub" id="headerSubtitle">Terhubung berdua secara privat</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="room-pill-btn" id="copyInviteBtn">
+          🔑 Room: <span id="headerRoomCode">---</span>
+        </button>
+
+        <div class="live-badge">
+          <span class="live-dot"></span>
+          <span id="syncStatus">Live Synced ✓</span>
+        </div>
+
+        <button type="button" class="notif-bell-btn" id="notifBellBtn" title="Notifikasi">
+          🔔 <span class="notif-unread-dot" id="notifUnreadDot"></span>
+        </button>
+
+        <select class="lang-select" id="appLangSelect" aria-label="Language">
+          <option value="id">🇮🇩 ID</option>
+          <option value="en">🇬🇧 EN</option>
+          <option value="zh">🇨🇳 中文</option>
+        </select>
+
+        <button type="button" class="leave-btn" id="leaveRoomBtn">Ganti Room</button>
+      </div>
+    </header>
+
+    <!-- NAVIGASI ANTAR PAGE DALAM SATU HALAMAN -->
+    <nav class="main-page-nav">
+      <button type="button" class="page-nav-btn active" id="navDeskTab">
+        <span id="navDeskLabel">🧸 Meja Virtual</span>
+      </button>
+      <button type="button" class="page-nav-btn" id="navPetTab">
+        <span id="navPetLabel">🐾 Peliharaan Kita</span>
+        <span class="coin-pill-mini" id="navCoinBadge">🪙 0</span>
+      </button>
+    </nav>
+
+    <!-- ================= PAGE 1: MEJA VIRTUAL ================= -->
+    <main class="bento-grid" id="deskView">
+      <!-- LEFT: POLAROID WIDGET + KAMERA + CORET -->
+      <section class="widget">
+        <div class="widget-header">
+          <span class="widget-title" id="polaroidWidgetTitle">📸 Live Polaroid Widget</span>
+          <div class="polaroid-action-btns">
+            <button type="button" class="btn btn-primary" id="openCameraBtn">📷 Kamera</button>
+            <label class="btn" id="uploadLabel" style="cursor:pointer;">
+              <span id="uploadBtnText">🖼️ Galeri</span>
+              <input type="file" id="photoInput" accept="image/*" hidden />
+            </label>
+            <input type="file" id="fallbackCameraInput" accept="image/*" capture="user" hidden />
+          </div>
+        </div>
+
+        <div class="polaroid-tabs-3">
+          <button type="button" class="p-tab-btn active" id="pTabUpload">
+            <span id="pTabUploadLabel">✨ Potret & Coret</span>
+          </button>
+          <button type="button" class="p-tab-btn" id="pTabSelf">
+            <span id="pTabSelfLabel">🎨 Polaroid Kamu</span>
+            <span class="tab-count-pill" id="selfCountBadge">0</span>
+          </button>
+          <button type="button" class="p-tab-btn" id="pTabPartner">
+            <span id="pTabPartnerLabel">💌 Dari Pasangan</span>
+            <span class="tab-count-pill" id="partnerCountBadge">0</span>
+          </button>
+        </div>
+
+        <div class="polaroid-frame" id="polaroidFrame">
+          <div class="photo-stack-container">
+            <div class="photo-box-stack-bg2" id="stackBg2" style="display:none;"></div>
+            <div class="photo-box-stack-bg1" id="stackBg1" style="display:none;"></div>
+
+            <div class="photo-box">
+              <canvas id="polaroidCanvas" width="600" height="600"></canvas>
+              <button type="button" class="stack-nav stack-prev" id="prevPhotoBtn">&lt;</button>
+              <button type="button" class="stack-nav stack-next" id="nextPhotoBtn">&gt;</button>
+            </div>
+          </div>
+          <div class="stack-meta-row">
+            <div class="stack-indicator" id="stackIndicator">Kanvas Baru</div>
+            <button type="button" class="delete-single-btn" id="deleteSinglePhotoBtn" style="display:none;">🗑️ Hapus foto ini</button>
+          </div>
+          <input id="captionInput" class="polaroid-caption" value="miss you today ♡" maxlength="36" />
+        </div>
+
+        <div class="toolbar" id="toolbarSection">
+          <div class="swatches" id="swatchBar">
+            <button type="button" class="swatch active" data-color="#fef08a" style="background:#fef08a;"></button>
+            <button type="button" class="swatch" data-color="#fbcfe8" style="background:#fbcfe8;"></button>
+            <button type="button" class="swatch" data-color="#bbf7d0" style="background:#bbf7d0;"></button>
+            <button type="button" class="swatch" data-color="#bae6fd" style="background:#bae6fd;"></button>
+            <button type="button" class="swatch" data-color="#fca5a5" style="background:#fca5a5;"></button>
+            <button type="button" class="swatch" data-color="#ffffff" style="background:#ffffff;"></button>
+            <button type="button" class="btn" id="undoDrawBtn" style="padding:4px 8px; font-size:0.75rem; border-radius:999px;">↩</button>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button type="button" class="btn" id="clearDraftBtn">Reset Kanvas</button>
+            <button type="button" class="btn btn-primary" id="sendLiveBtn">Kirim ke Dia ✨ (+25 🪙)</button>
+          </div>
+        </div>
+
+        <div class="gallery-info-bar" id="galleryInfoBar"></div>
+      </section>
+
+      <!-- RIGHT: CLOCKS + GPS LOCATION + STICKY NOTES -->
+      <div class="right-stack">
+        <section class="widget">
+          <div class="widget-header">
+            <span class="widget-title" id="tzWidgetTitle">🕰️ Zona Waktu & Lokasi</span>
+            <button type="button" class="btn" id="requestGpsBtn" style="font-size:0.7rem; padding:4px 8px;">📍 Sync GPS</button>
+          </div>
+          <div class="clocks-row">
+            <div class="clock-pill active-owner">
+              <div class="clock-city" id="leftClockLabel">Kamu</div>
+              <div class="clock-time-row">
+                <div class="clock-time" id="leftClockTime">--:--</div>
+                <div class="clock-location-badge" id="leftLocationBadge">📍 GPS Off</div>
+              </div>
+
+              <select class="unified-status-select" id="activeStatusSelect"></select>
+              <div class="custom-status-wrap" id="customStatusWrap">
+                <input
+                  type="text"
+                  id="activeCustomStatusInput"
+                  class="unified-status-input"
+                  maxlength="50"
+                  placeholder="✍️ Tulis status / pesan singkat..."
+                />
+                <button type="button" class="switch-template-btn" id="backToTemplatesBtn" title="Pilih dari template">📋</button>
+              </div>
+            </div>
+
+            <div class="clock-pill">
+              <div class="clock-city partner" id="rightClockLabel">Menunggu Pasangan...</div>
+              <div class="clock-time-row">
+                <div class="clock-time" id="rightClockTime">--:--</div>
+                <div class="clock-location-badge" id="rightLocationBadge">📍 --</div>
+              </div>
+              <div class="partner-unified-status" id="partnerStatusDisplay">💭 Menunggu terhubung</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="widget" style="flex:1;">
+          <div class="widget-header">
+            <span class="widget-title" id="notesWidgetTitle">🗒️ Live Sticky Notes</span>
+            <button type="button" class="btn btn-primary" id="addNoteBtn">+ Note Baru (+15 🪙)</button>
+          </div>
+
+          <div class="notes-section-label">
+            <span id="ownNotesTitle">✍️ Catatanmu</span>
+          </div>
+          <div class="notes-grid" id="ownNotesGrid"></div>
+
+          <div class="notes-section-label">
+            <span id="incomingNotesTitle">💌 Catatan dari Pasangan</span>
+          </div>
+          <div class="notes-grid" id="incomingNotesGrid"></div>
+        </section>
+      </div>
+    </main>
+
+    <!-- ================= PAGE 2: SISTEM PELIHARAAN VIRTUAL ================= -->
+    <section id="petView">
+      <!-- BAGIAN A: PILIH PELIHARAAN SEKALI UNTUK BERDUA -->
+      <div class="widget" id="petAdoptionSection">
+        <div class="widget-header">
+          <span class="widget-title" id="adoptWidgetTitle">🏡 Adopsi Peliharaan Bersama (Dipilih Sekali)</span>
+          <span class="coin-pill-mini" style="background:var(--butter); color:var(--ink);" id="adoptCoinInfo">🪙 0</span>
+        </div>
+        <p id="adoptSubtitle" style="font-size:0.82rem; color:rgba(255,253,249,0.75); line-height:1.45;">
+          Pilih satu anak anjing menggemaskan untuk dirawat berdua! Selesaikan misi kirim foto atau catatan untuk mengumpulkan koin makanan.
+        </p>
+
+        <div class="breed-grid" id="breedSelectionGrid"></div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+          <input type="text" id="petNameInput" class="gate-input" maxlength="16" placeholder="Beri nama peliharaan (Contoh: Mochi)..." />
+          <button type="button" class="btn btn-primary" id="adoptPetBtn" style="padding:11px 18px;">Adopsi Sekarang 🐾</button>
+        </div>
+      </div>
+
+      <!-- BAGIAN B: RUANG PELIHARAAN & TOKO MAKANAN -->
+      <div class="pet-dashboard-grid" id="petCareSection" style="display:none;">
+        <!-- KIRI: INTERAKSI HEWAN PELIHARAAN -->
+        <div class="widget">
+          <div class="widget-header">
+            <span class="widget-title" id="petRoomTitle">🐾 Ruang Peliharaan Kita</span>
+            <span class="coin-pill-mini" style="background:var(--butter); color:var(--ink);" id="petLevelBadge">Lv. 1</span>
+          </div>
+
+          <div class="pet-stage-box" id="petStageBox" title="Ketuk untuk mengelus!">
+            <div class="pet-speech-bubble" id="petSpeechBubble">Woof! Aku senang bertemu kalian ♡</div>
+            <div class="pet-svg-wrap" id="petSvgContainer"></div>
+            <div style="margin-top:10px; text-align:center;">
+              <div style="font-size:1.1rem; font-weight:800; color:var(--accent-primary);" id="petDisplayName">Mochi</div>
+              <div style="font-size:0.74rem; color:rgba(255,253,249,0.68); font-weight:700;" id="petBreedLabel">Shiba Inu</div>
+            </div>
+            <button type="button" class="btn" id="petHeadBtn" style="margin-top:10px; font-size:0.75rem;">🖐️ Elus Kepala (+5 🪙)</button>
+          </div>
+
+          <div class="stat-bars">
+            <div class="stat-row">
+              <div class="stat-label-row">
+                <span id="lblFullness">🍖 Kenyang (Fullness)</span>
+                <span id="petFullnessText">80 / 100</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="petFullnessBar" style="width:80%; background:var(--butter);"></div>
+              </div>
+            </div>
+
+            <div class="stat-row">
+              <div class="stat-label-row">
+                <span id="lblHappiness">💖 Kebahagiaan (Happiness)</span>
+                <span id="petHappinessText">85 / 100</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="petHappinessBar" style="width:85%; background:var(--pink);"></div>
+              </div>
+            </div>
+
+            <div class="stat-row">
+              <div class="stat-label-row">
+                <span id="lblExp">⭐ EXP Level</span>
+                <span id="petExpText">0 / 100 EXP</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="petExpBar" style="width:0%; background:var(--mint);"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KANAN: PET SHOP & DAFTAR MISI -->
+        <div class="right-stack">
+          <div class="widget">
+            <div class="widget-header">
+              <span class="widget-title" id="petShopTitle">🛒 Toko Makanan & Mainan</span>
+              <span class="coin-pill-mini" style="background:var(--butter); color:var(--ink);" id="shopCoinDisplay">🪙 0</span>
+            </div>
+            <div class="shop-grid" id="petShopGrid"></div>
+          </div>
+
+          <div class="widget">
+            <div class="widget-header">
+              <span class="widget-title" id="missionWidgetTitle">🎯 Misi Kumpulkan Koin</span>
+            </div>
+            <div class="mission-list" id="petMissionList"></div>
+            <div style="margin-top:12px; font-size:0.74rem; color:rgba(255,253,249,0.68);" id="lastPetCareLog"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- MODAL KAMERA LIVE -->
+  <div id="cameraModal" class="modal-overlay">
+    <div class="modal-card">
+      <span class="widget-title" id="cameraModalTitle">Kamera Polaroid 📷</span>
+      <div class="camera-view-box">
+        <video id="cameraVideo" class="mirrored" autoplay playsinline muted></video>
+      </div>
+      <div style="display:flex; gap:10px; width:100%; justify-content:center;">
+        <button type="button" class="btn" id="switchCamBtn">🔄 Balik Kamera</button>
+        <button type="button" class="btn btn-primary" id="capturePhotoBtn">📸 Jepret!</button>
+        <button type="button" class="btn" id="closeCameraBtn">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CROPPER -->
+  <div id="cropModal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 420px;">
+      <span class="widget-title" id="cropModalTitle">Sesuaikan Ukuran Foto ✂️</span>
+      <div class="crop-preview-container">
+        <canvas id="cropCanvas" width="400" height="400"></canvas>
+      </div>
+      <div class="crop-controls">
+        <label id="cropZoomLabel">Geser / Zoom Foto agar pas:</label>
+        <input type="range" id="zoomRange" min="0.5" max="3" step="0.05" value="1" />
+      </div>
+      <div style="display:flex; gap:10px; width:100%; justify-content:flex-end; margin-top:4px;">
+        <button type="button" class="btn" id="cancelCropBtn">Batal</button>
+        <button type="button" class="btn btn-primary" id="applyCropBtn">Gunakan Foto ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL RIWAYAT NOTIFIKASI -->
+  <div id="notifModal" class="modal-overlay">
+    <div class="modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+        <span class="widget-title" id="notifModalTitle">🔔 Notifikasi Pasangan</span>
+        <button type="button" class="btn" id="enablePushNotifBtn" style="font-size:0.7rem; padding:4px 9px;">Aktifkan Push</button>
+      </div>
+      <div class="notif-list-box" id="notifListContainer"></div>
+      <div style="display:flex; gap:10px; width:100%; justify-content:flex-end;">
+        <button type="button" class="btn" id="clearNotifBtn">Bersihkan</button>
+        <button type="button" class="btn btn-primary" id="closeNotifBtn">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Konfigurasi Firebase Anda (widg-350f9)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBF1LP9H26mRntsYXlkjm6Ebp3aR1QI8yU",
+      authDomain: "widg-350f9.firebaseapp.com",
+      databaseURL: "https://widg-350f9-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "widg-350f9",
+      storageBucket: "widg-350f9.firebasestorage.app",
+      messagingSenderId: "297142153662",
+      appId: "1:297142153662:web:482b285695838b838949ef",
+      measurementId: "G-GG6Q8PM583"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // ================= CYBERSECURITY HELPERS =================
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function sanitizeRoomCode(raw) {
+      return String(raw || "").trim().toUpperCase().replace(/[^A-Z0-9-]/g, "").slice(0, 20);
+    }
+
+    async function hashPinSha256(pinText) {
+      const msgBuffer = new TextEncoder().encode("VDESK_SALT_2026::" + String(pinText));
+      const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    function isValidDataImage(src) {
+      return typeof src === "string" && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(src);
+    }
+
+    // ================= KAMUS 3 BAHASA (ID, EN, ZH) =================
+    const I18N = {
+      id: {
+        gateSubtitle: "Masukkan nama panggilanmu dan hubungkan room privat khusus berdua.",
+        modeCreate: "✨ Buat Room Baru",
+        modeJoin: "💌 Gabung / Masuk Room",
+        lblUserName: "Nama Panggilanmu (ID Tampilan)",
+        phUserName: "Contoh: Galih / Sayang...",
+        lblRoomCode: "Kode Room Privat",
+        btnRandom: "🎲 Acak",
+        lblRoomPin: "PIN / Password Rahasia Room",
+        phRoomPin: "Masukkan PIN rahasia berdua...",
+        btnCreateSubmit: "Buat & Connect Room ✨",
+        btnJoinSubmit: "Masuk ke Room ✨",
+        btnConnecting: "Menghubungkan...",
+        errNoName: "Isi nama panggilanmu dulu ya!",
+        errShortCode: "Kode room minimal 4 karakter.",
+        errShortPin: "PIN / Password minimal 4 karakter.",
+        errRoomNotFound: "Room tidak ditemukan. Periksa kembali kode roommu.",
+        errWrongPin: "PIN / Password salah! Coba periksa kembali.",
+        errRoomFull: "Room ini sudah penuh.",
+        copiedToast: "✓ Tersalin!",
+        liveSynced: "Live Synced ✓",
+        syncing: "Syncing...",
+        leaveBtn: "Ganti Room",
+        connectedSub: "Terhubung di Room",
+        waitingSub: "Menunggu pasangan bergabung ke Room",
+        navDesk: "🧸 Meja Virtual",
+        navPet: "🐾 Peliharaan Kita",
+        polaroidTitle: "📸 Live Polaroid Widget",
+        cameraBtn: "📷 Kamera",
+        galleryBtn: "🖼️ Galeri",
+        tabUpload: "✨ Potret & Coret",
+        tabSelfPrefix: "🎨 Polaroid",
+        tabPartnerPrefix: "💌 Dari",
+        canvasNew: "Kanvas Baru",
+        photoOf: "Foto {cur} dari {tot}",
+        noPolaroidYet: "Belum ada Polaroid",
+        deletePhoto: "🗑️ Hapus foto ini",
+        resetCanvas: "Reset Kanvas",
+        sendToPartner: "Kirim ke Dia ✨ (+25 🪙)",
+        gallerySelfInfo: "🎨 Koleksi Polaroid yang sudah dikirim oleh {name}.",
+        galleryPartnerInfo: "💌 Polaroid kiriman dari {name} khusus untukmu.",
+        emptySelfCanvas: "{name} belum mengirim Polaroid ♡",
+        emptyPartnerCanvas: "Belum ada Polaroid dari {name} ♡",
+        draftHint: "(pakai kamera, galeri, atau coret di sini)",
+        alertEmptyCanvas: "Ambil foto dari kamera/galeri atau coret kanvas sebelum mengirim ✨",
+        tzTitle: "🕰️ Zona Waktu & Lokasi",
+        syncGps: "📍 Sync GPS",
+        gpsLocating: "📍 Mencari...",
+        gpsOff: "📍 GPS Off",
+        youTag: "(Kamu)",
+        liveTag: "(Live)",
+        waitingPartner: "Menunggu Pasangan...",
+        waitingStatus: "💭 Menunggu terhubung",
+        customOption: "✍️ Tulis sendiri...",
+        customPlaceholder: "✍️ Tulis status / pesan singkat...",
+        notesTitle: "🗒️ Live Sticky Notes",
+        addNote: "+ Note Baru (+15 🪙)",
+        ownNotesTitle: "✍️ Catatan {me} (Untuk {partner})",
+        incomingNotesTitle: "💌 Catatan dari {partner}",
+        emptyOwnNotes: "Belum ada catatan dari {me}. Klik + Note Baru ♡",
+        emptyIncomingNotes: "Belum ada catatan dari {partner} ♡",
+        defaultNoteText: "Semangat hari ini ya! ♡",
+        cropTitle: "Sesuaikan Ukuran Foto ✂️",
+        cropZoom: "Geser / Zoom Foto agar pas:",
+        applyCrop: "Gunakan Foto ✓",
+        cancel: "Batal",
+        adoptTitle: "🏡 Adopsi Peliharaan Bersama (Dipilih Sekali)",
+        adoptSub: "Pilih satu anak anjing menggemaskan untuk dirawat berdua! Selesaikan misi kirim foto atau catatan untuk mengumpulkan koin makanan.",
+        adoptBtn: "Adopsi Sekarang 🐾",
+        petNamePh: "Beri nama peliharaan (Contoh: Mochi)...",
+        petRoomTitle: "🐾 Ruang Peliharaan Kita",
+        petHeadBtn: "🖐️ Elus Kepala (+5 🪙)",
+        petShopTitle: "🛒 Toko Makanan & Mainan",
+        missionTitle: "🎯 Misi Kumpulkan Koin",
+        notEnoughCoins: "Koin belum cukup! Kirim foto atau catatan dulu untuk dapat koin 🪙",
+        noNotifYet: "Belum ada notifikasi baru dari pasangan ♡",
+        templates: [
+          "☕ Ngopi santai dulu",
+          "🌸 Lagi kangen kamu",
+          "📚 Lagi belajar / kerja",
+          "🧋 Minum milk tea",
+          "🏋️ Lagi olahraga",
+          "🍜 Lagi makan enak",
+          "🛌 Rebahan di kasur",
+          "😴 Ngantuk mau tidur"
+        ]
+      },
+      en: {
+        gateSubtitle: "Enter your nickname and connect to your private couple room.",
+        modeCreate: "✨ Create New Room",
+        modeJoin: "💌 Join / Re-enter Room",
+        lblUserName: "Your Nickname (Display ID)",
+        phUserName: "e.g., Alex / Honey...",
+        lblRoomCode: "Private Room Code",
+        btnRandom: "🎲 Random",
+        lblRoomPin: "Room Secret PIN / Password",
+        phRoomPin: "Enter your shared secret PIN...",
+        btnCreateSubmit: "Create & Connect Room ✨",
+        btnJoinSubmit: "Enter Room ✨",
+        btnConnecting: "Connecting...",
+        errNoName: "Please enter your nickname first!",
+        errShortCode: "Room code must be at least 4 characters.",
+        errShortPin: "PIN / Password must be at least 4 characters.",
+        errRoomNotFound: "Room not found. Please check your room code.",
+        errWrongPin: "Wrong PIN / Password! Please try again.",
+        errRoomFull: "This room is already full.",
+        copiedToast: "✓ Copied!",
+        liveSynced: "Live Synced ✓",
+        syncing: "Syncing...",
+        leaveBtn: "Switch Room",
+        connectedSub: "Connected in Room",
+        waitingSub: "Waiting for partner to join Room",
+        navDesk: "🧸 Virtual Desk",
+        navPet: "🐾 Our Pet",
+        polaroidTitle: "📸 Live Polaroid Widget",
+        cameraBtn: "📷 Camera",
+        galleryBtn: "🖼️ Gallery",
+        tabUpload: "✨ Snap & Doodle",
+        tabSelfPrefix: "🎨 {name}'s Polaroid",
+        tabPartnerPrefix: "💌 From {name}",
+        canvasNew: "New Canvas",
+        photoOf: "Photo {cur} of {tot}",
+        noPolaroidYet: "No Polaroids yet",
+        deletePhoto: "🗑️ Delete photo",
+        resetCanvas: "Reset Canvas",
+        sendToPartner: "Send Live ✨ (+25 🪙)",
+        gallerySelfInfo: "🎨 Polaroids uploaded and sent by {name}.",
+        galleryPartnerInfo: "💌 Polaroids sent by {name} just for you.",
+        emptySelfCanvas: "{name} hasn't sent any Polaroid yet ♡",
+        emptyPartnerCanvas: "No Polaroids from {name} yet ♡",
+        draftHint: "(snap with camera, gallery, or doodle here)",
+        alertEmptyCanvas: "Please take a photo or draw something before sending ✨",
+        tzTitle: "🕰️ Time Zone & Location",
+        syncGps: "📍 Sync GPS",
+        gpsLocating: "📍 Locating...",
+        gpsOff: "📍 GPS Off",
+        youTag: "(You)",
+        liveTag: "(Live)",
+        waitingPartner: "Waiting for Partner...",
+        waitingStatus: "💭 Waiting to connect",
+        customOption: "✍️ Write your own...",
+        customPlaceholder: "✍️ Type your own status...",
+        notesTitle: "🗒️ Live Sticky Notes",
+        addNote: "+ New Note (+15 🪙)",
+        ownNotesTitle: "✍️ {me}'s Notes (For {partner})",
+        incomingNotesTitle: "💌 Notes from {partner}",
+        emptyOwnNotes: "No notes from {me} yet. Click + New Note ♡",
+        emptyIncomingNotes: "No notes from {partner} yet ♡",
+        defaultNoteText: "Have a wonderful day! ♡",
+        cropTitle: "Adjust Photo Crop ✂️",
+        cropZoom: "Drag / Zoom photo to fit:",
+        applyCrop: "Use Photo ✓",
+        cancel: "Cancel",
+        adoptTitle: "🏡 Adopt a Couple Pet (One-Time Choice)",
+        adoptSub: "Pick one cute puppy to raise together! Complete missions like sending photos or notes to earn treat coins.",
+        adoptBtn: "Adopt Now 🐾",
+        petNamePh: "Name your pet (e.g. Mochi)...",
+        petRoomTitle: "🐾 Our Pet Room",
+        petHeadBtn: "🖐️ Pet Head (+5 🪙)",
+        petShopTitle: "🛒 Treats & Toys Shop",
+        missionTitle: "🎯 Coin Missions",
+        notEnoughCoins: "Not enough coins! Send a photo or note to earn more 🪙",
+        noNotifYet: "No new notifications from your partner yet ♡",
+        templates: [
+          "☕ Sipping coffee",
+          "🌸 Missing you right now",
+          "📚 Studying / Working",
+          "🧋 Drinking milk tea",
+          "🏋️ Working out",
+          "🍜 Eating yummy food",
+          "🛌 Cozy in bed",
+          "😴 Getting sleepy"
+        ]
+      },
+      zh: {
+        gateSubtitle: "输入你的昵称，连接属于你们两人的私密空间。",
+        modeCreate: "✨ 创建新房间",
+        modeJoin: "💌 加入 / 重新进入房间",
+        lblUserName: "你的昵称（显示名称）",
+        phUserName: "例如：宝贝 / 小明...",
+        lblRoomCode: "私密房间号",
+        btnRandom: "🎲 随机",
+        lblRoomPin: "房间私密密码 / PIN",
+        phRoomPin: "输入你们共同的密码...",
+        btnCreateSubmit: "创建并连接房间 ✨",
+        btnJoinSubmit: "进入房间 ✨",
+        btnConnecting: "连接中...",
+        errNoName: "请先输入你的昵称！",
+        errShortCode: "房间号至少需要 4 个字符。",
+        errShortPin: "密码至少需要 4 个字符。",
+        errRoomNotFound: "未找到该房间，请检查房间号是否正确。",
+        errWrongPin: "密码错误，请重新输入！",
+        errRoomFull: "该房间人数已满。",
+        copiedToast: "✓ 已复制!",
+        liveSynced: "实时已同步 ✓",
+        syncing: "同步中...",
+        leaveBtn: "切换房间",
+        connectedSub: "已连接至房间",
+        waitingSub: "正在等待另一半加入房间",
+        navDesk: "🧸 虚拟书桌",
+        navPet: "🐾 我们的宠物",
+        polaroidTitle: "📸 实时拍立得组件",
+        cameraBtn: "📷 相机拍照",
+        galleryBtn: "🖼️ 相册",
+        tabUpload: "✨ 拍照与涂鸦",
+        tabSelfPrefix: "🎨 {name}的拍立得",
+        tabPartnerPrefix: "💌 来自{name}",
+        canvasNew: "新画布",
+        photoOf: "第 {cur} / {tot} 张",
+        noPolaroidYet: "暂无拍立得照片",
+        deletePhoto: "🗑️ 删除此照片",
+        resetCanvas: "重置画布",
+        sendToPartner: "发送给Ta ✨ (+25 🪙)",
+        gallerySelfInfo: "🎨 {name} 已发送的拍立得相册。",
+        galleryPartnerInfo: "💌 {name} 专属发送给你的拍立得。",
+        emptySelfCanvas: "{name} 还没有发送过拍立得 ♡",
+        emptyPartnerCanvas: "还没有收到来自 {name} 的拍立得 ♡",
+        draftHint: "（可直接拍照、选图或手绘留言）",
+        alertEmptyCanvas: "请先拍照或涂鸦后再发送 ✨",
+        tzTitle: "🕰️ 实时时间与GPS定位",
+        syncGps: "📍 同步定位",
+        gpsLocating: "📍 定位中...",
+        gpsOff: "📍 未开启定位",
+        youTag: "(我)",
+        liveTag: "(在线)",
+        waitingPartner: "等待另一半加入...",
+        waitingStatus: "💭 等待连接中",
+        customOption: "✍️ 自定义输入...",
+        customPlaceholder: "✍️ 输入想对Ta说的话...",
+        notesTitle: "🗒️ 实时便利贴",
+        addNote: "+ 新建便利贴 (+15 🪙)",
+        ownNotesTitle: "✍️ {me} 的便利贴（写给 {partner}）",
+        incomingNotesTitle: "💌 来自 {partner} 的便利贴",
+        emptyOwnNotes: "{me} 还没有写便利贴，点击 + 新建便利贴 ♡",
+        emptyIncomingNotes: "还没有收到 {partner} 的便利贴 ♡",
+        defaultNoteText: "今天也要开心呀！♡",
+        cropTitle: "裁剪照片尺寸 ✂️",
+        cropZoom: "拖动 / 缩放照片以适配：",
+        applyCrop: "确认使用 ✓",
+        cancel: "取消",
+        adoptTitle: "🏡 共同领养宠物（仅选一次）",
+        adoptSub: "选择一只可爱的小狗一起抚养！完成发送照片或便利贴任务即可赚取金币购买零食。",
+        adoptBtn: "立即领养 🐾",
+        petNamePh: "给宠物起个名字（如：团子）...",
+        petRoomTitle: "🐾 我们的宠物小屋",
+        petHeadBtn: "🖐️ 摸摸头 (+5 🪙)",
+        petShopTitle: "🛒 宠物零食与玩具店",
+        missionTitle: "🎯 赚取金币任务",
+        notEnoughCoins: "金币不足！发送照片或便利贴即可获得金币 🪙",
+        noNotifYet: "暂无来自另一半的新通知 ♡",
+        templates: [
+          "☕ 正在喝咖啡",
+          "🌸 正在想你哦",
+          "📚 认真学习 / 工作中",
+          "🧋 正在喝奶茶",
+          "🏋️ 正在运动健身",
+          "🍜 正在吃好吃的",
+          "🛌 躺在床上休息",
+          "😴 困了准备睡觉"
+        ]
+      }
+    };
+
+    let currentLang = localStorage.getItem("desk_lang") || "id";
+    if (!I18N[currentLang]) currentLang = "id";
+
+    function t(key, vars = {}) {
+      let str = I18N[currentLang][key] || I18N.id[key] || key;
+      Object.keys(vars).forEach(k => {
+        str = str.replaceAll(`{${k}}`, vars[k]);
+      });
+      return str;
+    }
+
+    function toArray(val) {
+      if (Array.isArray(val)) return val;
+      if (val && typeof val === "object") return Object.values(val);
+      return [];
+    }
+
+    (function attachDynamicManifest() {
+      const manifestObj = {
+        name: "Our Virtual Desk",
+        short_name: "Our Desk",
+        start_url: window.location.href,
+        display: "standalone",
+        background_color: "#1e1714",
+        theme_color: "#1e1714"
+      };
+      const blob = new Blob([JSON.stringify(manifestObj)], { type: "application/json" });
+      document.getElementById("dynamicManifest").href = URL.createObjectURL(blob);
+    })();
+
+    // ================= DATA PELIHARAAN & TOKO =================
+    const PET_BREEDS = {
+      shiba: {
+        id: "shiba",
+        name: "Shiba Inu",
+        sub: "柴犬 • Ceria & Setia",
+        desc: {
+          id: "Ceria, ekspresif, dan selalu setia menunggu kalian pulang.",
+          en: "Cheerful, expressive, and always loyally waiting for you both.",
+          zh: "开朗活泼，表情丰富，永远忠诚地陪伴你们。"
+        }
+      },
+      akita: {
+        id: "akita",
+        name: "Akita Inu",
+        sub: "秋田犬 • Lembut & Gagah",
+        desc: {
+          id: "Berbulu tebal, lembut, dan pelindung hangat hubungan kalian.",
+          en: "Plush, gentle, and a warm protector of your bond.",
+          zh: "毛茸茸又温柔，守护你们感情的暖心伙伴。"
+        }
+      },
+      japanese_spitz: {
+        id: "japanese_spitz",
+        name: "Japanese Spitz",
+        sub: "日本狐狸犬 • Putih Selembut Awan",
+        desc: {
+          id: "Bulu putih salju yang mengembang seperti awan kapas manis.",
+          en: "Snow-white fluffy coat as soft as a sweet cotton cloud.",
+          zh: "像棉花糖一样蓬松雪白的云朵小狗。"
+        }
+      },
+      chinese_spitz: {
+        id: "chinese_spitz",
+        name: "Chinese Spitz",
+        sub: "中国银狐犬 • Pintar & Manis",
+        desc: {
+          id: "Lincah, cerdas, dan suka bermanja saat diberi camilan.",
+          en: "Playful, clever, and loves cuddling whenever treated.",
+          zh: "聪明伶俐又爱撒娇，最喜欢你们一起陪它玩。"
+        }
+      }
+    };
+
+    const PET_SHOP_ITEMS = [
+      { id: "bone", icon: "🦴", name: { id: "Biskuit Tulang", en: "Crunchy Bone", zh: "脆脆骨头饼干" }, cost: 15, full: 18, happy: 10, exp: 15 },
+      { id: "milk", icon: "🧋", name: { id: "Puppuccino", en: "Puppuccino", zh: "汪汪奶盖杯" }, cost: 25, full: 12, happy: 30, exp: 25 },
+      { id: "salmon", icon: "🍣", name: { id: "Salmon Segar", en: "Fresh Salmon", zh: "新鲜三文鱼" }, cost: 35, full: 35, happy: 20, exp: 35 },
+      { id: "wagyu", icon: "🥩", name: { id: "Steak Spesial", en: "Wagyu Steak", zh: "特级和牛牛排" }, cost: 50, full: 55, happy: 40, exp: 55 }
+    ];
+
+    function getPetSvgMarkup(breedId) {
+      if (breedId === "akita") {
+        return `<svg viewBox="0 0 200 200" width="100%" height="100%">
+          <g class="pet-tail"><path d="M138 136 C168 118, 174 88, 148 92 C134 94, 134 116, 142 126" fill="#c97b42" stroke="#5c3317" stroke-width="4" stroke-linecap="round"/></g>
+          <ellipse cx="100" cy="144" rx="46" ry="38" fill="#c97b42" stroke="#5c3317" stroke-width="4"/>
+          <ellipse cx="100" cy="150" rx="28" ry="26" fill="#fdf6e9"/>
+          <polygon points="52,78 44,32 82,56" fill="#c97b42" stroke="#5c3317" stroke-width="4" stroke-linejoin="round"/>
+          <polygon points="56,70 51,42 74,58" fill="#f5c6a5"/>
+          <polygon points="148,78 156,32 118,56" fill="#c97b42" stroke="#5c3317" stroke-width="4" stroke-linejoin="round"/>
+          <polygon points="144,70 149,42 126,58" fill="#f5c6a5"/>
+          <circle cx="100" cy="92" r="46" fill="#c97b42" stroke="#5c3317" stroke-width="4"/>
+          <path d="M56 96 C62 128, 138 128, 144 96 C132 86, 114 96, 100 96 C86 96, 68 86, 56 96 Z" fill="#fdf6e9"/>
+          <circle cx="80" cy="86" r="5.5" fill="#29201c"/><circle cx="78" cy="84" r="1.8" fill="#fff"/>
+          <circle cx="120" cy="86" r="5.5" fill="#29201c"/><circle cx="118" cy="84" r="1.8" fill="#fff"/>
+          <ellipse cx="100" cy="100" rx="7" ry="5" fill="#29201c"/>
+          <path d="M90 108 Q100 117 110 108" fill="none" stroke="#29201c" stroke-width="3.5" stroke-linecap="round"/>
+          <ellipse cx="68" cy="102" rx="7" ry="4" fill="#f472b6" opacity="0.45"/>
+          <ellipse cx="132" cy="102" rx="7" ry="4" fill="#f472b6" opacity="0.45"/>
+          <rect x="74" y="128" width="52" height="9" rx="4.5" fill="#38bdf8" stroke="#1e293b" stroke-width="2.5"/>
+          <circle cx="100" cy="133" r="6" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+        </svg>`;
+      }
+      if (breedId === "japanese_spitz") {
+        return `<svg viewBox="0 0 200 200" width="100%" height="100%">
+          <g class="pet-tail"><path d="M136 136 C175 112, 178 72, 144 78 C126 82, 128 110, 140 124" fill="#ffffff" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/></g>
+          <ellipse cx="100" cy="145" rx="46" ry="37" fill="#ffffff" stroke="#94a3b8" stroke-width="4"/>
+          <path d="M56 125 Q70 144 86 132 Q100 148 114 132 Q130 144 144 125" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3"/>
+          <polygon points="56,76 50,28 84,54" fill="#ffffff" stroke="#94a3b8" stroke-width="4" stroke-linejoin="round"/>
+          <polygon points="60,68 55,39 77,56" fill="#fbcfe8"/>
+          <polygon points="144,76 150,28 116,54" fill="#ffffff" stroke="#94a3b8" stroke-width="4" stroke-linejoin="round"/>
+          <polygon points="140,68 145,39 123,56" fill="#fbcfe8"/>
+          <circle cx="100" cy="92" r="44" fill="#ffffff" stroke="#94a3b8" stroke-width="4"/>
+          <circle cx="81" cy="88" r="5.5" fill="#1e293b"/><circle cx="79" cy="86" r="2" fill="#fff"/>
+          <circle cx="119" cy="88" r="5.5" fill="#1e293b"/><circle cx="117" cy="86" r="2" fill="#fff"/>
+          <ellipse cx="100" cy="100" rx="6" ry="4.5" fill="#1e293b"/>
+          <path d="M91 108 Q100 116 109 108" fill="none" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="69" cy="101" rx="7" ry="4" fill="#f472b6" opacity="0.4"/>
+          <ellipse cx="131" cy="101" rx="7" ry="4" fill="#f472b6" opacity="0.4"/>
+        </svg>`;
+      }
+      if (breedId === "chinese_spitz") {
+        return `<svg viewBox="0 0 200 200" width="100%" height="100%">
+          <g class="pet-tail"><path d="M136 136 C172 114, 174 78, 144 84 C128 88, 130 112, 140 124" fill="#fffdf9" stroke="#a8a29e" stroke-width="4" stroke-linecap="round"/></g>
+          <ellipse cx="100" cy="145" rx="44" ry="36" fill="#fffdf9" stroke="#a8a29e" stroke-width="4"/>
+          <path d="M58 76 Q52 34 84 55" fill="#fffdf9" stroke="#a8a29e" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M62 69 Q58 43 78 57" fill="#fecdd3"/>
+          <path d="M142 76 Q148 34 116 55" fill="#fffdf9" stroke="#a8a29e" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M138 69 Q142 43 122 57" fill="#fecdd3"/>
+          <circle cx="100" cy="92" r="43" fill="#fffdf9" stroke="#a8a29e" stroke-width="4"/>
+          <circle cx="81" cy="88" r="5.5" fill="#29201c"/><circle cx="79" cy="86" r="2" fill="#fff"/>
+          <circle cx="119" cy="88" r="5.5" fill="#29201c"/><circle cx="117" cy="86" r="2" fill="#fff"/>
+          <ellipse cx="100" cy="100" rx="6" ry="4.5" fill="#29201c"/>
+          <path d="M91 108 Q100 116 109 108" fill="none" stroke="#29201c" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="69" cy="101" rx="7" ry="4" fill="#fb7185" opacity="0.45"/>
+          <ellipse cx="131" cy="101" rx="7" ry="4" fill="#fb7185" opacity="0.45"/>
+          <rect x="75" y="128" width="50" height="8" rx="4" fill="#f43f5e" stroke="#29201c" stroke-width="2"/>
+          <circle cx="100" cy="133" r="6" fill="#facc15" stroke="#29201c" stroke-width="2"/>
+        </svg>`;
+      }
+      return `<svg viewBox="0 0 200 200" width="100%" height="100%">
+        <g class="pet-tail"><path d="M136 138 C166 122, 170 92, 146 96 C134 98, 134 118, 141 128" fill="#e59a4c" stroke="#5c3317" stroke-width="4" stroke-linecap="round"/></g>
+        <ellipse cx="100" cy="145" rx="43" ry="36" fill="#e59a4c" stroke="#5c3317" stroke-width="4"/>
+        <ellipse cx="100" cy="150" rx="26" ry="25" fill="#fff8eb"/>
+        <polygon points="56,78 48,32 84,56" fill="#e59a4c" stroke="#5c3317" stroke-width="4" stroke-linejoin="round"/>
+        <polygon points="60,70 55,42 77,58" fill="#fbd38d"/>
+        <polygon points="144,78 152,32 116,56" fill="#e59a4c" stroke="#5c3317" stroke-width="4" stroke-linejoin="round"/>
+        <polygon points="140,70 145,42 123,58" fill="#fbd38d"/>
+        <circle cx="100" cy="92" r="43" fill="#e59a4c" stroke="#5c3317" stroke-width="4"/>
+        <path d="M58 96 C64 126, 136 126, 142 96 C130 87, 114 96, 100 96 C86 96, 70 87, 58 96 Z" fill="#fff8eb"/>
+        <ellipse cx="83" cy="75" rx="5" ry="3" fill="#fff8eb"/>
+        <ellipse cx="117" cy="75" rx="5" ry="3" fill="#fff8eb"/>
+        <circle cx="81" cy="87" r="5" fill="#29201c"/><circle cx="79" cy="85" r="1.8" fill="#fff"/>
+        <circle cx="119" cy="87" r="5" fill="#29201c"/><circle cx="117" cy="85" r="1.8" fill="#fff"/>
+        <ellipse cx="100" cy="100" rx="6.5" ry="4.5" fill="#29201c"/>
+        <path d="M90 108 Q100 116 110 108" fill="none" stroke="#29201c" stroke-width="3.2" stroke-linecap="round"/>
+        <ellipse cx="69" cy="101" rx="7" ry="4" fill="#f472b6" opacity="0.45"/>
+        <ellipse cx="131" cy="101" rx="7" ry="4" fill="#f472b6" opacity="0.45"/>
+        <rect x="76" y="128" width="48" height="8" rx="4" fill="#ef4444" stroke="#29201c" stroke-width="2"/>
+        <circle cx="100" cy="133" r="5.5" fill="#fef08a" stroke="#29201c" stroke-width="2"/>
+      </svg>`;
+    }
+
+    // ================= STATE UTAMA =================
+    const connectGate = document.getElementById("connectGate");
+    const deskApp = document.getElementById("deskApp");
+    const modeCreateBtn = document.getElementById("modeCreateBtn");
+    const modeJoinBtn = document.getElementById("modeJoinBtn");
+    const genRoomCodeBtn = document.getElementById("genRoomCodeBtn");
+    const userNameInput = document.getElementById("userNameInput");
+    const roomCodeInput = document.getElementById("roomCodeInput");
+    const roomPinInput = document.getElementById("roomPinInput");
+    const gateErrorBox = document.getElementById("gateErrorBox");
+    const connectSubmitBtn = document.getElementById("connectSubmitBtn");
+    const gateLangSelect = document.getElementById("gateLangSelect");
+    const appLangSelect = document.getElementById("appLangSelect");
+
+    let gateMode = "create";
+    let activeRoomRef = null;
+    let backgroundPollTimer = null;
+    let session = { roomCode: "", pinHash: "", seat: "p1", myName: "" };
+
+    let roomData = {
+      p1Name: "",
+      p2Name: "",
+      polaroidP1: [],
+      polaroidP2: [],
+      statusP1: "",
+      statusP2: "",
+      locP1: "",
+      locP2: "",
+      tzP1: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      tzP2: "Asia/Shanghai",
+      notesP1: [],
+      notesP2: [],
+      coins: 30,
+      pet: null
+    };
+
+    let activeMainPage = "desk";
+    let selectedBreedForAdopt = "shiba";
+    let activePolaroidTab = "upload";
+    let galleryIndex = 0;
+    let draftImageDataUrl = "";
+    let draftIsPlaceholder = true;
+    let draftStrokeHistory = [];
+    let currentRenderedGallerySrc = "";
+    let isCustomStatusEditing = false;
+
+    let isInitialSnapshot = true;
+    let baselineSnapshot = {
+      partnerPhotoCount: 0,
+      partnerNoteCount: 0,
+      partnerStatus: "",
+      petLastFedAt: 0
+    };
+    let notificationHistory = [];
+    let toastTimeout = null;
+    let lastHeadPetTime = 0;
+
+    // ================= NOTIFICATION SYSTEM =================
+    function playSoftChime() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctxAudio = new AudioCtx();
+        const osc = ctxAudio.createOscillator();
+        const gain = ctxAudio.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(587.33, ctxAudio.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, ctxAudio.currentTime + 0.16);
+        gain.gain.setValueAtTime(0.08, ctxAudio.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctxAudio.currentTime + 0.35);
+        osc.connect(gain);
+        gain.connect(ctxAudio.destination);
+        osc.start();
+        osc.stop(ctxAudio.currentTime + 0.36);
+      } catch {}
+    }
+
+    function triggerPartnerNotification({ icon = "📸", title = "New Update ✨", message, targetAction = null }) {
+      playSoftChime();
+
+      const banner = document.getElementById("liveToastBanner");
+      document.getElementById("liveToastIcon").textContent = icon;
+      document.getElementById("liveToastTitle").textContent = title;
+      document.getElementById("liveToastBody").textContent = message;
+
+      banner.onclick = () => {
+        banner.classList.remove("show");
+        if (typeof targetAction === "function") targetAction();
+      };
+
+      banner.classList.add("show");
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        banner.classList.remove("show");
+      }, 5200);
+
+      notificationHistory.unshift({
+        icon,
+        message,
+        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+      });
+      if (notificationHistory.length > 25) notificationHistory.pop();
+
+      document.getElementById("notifUnreadDot").style.display = "inline-block";
+      renderNotificationList();
+
+      if ("Notification" in window && Notification.permission === "granted" && document.visibilityState !== "visible") {
+        try {
+          new Notification("Our Virtual Desk ✨", { body: message });
+        } catch {}
+      }
+    }
+
+    function renderNotificationList() {
+      const box = document.getElementById("notifListContainer");
+      box.innerHTML = "";
+      if (notificationHistory.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty-notes-box";
+        empty.textContent = t("noNotifYet");
+        box.appendChild(empty);
+        return;
+      }
+      notificationHistory.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "notif-item-card";
+        card.innerHTML = `
+          <div><strong>${escapeHtml(item.icon)}</strong> ${escapeHtml(item.message)}</div>
+          <div class="notif-item-time">${escapeHtml(item.time)}</div>
+        `;
+        box.appendChild(card);
+      });
+    }
+
+    document.getElementById("notifBellBtn").addEventListener("click", () => {
+      document.getElementById("notifUnreadDot").style.display = "none";
+      renderNotificationList();
+      document.getElementById("notifModal").style.display = "flex";
+    });
+    document.getElementById("closeNotifBtn").addEventListener("click", () => {
+      document.getElementById("notifModal").style.display = "none";
+    });
+    document.getElementById("clearNotifBtn").addEventListener("click", () => {
+      notificationHistory = [];
+      renderNotificationList();
+    });
+    document.getElementById("enablePushNotifBtn").addEventListener("click", async () => {
+      if ("Notification" in window) {
+        const perm = await Notification.requestPermission();
+        if (perm === "granted") {
+          document.getElementById("enablePushNotifBtn").textContent = "Push Aktif ✓";
+        }
+      }
+    });
+
+    function showCoinFloatingReward(amount) {
+      const badge = document.createElement("div");
+      badge.className = "floating-coin-pop";
+      badge.textContent = `+${amount} 🪙`;
+      document.body.appendChild(badge);
+      setTimeout(() => badge.remove(), 1550);
+    }
+
+    async function awardMissionCoins(amount) {
+      const currentCoins = Number(roomData.coins || 0);
+      const nextCoins = currentCoins + amount;
+      roomData.coins = nextCoins;
+      showCoinFloatingReward(amount);
+      updatePetCoinsUI();
+      await saveRoomPatch({ coins: nextCoins });
+    }
+
+    // ================= PAGE SWITCHING (MEJA VIRTUAL <-> PELIHARAAN) =================
+    const navDeskTab = document.getElementById("navDeskTab");
+    const navPetTab = document.getElementById("navPetTab");
+    const deskView = document.getElementById("deskView");
+    const petView = document.getElementById("petView");
+
+    function switchMainPage(page) {
+      activeMainPage = page;
+      navDeskTab.classList.toggle("active", page === "desk");
+      navPetTab.classList.toggle("active", page === "pet");
+      deskView.style.display = page === "desk" ? "grid" : "none";
+      petView.style.display = page === "pet" ? "flex" : "none";
+      if (page === "pet") {
+        renderPetView();
+      }
+    }
+
+    navDeskTab.addEventListener("click", () => switchMainPage("desk"));
+    navPetTab.addEventListener("click", () => switchMainPage("pet"));
+
+    // ================= LANGUAGE UI =================
+    function applyLanguageUI() {
+      gateLangSelect.value = currentLang;
+      appLangSelect.value = currentLang;
+      localStorage.setItem("desk_lang", currentLang);
+
+      document.getElementById("gateSubtitle").textContent = t("gateSubtitle");
+      modeCreateBtn.textContent = t("modeCreate");
+      modeJoinBtn.textContent = t("modeJoin");
+      document.getElementById("lblUserName").textContent = t("lblUserName");
+      userNameInput.placeholder = t("phUserName");
+      document.getElementById("lblRoomCode").textContent = t("lblRoomCode");
+      genRoomCodeBtn.textContent = t("btnRandom");
+      document.getElementById("lblRoomPin").textContent = t("lblRoomPin");
+      roomPinInput.placeholder = t("phRoomPin");
+      connectSubmitBtn.textContent = gateMode === "create" ? t("btnCreateSubmit") : t("btnJoinSubmit");
+
+      document.getElementById("leaveRoomBtn").textContent = t("leaveBtn");
+      document.getElementById("navDeskLabel").textContent = t("navDesk");
+      document.getElementById("navPetLabel").textContent = t("navPet");
+
+      document.getElementById("polaroidWidgetTitle").textContent = t("polaroidTitle");
+      document.getElementById("openCameraBtn").textContent = t("cameraBtn");
+      document.getElementById("uploadBtnText").textContent = t("galleryBtn");
+      document.getElementById("pTabUploadLabel").textContent = t("tabUpload");
+      document.getElementById("deleteSinglePhotoBtn").textContent = t("deletePhoto");
+      document.getElementById("clearDraftBtn").textContent = t("resetCanvas");
+      document.getElementById("sendLiveBtn").textContent = t("sendToPartner");
+
+      document.getElementById("tzWidgetTitle").textContent = t("tzTitle");
+      document.getElementById("requestGpsBtn").textContent = t("syncGps");
+      document.getElementById("activeCustomStatusInput").placeholder = t("customPlaceholder");
+
+      document.getElementById("notesWidgetTitle").textContent = t("notesTitle");
+      document.getElementById("addNoteBtn").textContent = t("addNote");
+
+      document.getElementById("cropModalTitle").textContent = t("cropTitle");
+      document.getElementById("cropZoomLabel").textContent = t("cropZoom");
+      document.getElementById("cancelCropBtn").textContent = t("cancel");
+      document.getElementById("applyCropBtn").textContent = t("applyCrop");
+
+      document.getElementById("adoptWidgetTitle").textContent = t("adoptTitle");
+      document.getElementById("adoptSubtitle").textContent = t("adoptSub");
+      document.getElementById("petNameInput").placeholder = t("petNamePh");
+      document.getElementById("adoptPetBtn").textContent = t("adoptBtn");
+      document.getElementById("petRoomTitle").textContent = t("petRoomTitle");
+      document.getElementById("petHeadBtn").textContent = t("petHeadBtn");
+      document.getElementById("petShopTitle").textContent = t("petShopTitle");
+      document.getElementById("missionWidgetTitle").textContent = t("missionTitle");
+
+      populateUnifiedStatusDropdown();
+      renderBreedSelectionCards();
+      renderPetView();
+
+      if (session.roomCode) {
+        refreshDynamicLabelsAndViews();
+        if (activePolaroidTab === "upload" && draftIsPlaceholder) {
+          resetDraftCanvas();
+        } else if (activePolaroidTab !== "upload") {
+          renderGalleryPolaroid(true);
+        }
+      }
+    }
+
+    gateLangSelect.addEventListener("change", (e) => {
+      currentLang = e.target.value;
+      applyLanguageUI();
+    });
+    appLangSelect.addEventListener("change", (e) => {
+      currentLang = e.target.value;
+      applyLanguageUI();
+    });
+
+    function generateRandomCode() {
+      const words = ["COZY", "LOVE", "DESK", "MOON", "STAR", "BEAR", "ROSE"];
+      const w = words[Math.floor(Math.random() * words.length)];
+      const num = Math.floor(1000 + Math.random() * 9000);
+      return `${w}-${num}`;
+    }
+
+    function setGateMode(mode) {
+      gateMode = mode;
+      modeCreateBtn.classList.toggle("active", mode === "create");
+      modeJoinBtn.classList.toggle("active", mode === "join");
+      genRoomCodeBtn.style.display = mode === "create" ? "inline-flex" : "none";
+      gateErrorBox.style.display = "none";
+      if (mode === "create" && !roomCodeInput.value.trim()) {
+        roomCodeInput.value = generateRandomCode();
+      }
+      connectSubmitBtn.textContent = mode === "create" ? t("btnCreateSubmit") : t("btnJoinSubmit");
+    }
+
+    modeCreateBtn.addEventListener("click", () => setGateMode("create"));
+    modeJoinBtn.addEventListener("click", () => setGateMode("join"));
+    genRoomCodeBtn.addEventListener("click", () => {
+      roomCodeInput.value = generateRandomCode();
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("room")) {
+      roomCodeInput.value = sanitizeRoomCode(urlParams.get("room"));
+      setGateMode("join");
+    } else {
+      roomCodeInput.value = generateRandomCode();
+    }
+
+    function showGateError(msg) {
+      gateErrorBox.textContent = msg;
+      gateErrorBox.style.display = "block";
+    }
+
+    // ================= LOGIN / CONNECT (HASHED PIN + AUTO-LOGIN) =================
+    connectSubmitBtn.addEventListener("click", async () => {
+      gateErrorBox.style.display = "none";
+      const myName = userNameInput.value.trim().slice(0, 16);
+      const rawCode = sanitizeRoomCode(roomCodeInput.value);
+      const pin = roomPinInput.value.trim();
+
+      if (!myName) return showGateError(t("errNoName"));
+      if (rawCode.length < 4) return showGateError(t("errShortCode"));
+      if (pin.length < 4) return showGateError(t("errShortPin"));
+
+      connectSubmitBtn.disabled = true;
+      connectSubmitBtn.textContent = t("btnConnecting");
+
+      try {
+        const inputHash = await hashPinSha256(pin);
+        const snap = await db.ref(`rooms/${rawCode}`).once("value");
+        const existing = snap.val();
+
+        if (existing) {
+          const validHash = existing.pinHash && existing.pinHash === inputHash;
+          const validLegacy = existing.pin && String(existing.pin) === String(pin);
+
+          if (!validHash && !validLegacy) {
+            connectSubmitBtn.disabled = false;
+            connectSubmitBtn.textContent = gateMode === "create" ? t("btnCreateSubmit") : t("btnJoinSubmit");
+            return showGateError(t("errWrongPin"));
+          }
+
+          let assignedSeat = "p2";
+          if (existing.p1Name && existing.p1Name.trim().toLowerCase() === myName.toLowerCase()) {
+            assignedSeat = "p1";
+          } else if (existing.p2Name && existing.p2Name.trim().toLowerCase() === myName.toLowerCase()) {
+            assignedSeat = "p2";
+          } else if (!existing.p2Name || !existing.p2Name.trim()) {
+            assignedSeat = "p2";
+          } else {
+            connectSubmitBtn.disabled = false;
+            connectSubmitBtn.textContent = t("btnJoinSubmit");
+            return showGateError(`${t("errRoomFull")} (${existing.p1Name} & ${existing.p2Name})`);
+          }
+
+          const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          const patch = assignedSeat === "p1"
+            ? { p1Name: myName, tzP1: localTz, pinHash: inputHash, pin: null }
+            : { p2Name: myName, tzP2: localTz, pinHash: inputHash, pin: null };
+
+          await db.ref(`rooms/${rawCode}`).update(patch);
+          enterConnectedRoom(rawCode, inputHash, assignedSeat, myName, { ...existing, ...patch });
+          return;
+        }
+
+        if (gateMode === "join") {
+          connectSubmitBtn.disabled = false;
+          connectSubmitBtn.textContent = t("btnJoinSubmit");
+          return showGateError(t("errRoomNotFound"));
+        }
+
+        const initialPayload = {
+          pinHash: inputHash,
+          p1Name: myName,
+          p2Name: "",
+          polaroidP1: [],
+          polaroidP2: [],
+          statusP1: I18N[currentLang].templates[0],
+          statusP2: "",
+          locP1: "",
+          locP2: "",
+          tzP1: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          tzP2: "Asia/Shanghai",
+          notesP1: [],
+          notesP2: [],
+          coins: 30,
+          pet: null,
+          updatedAt: Date.now()
+        };
+
+        await db.ref(`rooms/${rawCode}`).set(initialPayload);
+        enterConnectedRoom(rawCode, inputHash, "p1", myName, initialPayload);
+      } catch (err) {
+        connectSubmitBtn.disabled = false;
+        connectSubmitBtn.textContent = gateMode === "create" ? t("btnCreateSubmit") : t("btnJoinSubmit");
+        showGateError("Connection error: " + (err.message || "Check network"));
+      }
+    });
+
+    function enterConnectedRoom(roomCode, pinHash, seat, myName, initialData) {
+      session = { roomCode, pinHash, seat, myName };
+      roomData = { ...roomData, ...initialData };
+      isInitialSnapshot = true;
+
+      localStorage.setItem("virtual_desk_fb_session", JSON.stringify(session));
+      localStorage.setItem("virtual_desk_cached_room", JSON.stringify(roomData));
+
+      connectSubmitBtn.disabled = false;
+      connectGate.style.display = "none";
+      deskApp.style.display = "flex";
+      document.body.classList.toggle("theme-guest", seat === "p2");
+
+      document.getElementById("headerRoomCode").textContent = roomCode;
+      resetDraftCanvas();
+      switchPolaroidTab("upload");
+      refreshDynamicLabelsAndViews();
+      renderPetView();
+      startFirebaseRealtimeAndBackgroundSync();
+      autoRefreshGpsIfPermitted();
+    }
+
+    // AUTO-LOGIN INSTAN SAAT HALAMAN DIBUKA (TANPA KONFIRMASI ULANG)
+    (function instantAutoRestoreSession() {
+      applyLanguageUI();
+      const saved = localStorage.getItem("virtual_desk_fb_session");
+      if (!saved) {
+        connectGate.style.display = "flex";
+        return;
+      }
+      try {
+        const parsed = JSON.parse(saved);
+        if (!parsed.roomCode || (!parsed.pinHash && !parsed.pin) || !parsed.myName) {
+          connectGate.style.display = "flex";
+          return;
+        }
+        const cachedData = JSON.parse(localStorage.getItem("virtual_desk_cached_room") || "{}");
+        enterConnectedRoom(parsed.roomCode, parsed.pinHash || parsed.pin, parsed.seat, parsed.myName, cachedData);
+      } catch {
+        connectGate.style.display = "flex";
+      }
+    })();
+
+    // Tombol Ganti Room langsung tanpa popup konfirmasi
+    document.getElementById("leaveRoomBtn").addEventListener("click", () => {
+      if (activeRoomRef) activeRoomRef.off("value");
+      if (backgroundPollTimer) clearInterval(backgroundPollTimer);
+      localStorage.removeItem("virtual_desk_fb_session");
+      localStorage.removeItem("virtual_desk_cached_room");
+
+      userNameInput.value = session.myName || "";
+      roomCodeInput.value = session.roomCode || "";
+      roomPinInput.value = "";
+      session = { roomCode: "", pinHash: "", seat: "p1", myName: "" };
+
+      deskApp.style.display = "none";
+      document.body.classList.remove("theme-guest");
+      connectGate.style.display = "flex";
+      setGateMode("join");
+    });
+
+    const copyInviteBtn = document.getElementById("copyInviteBtn");
+    copyInviteBtn.addEventListener("click", () => {
+      const shareLink = `${window.location.origin}${window.location.pathname}?room=${session.roomCode}`;
+      const inviteText = `Our Virtual Desk 🧸\nLink: ${shareLink}\nRoom Code: ${session.roomCode}`;
+      navigator.clipboard?.writeText(inviteText);
+      const oldHtml = copyInviteBtn.innerHTML;
+      copyInviteBtn.textContent = t("copiedToast");
+      setTimeout(() => { copyInviteBtn.innerHTML = oldHtml; }, 1600);
+    });
+
+    // ================= HELPER SIMPAN & TARIK DATA FIREBASE =================
+    async function saveRoomPatch(patchObj) {
+      if (!session.roomCode) return;
+      const syncStatus = document.getElementById("syncStatus");
+      syncStatus.textContent = t("syncing");
+
+      roomData = { ...roomData, ...patchObj };
+      localStorage.setItem("virtual_desk_cached_room", JSON.stringify(roomData));
+
+      try {
+        await db.ref(`rooms/${session.roomCode}`).update({
+          ...patchObj,
+          updatedAt: Date.now()
+        });
+        syncStatus.textContent = t("liveSynced");
+      } catch {
+        syncStatus.textContent = "Retry...";
+      }
+    }
+
+    function processIncomingRoomSnapshot(val) {
+      if (!val) return;
+      const partnerSeat = session.seat === "p1" ? "p2" : "p1";
+      const partnerName = (partnerSeat === "p1" ? val.p1Name : val.p2Name)?.trim() || "Partner";
+      const partnerPhotos = toArray(partnerSeat === "p1" ? val.polaroidP1 : val.polaroidP2);
+      const partnerNotes = toArray(partnerSeat === "p1" ? val.notesP1 : val.notesP2);
+      const partnerStatus = (partnerSeat === "p1" ? val.statusP1 : val.statusP2) || "";
+      const petObj = val.pet || null;
+
+      if (isInitialSnapshot) {
+        baselineSnapshot = {
+          partnerPhotoCount: partnerPhotos.length,
+          partnerNoteCount: partnerNotes.length,
+          partnerStatus: partnerStatus,
+          petLastFedAt: petObj?.lastFedAt || 0
+        };
+        isInitialSnapshot = false;
+      } else {
+        if (partnerPhotos.length > baselineSnapshot.partnerPhotoCount) {
+          triggerPartnerNotification({
+            icon: "📸",
+            title: "Cute Picture Alert ✨",
+            message: `${partnerName} waiting for you to see his/her cute picture ~`,
+            targetAction: () => {
+              switchMainPage("desk");
+              switchPolaroidTab("partner");
+              galleryIndex = partnerPhotos.length - 1;
+              renderGalleryPolaroid(true);
+            }
+          });
+        }
+        baselineSnapshot.partnerPhotoCount = partnerPhotos.length;
+
+        if (partnerNotes.length > baselineSnapshot.partnerNoteCount) {
+          triggerPartnerNotification({
+            icon: "💌",
+            title: "New Sticky Note ✨",
+            message: `${partnerName} waiting for you to read a new note ~`,
+            targetAction: () => switchMainPage("desk")
+          });
+        }
+        baselineSnapshot.partnerNoteCount = partnerNotes.length;
+
+        if (partnerStatus && partnerStatus !== baselineSnapshot.partnerStatus) {
+          triggerPartnerNotification({
+            icon: "💭",
+            title: `${partnerName} Updated Status`,
+            message: `${partnerName}: "${partnerStatus}"`,
+            targetAction: () => switchMainPage("desk")
+          });
+        }
+        baselineSnapshot.partnerStatus = partnerStatus;
+
+        if (petObj && petObj.lastFedAt && petObj.lastFedAt > baselineSnapshot.petLastFedAt && petObj.lastFedBy && petObj.lastFedBy !== getMyName()) {
+          triggerPartnerNotification({
+            icon: "🐾",
+            title: "Couple Pet Update 💖",
+            message: `${petObj.lastFedBy} just fed ${petObj.name}!`,
+            targetAction: () => switchMainPage("pet")
+          });
+        }
+        if (petObj) {
+          baselineSnapshot.petLastFedAt = petObj.lastFedAt || 0;
+        }
+      }
+
+      roomData = { ...roomData, ...val };
+      localStorage.setItem("virtual_desk_cached_room", JSON.stringify(roomData));
+      document.getElementById("syncStatus").textContent = t("liveSynced");
+      refreshDynamicLabelsAndViews();
+      if (activeMainPage === "pet") renderPetView();
+    }
+
+    async function pullLatestRoomState() {
+      if (!session.roomCode || drawing) return;
+      try {
+        const snap = await db.ref(`rooms/${session.roomCode}`).once("value");
+        processIncomingRoomSnapshot(snap.val());
+      } catch {}
+    }
+
+    function getMyName() {
+      return session.myName || (session.seat === "p1" ? roomData.p1Name : roomData.p2Name) || "You";
+    }
+
+    function getPartnerName() {
+      const pName = session.seat === "p1" ? roomData.p2Name : roomData.p1Name;
+      return pName && pName.trim() ? pName.trim() : (currentLang === "zh" ? "另一半" : currentLang === "en" ? "Partner" : "Pasangan");
+    }
+
+    function getMyPolaroidList() {
+      return toArray(session.seat === "p1" ? roomData.polaroidP1 : roomData.polaroidP2);
+    }
+
+    function getPartnerPolaroidList() {
+      return toArray(session.seat === "p1" ? roomData.polaroidP2 : roomData.polaroidP1);
+    }
+
+    // ================= SATU OPSI STATUS TERPADU =================
+    const activeStatusSelect = document.getElementById("activeStatusSelect");
+    const customStatusWrap = document.getElementById("customStatusWrap");
+    const activeCustomStatusInput = document.getElementById("activeCustomStatusInput");
+    const backToTemplatesBtn = document.getElementById("backToTemplatesBtn");
+
+    function populateUnifiedStatusDropdown(currentVal = "") {
+      const templates = I18N[currentLang].templates;
+      activeStatusSelect.innerHTML = "";
+
+      if (currentVal && !templates.includes(currentVal)) {
+        const customOpt = document.createElement("option");
+        customOpt.value = currentVal;
+        customOpt.textContent = currentVal;
+        activeStatusSelect.appendChild(customOpt);
+      }
+
+      templates.forEach(tpl => {
+        const opt = document.createElement("option");
+        opt.value = tpl;
+        opt.textContent = tpl;
+        activeStatusSelect.appendChild(opt);
+      });
+
+      const writeOwnOpt = document.createElement("option");
+      writeOwnOpt.value = "__WRITE_OWN__";
+      writeOwnOpt.textContent = t("customOption");
+      activeStatusSelect.appendChild(writeOwnOpt);
+
+      if (currentVal) {
+        activeStatusSelect.value = currentVal;
+      }
+    }
+
+    activeStatusSelect.addEventListener("change", async () => {
+      if (activeStatusSelect.value === "__WRITE_OWN__") {
+        isCustomStatusEditing = true;
+        activeStatusSelect.style.display = "none";
+        customStatusWrap.style.display = "flex";
+        activeCustomStatusInput.value = "";
+        activeCustomStatusInput.focus();
+      } else {
+        const field = session.seat === "p1" ? "statusP1" : "statusP2";
+        roomData[field] = activeStatusSelect.value;
+        await awardMissionCoins(10);
+        await saveRoomPatch({ [field]: activeStatusSelect.value });
+      }
+    });
+
+    async function commitCustomStatus() {
+      const typed = activeCustomStatusInput.value.trim().slice(0, 50);
+      isCustomStatusEditing = false;
+      customStatusWrap.style.display = "none";
+      activeStatusSelect.style.display = "block";
+
+      if (typed) {
+        const field = session.seat === "p1" ? "statusP1" : "statusP2";
+        roomData[field] = typed;
+        populateUnifiedStatusDropdown(typed);
+        await awardMissionCoins(10);
+        await saveRoomPatch({ [field]: typed });
+      } else {
+        const currentSaved = (session.seat === "p1" ? roomData.statusP1 : roomData.statusP2) || I18N[currentLang].templates[0];
+        populateUnifiedStatusDropdown(currentSaved);
+      }
+    }
+
+    activeCustomStatusInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        commitCustomStatus();
+      }
+    });
+    activeCustomStatusInput.addEventListener("blur", commitCustomStatus);
+    backToTemplatesBtn.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      isCustomStatusEditing = false;
+      customStatusWrap.style.display = "none";
+      activeStatusSelect.style.display = "block";
+      const currentSaved = (session.seat === "p1" ? roomData.statusP1 : roomData.statusP2) || I18N[currentLang].templates[0];
+      populateUnifiedStatusDropdown(currentSaved);
+    });
+
+    function refreshDynamicLabelsAndViews() {
+      const myName = getMyName();
+      const partnerName = getPartnerName();
+      const partnerJoined = Boolean((session.seat === "p1" ? roomData.p2Name : roomData.p1Name)?.trim());
+
+      document.getElementById("headerTitle").textContent = `${myName} & ${partnerName} ✨`;
+      document.getElementById("headerSubtitle").textContent = partnerJoined
+        ? `${t("connectedSub")} ${session.roomCode}`
+        : `${t("waitingSub")} ${session.roomCode}...`;
+
+      updatePetCoinsUI();
+
+      if (currentLang === "id") {
+        document.getElementById("pTabSelfLabel").textContent = `🎨 Polaroid ${myName}`;
+        document.getElementById("pTabPartnerLabel").textContent = `💌 Dari ${partnerName}`;
+      } else {
+        document.getElementById("pTabSelfLabel").textContent = t("tabSelfPrefix", { name: myName });
+        document.getElementById("pTabPartnerLabel").textContent = t("tabPartnerPrefix", { name: partnerName });
+      }
+
+      document.getElementById("selfCountBadge").textContent = getMyPolaroidList().length;
+      document.getElementById("partnerCountBadge").textContent = getPartnerPolaroidList().length;
+
+      document.getElementById("leftClockLabel").textContent = `${myName} ${t("youTag")}`;
+      document.getElementById("rightClockLabel").textContent = partnerJoined
+        ? `${partnerName} ${t("liveTag")}`
+        : t("waitingPartner");
+
+      const myLoc = session.seat === "p1" ? roomData.locP1 : roomData.locP2;
+      const partnerLoc = session.seat === "p1" ? roomData.locP2 : roomData.locP1;
+      document.getElementById("leftLocationBadge").textContent = myLoc || t("gpsOff");
+      document.getElementById("rightLocationBadge").textContent = partnerLoc || "📍 --";
+
+      const myStatus = session.seat === "p1"
+        ? (roomData.statusP1 || I18N[currentLang].templates[0])
+        : (roomData.statusP2 || I18N[currentLang].templates[0]);
+
+      const partnerStatus = session.seat === "p1" ? roomData.statusP2 : roomData.statusP1;
+
+      if (!isCustomStatusEditing) {
+        populateUnifiedStatusDropdown(myStatus);
+      }
+
+      document.getElementById("partnerStatusDisplay").textContent = partnerJoined
+        ? (partnerStatus || I18N[currentLang].templates[1])
+        : t("waitingStatus");
+
+      document.getElementById("ownNotesTitle").textContent = t("ownNotesTitle", { me: myName, partner: partnerName });
+      document.getElementById("incomingNotesTitle").textContent = t("incomingNotesTitle", { partner: partnerName });
+
+      updateClocks();
+      renderNotes();
+
+      if (activePolaroidTab !== "upload") {
+        renderGalleryPolaroid(false);
+      }
+    }
+
+    // ================= GPS LOKASI & ZONA WAKTU OTOMATIS =================
+    async function detectAndSyncGps(silent = false) {
+      if (!navigator.geolocation) return;
+      const leftBadge = document.getElementById("leftLocationBadge");
+      if (!silent) leftBadge.textContent = t("gpsLocating");
+
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        const detectedTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+        let locText = `📍 ${lat.toFixed(1)}°, ${lon.toFixed(1)}°`;
+        try {
+          const resp = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
+          const geo = await resp.json();
+          const city = geo.city || geo.locality || geo.principalSubdivision || "";
+          const cc = geo.countryCode || "";
+          if (city) {
+            locText = cc ? `📍 ${city}, ${cc}` : `📍 ${city}`;
+          }
+        } catch {}
+
+        const tzField = session.seat === "p1" ? "tzP1" : "tzP2";
+        const locField = session.seat === "p1" ? "locP1" : "locP2";
+        roomData[tzField] = detectedTz;
+        roomData[locField] = locText;
+        leftBadge.textContent = locText;
+        updateClocks();
+
+        if (session.roomCode) {
+          if (!silent) await awardMissionCoins(10);
+          await saveRoomPatch({ [tzField]: detectedTz, [locField]: locText });
+        }
+      }, () => {
+        if (!silent) {
+          const currentLoc = session.seat === "p1" ? roomData.locP1 : roomData.locP2;
+          leftBadge.textContent = currentLoc || t("gpsOff");
+        }
+      }, { enableHighAccuracy: false, timeout: 8000 });
+    }
+
+    async function autoRefreshGpsIfPermitted() {
+      try {
+        if (navigator.permissions) {
+          const perm = await navigator.permissions.query({ name: "geolocation" });
+          if (perm.state === "granted") {
+            detectAndSyncGps(true);
+          }
+        }
+      } catch {}
+    }
+
+    document.getElementById("requestGpsBtn").addEventListener("click", () => detectAndSyncGps(false));
+
+    function updateClocks() {
+      const now = new Date();
+      const myTz = session.seat === "p1" ? roomData.tzP1 : roomData.tzP2;
+      const partnerTz = session.seat === "p1" ? roomData.tzP2 : roomData.tzP1;
+
+      try {
+        document.getElementById("leftClockTime").textContent = now.toLocaleTimeString("en-GB", {
+          timeZone: myTz, hour: "2-digit", minute: "2-digit"
+        });
+      } catch {
+        document.getElementById("leftClockTime").textContent = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+      }
+
+      try {
+        document.getElementById("rightClockTime").textContent = now.toLocaleTimeString("en-GB", {
+          timeZone: partnerTz, hour: "2-digit", minute: "2-digit"
+        });
+      } catch {
+        document.getElementById("rightClockTime").textContent = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+      }
+    }
+    setInterval(updateClocks, 1000);
+
+    // ================= KAMERA LIVE + CROPPER + 3 TAB POLAROID =================
+    const cameraModal = document.getElementById("cameraModal");
+    const cameraVideo = document.getElementById("cameraVideo");
+    const openCameraBtn = document.getElementById("openCameraBtn");
+    const switchCamBtn = document.getElementById("switchCamBtn");
+    const capturePhotoBtn = document.getElementById("capturePhotoBtn");
+    const closeCameraBtn = document.getElementById("closeCameraBtn");
+    const fallbackCameraInput = document.getElementById("fallbackCameraInput");
+
+    let activeCameraStream = null;
+    let cameraFacingMode = "user";
+
+    function stopCameraStream() {
+      if (activeCameraStream) {
+        activeCameraStream.getTracks().forEach(track => track.stop());
+        activeCameraStream = null;
+      }
+      cameraVideo.srcObject = null;
+    }
+
+    async function startCameraStream() {
+      stopCameraStream();
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          throw new Error("Camera API unavailable");
+        }
+        activeCameraStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: cameraFacingMode, width: { ideal: 720 }, height: { ideal: 720 } },
+          audio: false
+        });
+        cameraVideo.srcObject = activeCameraStream;
+        cameraVideo.classList.toggle("mirrored", cameraFacingMode === "user");
+        cameraModal.style.display = "flex";
+      } catch {
+        fallbackCameraInput.click();
+      }
+    }
+
+    openCameraBtn.addEventListener("click", () => {
+      if (activePolaroidTab !== "upload") switchPolaroidTab("upload");
+      startCameraStream();
+    });
+
+    switchCamBtn.addEventListener("click", () => {
+      cameraFacingMode = cameraFacingMode === "user" ? "environment" : "user";
+      startCameraStream();
+    });
+
+    closeCameraBtn.addEventListener("click", () => {
+      stopCameraStream();
+      cameraModal.style.display = "none";
+    });
+
+    capturePhotoBtn.addEventListener("click", () => {
+      if (!cameraVideo.videoWidth) return;
+      const tempCanvas = document.createElement("canvas");
+      const size = Math.min(cameraVideo.videoWidth, cameraVideo.videoHeight);
+      tempCanvas.width = size;
+      tempCanvas.height = size;
+      const tCtx = tempCanvas.getContext("2d");
+
+      const sx = (cameraVideo.videoWidth - size) / 2;
+      const sy = (cameraVideo.videoHeight - size) / 2;
+
+      if (cameraFacingMode === "user") {
+        tCtx.translate(size, 0);
+        tCtx.scale(-1, 1);
+      }
+      tCtx.drawImage(cameraVideo, sx, sy, size, size, 0, 0, size, size);
+
+      const capturedDataUrl = tempCanvas.toDataURL("image/jpeg", 0.85);
+      stopCameraStream();
+      cameraModal.style.display = "none";
+
+      openCropperWithDataUrl(capturedDataUrl);
+    });
+
+    const pTabUpload = document.getElementById("pTabUpload");
+    const pTabSelf = document.getElementById("pTabSelf");
+    const pTabPartner = document.getElementById("pTabPartner");
+    const polaroidFrame = document.getElementById("polaroidFrame");
+    const canvas = document.getElementById("polaroidCanvas");
+    const ctx = canvas.getContext("2d");
+    const captionInput = document.getElementById("captionInput");
+    const prevPhotoBtn = document.getElementById("prevPhotoBtn");
+    const nextPhotoBtn = document.getElementById("nextPhotoBtn");
+    const deleteSinglePhotoBtn = document.getElementById("deleteSinglePhotoBtn");
+    const stackBg1 = document.getElementById("stackBg1");
+    const stackBg2 = document.getElementById("stackBg2");
+    const stackIndicator = document.getElementById("stackIndicator");
+    const toolbarSection = document.getElementById("toolbarSection");
+    const galleryInfoBar = document.getElementById("galleryInfoBar");
+
+    function triggerPolaroidAnimation() {
+      polaroidFrame.classList.remove("animate-switch");
+      void polaroidFrame.offsetWidth;
+      polaroidFrame.classList.add("animate-switch");
+    }
+
+    function switchPolaroidTab(tabName) {
+      activePolaroidTab = tabName;
+      galleryIndex = 0;
+      currentRenderedGallerySrc = "";
+      triggerPolaroidAnimation();
+
+      pTabUpload.classList.toggle("active", tabName === "upload");
+      pTabSelf.classList.toggle("active", tabName === "self");
+      pTabPartner.classList.toggle("active", tabName === "partner");
+
+      const isUploadTab = tabName === "upload";
+      toolbarSection.style.display = isUploadTab ? "flex" : "none";
+      galleryInfoBar.style.display = isUploadTab ? "none" : "block";
+      canvas.classList.toggle("readonly-mode", !isUploadTab);
+
+      if (isUploadTab) {
+        prevPhotoBtn.style.display = "none";
+        nextPhotoBtn.style.display = "none";
+        deleteSinglePhotoBtn.style.display = "none";
+        stackBg1.style.display = "none";
+        stackBg2.style.display = "none";
+        stackIndicator.textContent = t("canvasNew");
+        captionInput.removeAttribute("readonly");
+        restoreDraftToCanvas();
+      } else {
+        captionInput.setAttribute("readonly", "true");
+        galleryInfoBar.textContent = tabName === "self"
+          ? t("gallerySelfInfo", { name: getMyName() })
+          : t("galleryPartnerInfo", { name: getPartnerName() });
+        renderGalleryPolaroid(true);
+      }
+    }
+
+    pTabUpload.addEventListener("click", () => switchPolaroidTab("upload"));
+    pTabSelf.addEventListener("click", () => switchPolaroidTab("self"));
+    pTabPartner.addEventListener("click", () => switchPolaroidTab("partner"));
+
+    function paintCleanBg() {
+      const grad = ctx.createLinearGradient(0, 0, 600, 600);
+      if (session.seat === "p1") {
+        grad.addColorStop(0, "#3b2c35");
+        grad.addColorStop(1, "#1e1714");
+      } else {
+        grad.addColorStop(0, "#432339");
+        grad.addColorStop(1, "#23151e");
+      }
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 600, 600);
+    }
+
+    function resetDraftCanvas() {
+      paintCleanBg();
+      ctx.fillStyle = session.seat === "p1" ? "rgba(254, 240, 138, 0.85)" : "rgba(251, 207, 232, 0.88)";
+      ctx.font = "bold 26px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Snap or Upload Cute Photos ✨", 300, 290);
+      ctx.font = "600 17px sans-serif";
+      ctx.fillText(t("draftHint"), 300, 326);
+
+      draftIsPlaceholder = true;
+      draftImageDataUrl = "";
+      draftStrokeHistory = [];
+    }
+
+    function restoreDraftToCanvas() {
+      if (!draftImageDataUrl || draftIsPlaceholder) {
+        resetDraftCanvas();
+        return;
+      }
+      const img = new Image();
+      img.onload = () => {
+        ctx.clearRect(0, 0, 600, 600);
+        ctx.drawImage(img, 0, 0, 600, 600);
+      };
+      img.src = draftImageDataUrl;
+    }
+
+    let brushColor = "#fef08a";
+    let drawing = false;
+    let lastX = 0, lastY = 0;
+
+    document.querySelectorAll(".swatch").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".swatch").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        brushColor = btn.dataset.color;
+      });
+    });
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: ((clientX - rect.left) / rect.width) * canvas.width,
+        y: ((clientY - rect.top) / rect.height) * canvas.height
+      };
+    }
+
+    function startDraw(e) {
+      if (activePolaroidTab !== "upload") return;
+      drawing = true;
+
+      if (draftIsPlaceholder) {
+        paintCleanBg();
+        draftIsPlaceholder = false;
+      }
+
+      draftStrokeHistory.push(canvas.toDataURL("image/jpeg", 0.85));
+      if (draftStrokeHistory.length > 15) draftStrokeHistory.shift();
+
+      const pos = getPos(e);
+      lastX = pos.x;
+      lastY = pos.y;
+
+      ctx.fillStyle = brushColor;
+      ctx.beginPath();
+      ctx.arc(lastX, lastY, 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function moveDraw(e) {
+      if (!drawing || activePolaroidTab !== "upload") return;
+      e.preventDefault();
+      const pos = getPos(e);
+      ctx.strokeStyle = brushColor;
+      ctx.lineWidth = 8;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+      lastX = pos.x;
+      lastY = pos.y;
+    }
+
+    function endDraw() {
+      if (!drawing) return;
+      drawing = false;
+      draftImageDataUrl = canvas.toDataURL("image/jpeg", 0.76);
+    }
+
+    document.getElementById("undoDrawBtn").addEventListener("click", () => {
+      if (activePolaroidTab !== "upload" || draftStrokeHistory.length === 0) return;
+      const prevUrl = draftStrokeHistory.pop();
+      const img = new Image();
+      img.onload = () => {
+        ctx.clearRect(0, 0, 600, 600);
+        ctx.drawImage(img, 0, 0, 600, 600);
+        draftImageDataUrl = canvas.toDataURL("image/jpeg", 0.76);
+      };
+      img.src = prevUrl;
+    });
+
+    canvas.addEventListener("mousedown", startDraw);
+    canvas.addEventListener("mousemove", moveDraw);
+    window.addEventListener("mouseup", endDraw);
+    canvas.addEventListener("touchstart", startDraw, { passive: false });
+    canvas.addEventListener("touchmove", moveDraw, { passive: false });
+    window.addEventListener("touchend", endDraw);
+
+    document.getElementById("clearDraftBtn").addEventListener("click", () => {
+      if (activePolaroidTab === "upload") {
+        triggerPolaroidAnimation();
+        resetDraftCanvas();
+      }
+    });
+
+    // CROPPER MODAL
+    const cropModal = document.getElementById("cropModal");
+    const cropCanvas = document.getElementById("cropCanvas");
+    const cropCtx = cropCanvas.getContext("2d");
+    const zoomRange = document.getElementById("zoomRange");
+    const photoInput = document.getElementById("photoInput");
+
+    let uploadedImg = null;
+    let imgScale = 1, imgOffsetX = 0, imgOffsetY = 0, isDraggingImg = false, startDragX = 0, startDragY = 0;
+
+    function drawCropPreview() {
+      cropCtx.clearRect(0, 0, 400, 400);
+      if (!uploadedImg) return;
+      cropCtx.save();
+      cropCtx.translate(200 + imgOffsetX, 200 + imgOffsetY);
+      cropCtx.scale(imgScale, imgScale);
+      const drawW = 400;
+      const drawH = (uploadedImg.height / uploadedImg.width) * 400;
+      cropCtx.drawImage(uploadedImg, -drawW / 2, -drawH / 2, drawW, drawH);
+      cropCtx.restore();
+    }
+
+    function openCropperWithDataUrl(dataUrl) {
+      const img = new Image();
+      img.onload = () => {
+        uploadedImg = img;
+        imgScale = Math.max(400 / img.width, 400 / img.height);
+        zoomRange.value = imgScale;
+        imgOffsetX = 0;
+        imgOffsetY = 0;
+        cropModal.style.display = "flex";
+        drawCropPreview();
+      };
+      img.src = dataUrl;
+    }
+
+    function handleFileSelected(e) {
+      const file = e.target.files[0];
+      e.target.value = "";
+      if (!file) return;
+      if (activePolaroidTab !== "upload") switchPolaroidTab("upload");
+
+      const reader = new FileReader();
+      reader.onload = (ev) => openCropperWithDataUrl(ev.target.result);
+      reader.readAsDataURL(file);
+    }
+
+    photoInput.addEventListener("change", handleFileSelected);
+    fallbackCameraInput.addEventListener("change", handleFileSelected);
+
+    zoomRange.addEventListener("input", (e) => {
+      imgScale = parseFloat(e.target.value);
+      drawCropPreview();
+    });
+
+    cropCanvas.addEventListener("mousedown", (e) => {
+      isDraggingImg = true;
+      startDragX = e.clientX - imgOffsetX;
+      startDragY = e.clientY - imgOffsetY;
+    });
+    window.addEventListener("mousemove", (e) => {
+      if (!isDraggingImg) return;
+      imgOffsetX = e.clientX - startDragX;
+      imgOffsetY = e.clientY - startDragY;
+      drawCropPreview();
+    });
+    window.addEventListener("mouseup", () => { isDraggingImg = false; });
+
+    cropCanvas.addEventListener("touchstart", (e) => {
+      isDraggingImg = true;
+      startDragX = e.touches[0].clientX - imgOffsetX;
+      startDragY = e.touches[0].clientY - imgOffsetY;
+    }, { passive: true });
+    cropCanvas.addEventListener("touchmove", (e) => {
+      if (!isDraggingImg) return;
+      imgOffsetX = e.touches[0].clientX - startDragX;
+      imgOffsetY = e.touches[0].clientY - startDragY;
+      drawCropPreview();
+    }, { passive: true });
+    window.addEventListener("touchend", () => { isDraggingImg = false; });
+
+    document.getElementById("cancelCropBtn").addEventListener("click", () => {
+      cropModal.style.display = "none";
+    });
+
+    document.getElementById("applyCropBtn").addEventListener("click", () => {
+      cropModal.style.display = "none";
+      draftStrokeHistory = [];
+      draftIsPlaceholder = false;
+
+      ctx.clearRect(0, 0, 600, 600);
+      ctx.save();
+      const ratio = 600 / 400;
+      ctx.translate(300 + (imgOffsetX * ratio), 300 + (imgOffsetY * ratio));
+      ctx.scale(imgScale, imgScale);
+      const drawW = 600;
+      const drawH = (uploadedImg.height / uploadedImg.width) * 600;
+      ctx.drawImage(uploadedImg, -drawW / 2, -drawH / 2, drawW, drawH);
+      ctx.restore();
+
+      draftImageDataUrl = canvas.toDataURL("image/jpeg", 0.74);
+      triggerPolaroidAnimation();
+    });
+
+    document.getElementById("sendLiveBtn").addEventListener("click", async () => {
+      if (activePolaroidTab !== "upload") return;
+      if (draftIsPlaceholder) {
+        alert(t("alertEmptyCanvas"));
+        return;
+      }
+
+      const finalImg = canvas.toDataURL("image/jpeg", 0.70);
+      if (!isValidDataImage(finalImg)) return;
+
+      const item = {
+        img: finalImg,
+        caption: captionInput.value.trim().slice(0, 36) || "thinking of you ♡",
+        sentAt: Date.now()
+      };
+
+      const field = session.seat === "p1" ? "polaroidP1" : "polaroidP2";
+      let updatedList = [...getMyPolaroidList(), item];
+      if (updatedList.length > 15) updatedList = updatedList.slice(-15);
+
+      await awardMissionCoins(25);
+      await saveRoomPatch({ [field]: updatedList });
+
+      resetDraftCanvas();
+      refreshDynamicLabelsAndViews();
+      switchPolaroidTab("self");
+      galleryIndex = updated
