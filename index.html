@@ -303,13 +303,13 @@
     }
     .btn-connect-submit:hover { background: #fde047; transform: translateY(-1px); }
 
-    /* ================= HALAMAN UTAMA (AUTO-LOGIN LANGSUNG MASUK) ================= */
+    /* ================= HALAMAN UTAMA ================= */
     #deskApp {
       display: none;
       width: 100%;
       flex-direction: column;
       align-items: center;
-      animation: fadeSlideUp 0.45s var(--ease-spring);
+      animation: fadeSlideUp 0.5s var(--ease-spring);
     }
 
     header {
@@ -324,8 +324,8 @@
     }
 
     .brand { display: flex; align-items: center; gap: 10px; }
-    .brand h1 { font-size: 1.25rem; font-weight: 800; color: var(--accent-primary); transition: color 0.35s ease; }
-    .brand-sub { font-size: 0.73rem; color: rgba(255, 253, 249, 0.68); font-weight: 600; }
+    .brand h1 { font-size: 1.3rem; font-weight: 800; color: var(--accent-primary); transition: color 0.35s ease; }
+    .brand-sub { font-size: 0.74rem; color: rgba(255, 253, 249, 0.68); font-weight: 600; }
 
     .header-actions {
       display: flex;
@@ -338,9 +338,9 @@
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--card-border);
       color: var(--cream);
-      padding: 6px 11px;
+      padding: 6px 12px;
       border-radius: 999px;
-      font-size: 0.74rem;
+      font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
     }
@@ -373,9 +373,9 @@
       background: rgba(248, 113, 113, 0.14);
       border: 1px solid rgba(248, 113, 113, 0.35);
       color: #fecaca;
-      padding: 6px 11px;
+      padding: 6px 12px;
       border-radius: 999px;
-      font-size: 0.74rem;
+      font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
     }
@@ -388,9 +388,9 @@
       background: rgba(187, 247, 208, 0.14);
       border: 1px solid rgba(187, 247, 208, 0.35);
       color: var(--mint);
-      padding: 5px 11px;
+      padding: 5px 12px;
       border-radius: 999px;
-      font-size: 0.73rem;
+      font-size: 0.75rem;
       font-weight: 700;
     }
 
@@ -448,14 +448,13 @@
       font-weight: 800;
     }
 
-    /* ================= VIEW 1: BENTO GRID MEJA VIRTUAL ================= */
+    /* ================= PAGE 1: MEJA VIRTUAL ================= */
     .bento-grid {
       width: 100%;
       max-width: 980px;
       display: grid;
       grid-template-columns: 1.15fr 1fr;
       gap: 20px;
-      animation: fadeSlideUp 0.4s var(--ease-spring);
     }
 
     @media (max-width: 780px) {
@@ -468,6 +467,7 @@
       border-radius: 26px;
       padding: 20px;
       box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
+      animation: fadeSlideUp 0.5s var(--ease-spring);
       transition: background-color 0.4s var(--ease-spring), border-color 0.4s ease;
     }
 
@@ -608,6 +608,7 @@
       justify-content: center;
     }
     .stack-nav:hover { background: rgba(0, 0, 0, 0.88); transform: translateY(-50%) scale(1.08); }
+    .stack-nav:active { transform: translateY(-50%) scale(0.92); }
     .stack-prev { left: 8px; }
     .stack-next { right: 8px; }
 
@@ -631,6 +632,7 @@
       border-radius: 6px;
       cursor: pointer;
     }
+    .delete-single-btn:hover { background: rgba(153, 27, 27, 0.16); }
 
     .polaroid-caption {
       width: 100%;
@@ -712,7 +714,90 @@
     }
     .btn-primary:hover { filter: brightness(1.05); }
 
-    /* RIGHT COLUMN: CLOCKS + GPS + STICKY NOTES */
+    /* MODALS */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      animation: modalBackdropIn 0.25s ease;
+    }
+    .modal-card {
+      background: var(--card-surface);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 22px;
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+      animation: modalCardIn 0.3s var(--ease-spring);
+    }
+    .camera-view-box {
+      width: 290px;
+      height: 290px;
+      background: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      border: 2px solid var(--accent-primary);
+    }
+    #cameraVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    #cameraVideo.mirrored {
+      transform: scaleX(-1);
+    }
+    .crop-preview-container {
+      width: 280px;
+      height: 280px;
+      background: #111;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      touch-action: none;
+      border: 2px dashed rgba(255,255,255,0.3);
+    }
+    #cropCanvas { width: 100%; height: 100%; display: block; cursor: grab; }
+    .crop-controls { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+    .crop-controls label { font-size: 0.75rem; font-weight: 700; color: rgba(255,253,249,0.7); }
+    .crop-controls input[type="range"] { width: 100%; accent-color: var(--accent-primary); }
+
+    .notif-list-box {
+      width: 100%;
+      max-height: 280px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .notif-item-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-size: 0.8rem;
+      line-height: 1.35;
+    }
+    .notif-item-time {
+      font-size: 0.68rem;
+      color: rgba(255, 253, 249, 0.5);
+      margin-top: 3px;
+    }
+
+    /* RIGHT COLUMN: CLOCKS + GPS LOCATION + UNIFIED STATUS */
     .right-stack { display: flex; flex-direction: column; gap: 20px; }
     .clocks-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 480px) { .clocks-row { grid-template-columns: 1fr; } }
@@ -725,6 +810,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
+      transition: border-color 0.3s ease, transform 0.25s var(--ease-spring);
     }
     .clock-pill.active-owner { border-color: var(--accent-primary); }
     .clock-city { font-size: 0.78rem; font-weight: 800; color: var(--accent-primary); }
@@ -790,6 +876,7 @@
       font-weight: 600;
       outline: none;
     }
+    .unified-status-input::placeholder { color: rgba(255, 253, 249, 0.45); font-weight: 400; }
     .switch-template-btn {
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.16);
@@ -866,7 +953,7 @@
       color: rgba(255, 253, 249, 0.55);
     }
 
-    /* ================= VIEW 2: COUPLE PET SYSTEM ================= */
+    /* ================= PAGE 2: COUPLE PET SYSTEM ================= */
     #petView {
       display: none;
       width: 100%;
@@ -1030,91 +1117,6 @@
       font-size: 0.72rem;
       font-weight: 800;
     }
-
-    /* ================= MODALS (CAMERA, CROPPER, NOTIFICATIONS) ================= */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.84);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      z-index: 999;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      animation: modalBackdropIn 0.25s ease;
-    }
-    .modal-card {
-      background: var(--card-surface);
-      border: 1px solid var(--card-border);
-      border-radius: 22px;
-      padding: 22px;
-      width: 100%;
-      max-width: 410px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      box-shadow: 0 24px 48px rgba(0,0,0,0.55);
-      animation: modalCardIn 0.3s var(--ease-spring);
-    }
-
-    .camera-view-box {
-      width: 290px;
-      height: 290px;
-      background: #000;
-      border-radius: 16px;
-      overflow: hidden;
-      position: relative;
-      border: 2px solid var(--accent-primary);
-    }
-    #cameraVideo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    #cameraVideo.mirrored {
-      transform: scaleX(-1);
-    }
-
-    .crop-preview-container {
-      width: 280px;
-      height: 280px;
-      background: #111;
-      border-radius: 12px;
-      overflow: hidden;
-      position: relative;
-      touch-action: none;
-      border: 2px dashed rgba(255,255,255,0.3);
-    }
-    #cropCanvas { width: 100%; height: 100%; display: block; cursor: grab; }
-    .crop-controls { width: 100%; display: flex; flex-direction: column; gap: 8px; }
-    .crop-controls label { font-size: 0.75rem; font-weight: 700; color: rgba(255,253,249,0.7); }
-    .crop-controls input[type="range"] { width: 100%; accent-color: var(--accent-primary); }
-
-    .notif-list-box {
-      width: 100%;
-      max-height: 280px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .notif-item-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 10px 12px;
-      font-size: 0.8rem;
-      line-height: 1.35;
-    }
-    .notif-item-time {
-      font-size: 0.68rem;
-      color: rgba(255, 253, 249, 0.5);
-      margin-top: 3px;
-    }
   </style>
 </head>
 <body>
@@ -1203,7 +1205,7 @@
           <option value="zh">🇨🇳 中文</option>
         </select>
 
-        <button type="button" class="leave-btn" id="leaveRoomBtn">Ganti Room</button>
+        <button type="button" class="leave-btn" id="leaveRoomBtn">Keluar</button>
       </div>
     </header>
 
@@ -1220,7 +1222,7 @@
 
     <!-- ================= PAGE 1: MEJA VIRTUAL ================= -->
     <main class="bento-grid" id="deskView">
-      <!-- LEFT: POLAROID WIDGET + KAMERA + CORET -->
+      <!-- LEFT: POLAROID WIDGET DENGAN KAMERA & 3 TAB -->
       <section class="widget">
         <div class="widget-header">
           <span class="widget-title" id="polaroidWidgetTitle">📸 Live Polaroid Widget</span>
@@ -1345,7 +1347,6 @@
 
     <!-- ================= PAGE 2: SISTEM PELIHARAAN VIRTUAL ================= -->
     <section id="petView">
-      <!-- BAGIAN A: PILIH PELIHARAAN SEKALI UNTUK BERDUA -->
       <div class="widget" id="petAdoptionSection">
         <div class="widget-header">
           <span class="widget-title" id="adoptWidgetTitle">🏡 Adopsi Peliharaan Bersama (Dipilih Sekali)</span>
@@ -1363,9 +1364,7 @@
         </div>
       </div>
 
-      <!-- BAGIAN B: RUANG PELIHARAAN & TOKO MAKANAN -->
       <div class="pet-dashboard-grid" id="petCareSection" style="display:none;">
-        <!-- KIRI: INTERAKSI HEWAN PELIHARAAN -->
         <div class="widget">
           <div class="widget-header">
             <span class="widget-title" id="petRoomTitle">🐾 Ruang Peliharaan Kita</span>
@@ -1415,7 +1414,6 @@
           </div>
         </div>
 
-        <!-- KANAN: PET SHOP & DAFTAR MISI -->
         <div class="right-stack">
           <div class="widget">
             <div class="widget-header">
@@ -1485,8 +1483,22 @@
     </div>
   </div>
 
+  <!-- MODAL KONFIRMASI KELUAR (DARI KODE LAMA) -->
+  <div id="exitConfirmModal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 360px; text-align: center;">
+      <div style="font-size: 2rem;">🚪🧸</div>
+      <h3 id="exitModalTitle" style="font-size: 1.05rem; color: var(--accent-primary);">Keluar dari Room?</h3>
+      <p id="exitModalDesc" style="font-size: 0.82rem; color: rgba(255,253,249,0.75); line-height: 1.45;">
+        Kamu bisa masuk kembali kapan saja menggunakan Kode Room dan PIN yang sama.
+      </p>
+      <div style="display:flex; gap:10px; width:100%; margin-top:4px;">
+        <button type="button" class="btn" id="cancelExitBtn" style="flex:1;">Batal</button>
+        <button type="button" class="leave-btn" id="confirmExitBtn" style="flex:1; padding: 9px 12px;">Ya, Keluar</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Konfigurasi Firebase Anda (widg-350f9)
     const firebaseConfig = {
       apiKey: "AIzaSyBF1LP9H26mRntsYXlkjm6Ebp3aR1QI8yU",
       authDomain: "widg-350f9.firebaseapp.com",
@@ -1501,7 +1513,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // ================= CYBERSECURITY HELPERS =================
+    // ================= CYBERSECURITY & SANITIZATION HELPERS =================
     function escapeHtml(str) {
       return String(str ?? "")
         .replace(/&/g, "&amp;")
@@ -1550,7 +1562,11 @@
         copiedToast: "✓ Tersalin!",
         liveSynced: "Live Synced ✓",
         syncing: "Syncing...",
-        leaveBtn: "Ganti Room",
+        leaveBtn: "Keluar",
+        exitTitle: "Keluar dari Room?",
+        exitDesc: "Tenang, kamu bisa masuk kembali kapan saja menggunakan Kode Room dan Password/PIN yang sama.",
+        cancel: "Batal",
+        confirmExit: "Ya, Keluar",
         connectedSub: "Terhubung di Room",
         waitingSub: "Menunggu pasangan bergabung ke Room",
         navDesk: "🧸 Meja Virtual",
@@ -1593,7 +1609,6 @@
         cropTitle: "Sesuaikan Ukuran Foto ✂️",
         cropZoom: "Geser / Zoom Foto agar pas:",
         applyCrop: "Gunakan Foto ✓",
-        cancel: "Batal",
         adoptTitle: "🏡 Adopsi Peliharaan Bersama (Dipilih Sekali)",
         adoptSub: "Pilih satu anak anjing menggemaskan untuk dirawat berdua! Selesaikan misi kirim foto atau catatan untuk mengumpulkan koin makanan.",
         adoptBtn: "Adopsi Sekarang 🐾",
@@ -1637,7 +1652,11 @@
         copiedToast: "✓ Copied!",
         liveSynced: "Live Synced ✓",
         syncing: "Syncing...",
-        leaveBtn: "Switch Room",
+        leaveBtn: "Exit",
+        exitTitle: "Leave this Room?",
+        exitDesc: "You can re-enter anytime using the exact same Room Code and Password/PIN.",
+        cancel: "Cancel",
+        confirmExit: "Yes, Exit",
         connectedSub: "Connected in Room",
         waitingSub: "Waiting for partner to join Room",
         navDesk: "🧸 Virtual Desk",
@@ -1680,7 +1699,6 @@
         cropTitle: "Adjust Photo Crop ✂️",
         cropZoom: "Drag / Zoom photo to fit:",
         applyCrop: "Use Photo ✓",
-        cancel: "Cancel",
         adoptTitle: "🏡 Adopt a Couple Pet (One-Time Choice)",
         adoptSub: "Pick one cute puppy to raise together! Complete missions like sending photos or notes to earn treat coins.",
         adoptBtn: "Adopt Now 🐾",
@@ -1724,7 +1742,11 @@
         copiedToast: "✓ 已复制!",
         liveSynced: "实时已同步 ✓",
         syncing: "同步中...",
-        leaveBtn: "切换房间",
+        leaveBtn: "退出",
+        exitTitle: "确定要退出房间吗？",
+        exitDesc: "随时可以使用相同的房间号和密码重新登录进入。",
+        cancel: "取消",
+        confirmExit: "确认退出",
         connectedSub: "已连接至房间",
         waitingSub: "正在等待另一半加入房间",
         navDesk: "🧸 虚拟书桌",
@@ -1767,7 +1789,6 @@
         cropTitle: "裁剪照片尺寸 ✂️",
         cropZoom: "拖动 / 缩放照片以适配：",
         applyCrop: "确认使用 ✓",
-        cancel: "取消",
         adoptTitle: "🏡 共同领养宠物（仅选一次）",
         adoptSub: "选择一只可爱的小狗一起抚养！完成发送照片或便利贴任务即可赚取金币购买零食。",
         adoptBtn: "立即领养 🐾",
@@ -1971,7 +1992,7 @@
     let gateMode = "create";
     let activeRoomRef = null;
     let backgroundPollTimer = null;
-    let session = { roomCode: "", pinHash: "", seat: "p1", myName: "" };
+    let session = { roomCode: "", pin: "", pinHash: "", seat: "p1", myName: "" };
 
     let roomData = {
       p1Name: "",
@@ -1980,6 +2001,10 @@
       polaroidP2: [],
       statusP1: "",
       statusP2: "",
+      moodP1: "",
+      moodP2: "",
+      shortNoteP1: "",
+      shortNoteP2: "",
       locP1: "",
       locP2: "",
       tzP1: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -2102,12 +2127,18 @@
     });
     document.getElementById("enablePushNotifBtn").addEventListener("click", async () => {
       if ("Notification" in window) {
-        const perm = await Notification.requestPermission();
-        if (perm === "granted") {
-          document.getElementById("enablePushNotifBtn").textContent = "Push Aktif ✓";
-        }
+        try {
+          const perm = await Notification.requestPermission();
+          if (perm === "granted") {
+            document.getElementById("enablePushNotifBtn").textContent = "Push Aktif ✓";
+          }
+        } catch {}
       }
     });
+
+    function getCurrentCoins() {
+      return roomData.coins !== undefined && roomData.coins !== null ? Number(roomData.coins) : 30;
+    }
 
     function showCoinFloatingReward(amount) {
       const badge = document.createElement("div");
@@ -2118,8 +2149,7 @@
     }
 
     async function awardMissionCoins(amount) {
-      const currentCoins = Number(roomData.coins || 0);
-      const nextCoins = currentCoins + amount;
+      const nextCoins = getCurrentCoins() + amount;
       roomData.coins = nextCoins;
       showCoinFloatingReward(amount);
       updatePetCoinsUI();
@@ -2146,7 +2176,6 @@
     navDeskTab.addEventListener("click", () => switchMainPage("desk"));
     navPetTab.addEventListener("click", () => switchMainPage("pet"));
 
-    // ================= LANGUAGE UI =================
     function applyLanguageUI() {
       gateLangSelect.value = currentLang;
       appLangSelect.value = currentLang;
@@ -2164,6 +2193,11 @@
       connectSubmitBtn.textContent = gateMode === "create" ? t("btnCreateSubmit") : t("btnJoinSubmit");
 
       document.getElementById("leaveRoomBtn").textContent = t("leaveBtn");
+      document.getElementById("exitModalTitle").textContent = t("exitTitle");
+      document.getElementById("exitModalDesc").textContent = t("exitDesc");
+      document.getElementById("cancelExitBtn").textContent = t("cancel");
+      document.getElementById("confirmExitBtn").textContent = t("confirmExit");
+
       document.getElementById("navDeskLabel").textContent = t("navDesk");
       document.getElementById("navPetLabel").textContent = t("navPet");
 
@@ -2245,9 +2279,19 @@
     });
 
     const urlParams = new URLSearchParams(window.location.search);
+    const savedLastCreds = localStorage.getItem("virtual_desk_last_creds");
     if (urlParams.get("room")) {
       roomCodeInput.value = sanitizeRoomCode(urlParams.get("room"));
       setGateMode("join");
+    } else if (savedLastCreds) {
+      try {
+        const creds = JSON.parse(savedLastCreds);
+        if (creds.myName) userNameInput.value = creds.myName;
+        if (creds.roomCode) roomCodeInput.value = creds.roomCode;
+        setGateMode("join");
+      } catch {
+        roomCodeInput.value = generateRandomCode();
+      }
     } else {
       roomCodeInput.value = generateRandomCode();
     }
@@ -2257,7 +2301,6 @@
       gateErrorBox.style.display = "block";
     }
 
-    // ================= LOGIN / CONNECT (HASHED PIN + AUTO-LOGIN) =================
     connectSubmitBtn.addEventListener("click", async () => {
       gateErrorBox.style.display = "none";
       const myName = userNameInput.value.trim().slice(0, 16);
@@ -2301,11 +2344,11 @@
 
           const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
           const patch = assignedSeat === "p1"
-            ? { p1Name: myName, tzP1: localTz, pinHash: inputHash, pin: null }
-            : { p2Name: myName, tzP2: localTz, pinHash: inputHash, pin: null };
+            ? { p1Name: myName, tzP1: localTz, pinHash: inputHash }
+            : { p2Name: myName, tzP2: localTz, pinHash: inputHash };
 
           await db.ref(`rooms/${rawCode}`).update(patch);
-          enterConnectedRoom(rawCode, inputHash, assignedSeat, myName, { ...existing, ...patch });
+          enterConnectedRoom(rawCode, pin, inputHash, assignedSeat, myName, { ...existing, ...patch });
           return;
         }
 
@@ -2335,20 +2378,21 @@
         };
 
         await db.ref(`rooms/${rawCode}`).set(initialPayload);
-        enterConnectedRoom(rawCode, inputHash, "p1", myName, initialPayload);
+        enterConnectedRoom(rawCode, pin, inputHash, "p1", myName, initialPayload);
       } catch (err) {
         connectSubmitBtn.disabled = false;
         connectSubmitBtn.textContent = gateMode === "create" ? t("btnCreateSubmit") : t("btnJoinSubmit");
-        showGateError("Connection error: " + (err.message || "Check network"));
+        showGateError("Firebase error: " + (err.message || "Check connection"));
       }
     });
 
-    function enterConnectedRoom(roomCode, pinHash, seat, myName, initialData) {
-      session = { roomCode, pinHash, seat, myName };
+    function enterConnectedRoom(roomCode, pin, pinHash, seat, myName, initialData) {
+      session = { roomCode, pin, pinHash, seat, myName };
       roomData = { ...roomData, ...initialData };
       isInitialSnapshot = true;
 
       localStorage.setItem("virtual_desk_fb_session", JSON.stringify(session));
+      localStorage.setItem("virtual_desk_last_creds", JSON.stringify({ myName, roomCode }));
       localStorage.setItem("virtual_desk_cached_room", JSON.stringify(roomData));
 
       connectSubmitBtn.disabled = false;
@@ -2365,8 +2409,8 @@
       autoRefreshGpsIfPermitted();
     }
 
-    // AUTO-LOGIN INSTAN SAAT HALAMAN DIBUKA (TANPA KONFIRMASI ULANG)
-    (function instantAutoRestoreSession() {
+    // ================= AUTO-LOGIN INSTAN TANPA KONFIRMASI ULANG =================
+    (function tryRestoreSession() {
       applyLanguageUI();
       const saved = localStorage.getItem("virtual_desk_fb_session");
       if (!saved) {
@@ -2380,23 +2424,43 @@
           return;
         }
         const cachedData = JSON.parse(localStorage.getItem("virtual_desk_cached_room") || "{}");
-        enterConnectedRoom(parsed.roomCode, parsed.pinHash || parsed.pin, parsed.seat, parsed.myName, cachedData);
+        enterConnectedRoom(
+          parsed.roomCode,
+          parsed.pin || "",
+          parsed.pinHash || "",
+          parsed.seat || "p1",
+          parsed.myName,
+          cachedData
+        );
       } catch {
         connectGate.style.display = "flex";
       }
     })();
 
-    // Tombol Ganti Room langsung tanpa popup konfirmasi
+    // ================= KONFIRMASI KELUAR =================
+    const exitConfirmModal = document.getElementById("exitConfirmModal");
     document.getElementById("leaveRoomBtn").addEventListener("click", () => {
+      exitConfirmModal.style.display = "flex";
+    });
+    document.getElementById("cancelExitBtn").addEventListener("click", () => {
+      exitConfirmModal.style.display = "none";
+    });
+    document.getElementById("confirmExitBtn").addEventListener("click", () => {
+      exitConfirmModal.style.display = "none";
       if (activeRoomRef) activeRoomRef.off("value");
       if (backgroundPollTimer) clearInterval(backgroundPollTimer);
+
+      localStorage.setItem("virtual_desk_last_creds", JSON.stringify({
+        myName: session.myName,
+        roomCode: session.roomCode
+      }));
       localStorage.removeItem("virtual_desk_fb_session");
       localStorage.removeItem("virtual_desk_cached_room");
 
       userNameInput.value = session.myName || "";
       roomCodeInput.value = session.roomCode || "";
       roomPinInput.value = "";
-      session = { roomCode: "", pinHash: "", seat: "p1", myName: "" };
+      session = { roomCode: "", pin: "", pinHash: "", seat: "p1", myName: "" };
 
       deskApp.style.display = "none";
       document.body.classList.remove("theme-guest");
@@ -2440,7 +2504,9 @@
       const partnerName = (partnerSeat === "p1" ? val.p1Name : val.p2Name)?.trim() || "Partner";
       const partnerPhotos = toArray(partnerSeat === "p1" ? val.polaroidP1 : val.polaroidP2);
       const partnerNotes = toArray(partnerSeat === "p1" ? val.notesP1 : val.notesP2);
-      const partnerStatus = (partnerSeat === "p1" ? val.statusP1 : val.statusP2) || "";
+      const partnerStatus = (partnerSeat === "p1"
+        ? (val.statusP1 || val.shortNoteP1 || val.moodP1)
+        : (val.statusP2 || val.shortNoteP2 || val.moodP2)) || "";
       const petObj = val.pet || null;
 
       if (isInitialSnapshot) {
@@ -2532,7 +2598,7 @@
       return toArray(session.seat === "p1" ? roomData.polaroidP2 : roomData.polaroidP1);
     }
 
-    // ================= SATU OPSI STATUS TERPADU =================
+    // ================= SATU OPSI STATUS TERPADU (TEMPLATE + TULIS SENDIRI) =================
     const activeStatusSelect = document.getElementById("activeStatusSelect");
     const customStatusWrap = document.getElementById("customStatusWrap");
     const activeCustomStatusInput = document.getElementById("activeCustomStatusInput");
@@ -2649,10 +2715,12 @@
       document.getElementById("rightLocationBadge").textContent = partnerLoc || "📍 --";
 
       const myStatus = session.seat === "p1"
-        ? (roomData.statusP1 || I18N[currentLang].templates[0])
-        : (roomData.statusP2 || I18N[currentLang].templates[0]);
+        ? (roomData.statusP1 || roomData.shortNoteP1 || roomData.moodP1 || I18N[currentLang].templates[0])
+        : (roomData.statusP2 || roomData.shortNoteP2 || roomData.moodP2 || I18N[currentLang].templates[0]);
 
-      const partnerStatus = session.seat === "p1" ? roomData.statusP2 : roomData.statusP1;
+      const partnerStatus = session.seat === "p1"
+        ? (roomData.statusP2 || roomData.shortNoteP2 || roomData.moodP2)
+        : (roomData.statusP1 || roomData.shortNoteP1 || roomData.moodP1);
 
       if (!isCustomStatusEditing) {
         populateUnifiedStatusDropdown(myStatus);
@@ -2902,10 +2970,10 @@
     function resetDraftCanvas() {
       paintCleanBg();
       ctx.fillStyle = session.seat === "p1" ? "rgba(254, 240, 138, 0.85)" : "rgba(251, 207, 232, 0.88)";
-      ctx.font = "bold 26px sans-serif";
+      ctx.font = "bold 28px sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText("Snap or Upload Cute Photos ✨", 300, 290);
-      ctx.font = "600 17px sans-serif";
+      ctx.fillText("Upload Your Cute Photos please~ ✨", 300, 290);
+      ctx.font = "600 18px sans-serif";
       ctx.fillText(t("draftHint"), 300, 326);
 
       draftIsPlaceholder = true;
@@ -3129,7 +3197,7 @@
         return;
       }
 
-      const finalImg = canvas.toDataURL("image/jpeg", 0.70);
+      const finalImg = canvas.toDataURL("image/jpeg", 0.72);
       if (!isValidDataImage(finalImg)) return;
 
       const item = {
@@ -3144,8 +3212,418 @@
 
       await awardMissionCoins(25);
       await saveRoomPatch({ [field]: updatedList });
-
       resetDraftCanvas();
       refreshDynamicLabelsAndViews();
       switchPolaroidTab("self");
-      galleryIndex = updated
+      galleryIndex = updatedList.length - 1;
+      renderGalleryPolaroid(true);
+    });
+
+    function renderGalleryPolaroid(forceRedraw = false) {
+      if (activePolaroidTab === "upload") return;
+
+      const list = activePolaroidTab === "self" ? getMyPolaroidList() : getPartnerPolaroidList();
+      const total = list.length;
+
+      if (total === 0) {
+        prevPhotoBtn.style.display = "none";
+        nextPhotoBtn.style.display = "none";
+        deleteSinglePhotoBtn.style.display = "none";
+        stackBg1.style.display = "none";
+        stackBg2.style.display = "none";
+        stackIndicator.textContent = t("noPolaroidYet");
+        captionInput.value = "";
+
+        paintCleanBg();
+        ctx.fillStyle = "rgba(255, 253, 249, 0.72)";
+        ctx.font = "bold 24px sans-serif";
+        ctx.textAlign = "center";
+        const emptyMsg = activePolaroidTab === "self"
+          ? t("emptySelfCanvas", { name: getMyName() })
+          : t("emptyPartnerCanvas", { name: getPartnerName() });
+        ctx.fillText(emptyMsg, 300, 305);
+        currentRenderedGallerySrc = "";
+        return;
+      }
+
+      if (galleryIndex >= total) galleryIndex = total - 1;
+      if (galleryIndex < 0) galleryIndex = 0;
+
+      prevPhotoBtn.style.display = total > 1 ? "flex" : "none";
+      nextPhotoBtn.style.display = total > 1 ? "flex" : "none";
+      deleteSinglePhotoBtn.style.display = activePolaroidTab === "self" ? "inline-block" : "none";
+      stackBg1.style.display = total > 1 ? "block" : "none";
+      stackBg2.style.display = total > 2 ? "block" : "none";
+      stackIndicator.textContent = t("photoOf", { cur: galleryIndex + 1, tot: total });
+
+      const entry = list[galleryIndex];
+      const imgSrc = typeof entry === "string" ? entry : entry.img;
+      captionInput.value = typeof entry === "object" && entry.caption ? entry.caption : "miss you ♡";
+
+      if (!isValidDataImage(imgSrc)) return;
+      if (!forceRedraw && imgSrc === currentRenderedGallerySrc) return;
+
+      const img = new Image();
+      img.onload = () => {
+        ctx.clearRect(0, 0, 600, 600);
+        ctx.drawImage(img, 0, 0, 600, 600);
+        currentRenderedGallerySrc = imgSrc;
+      };
+      img.src = imgSrc;
+    }
+
+    prevPhotoBtn.addEventListener("click", () => {
+      const list = activePolaroidTab === "self" ? getMyPolaroidList() : getPartnerPolaroidList();
+      if (list.length > 1) {
+        galleryIndex = (galleryIndex - 1 + list.length) % list.length;
+        triggerPolaroidAnimation();
+        renderGalleryPolaroid(true);
+      }
+    });
+
+    nextPhotoBtn.addEventListener("click", () => {
+      const list = activePolaroidTab === "self" ? getMyPolaroidList() : getPartnerPolaroidList();
+      if (list.length > 1) {
+        galleryIndex = (galleryIndex + 1) % list.length;
+        triggerPolaroidAnimation();
+        renderGalleryPolaroid(true);
+      }
+    });
+
+    deleteSinglePhotoBtn.addEventListener("click", async () => {
+      if (activePolaroidTab !== "self") return;
+      const list = [...getMyPolaroidList()];
+      if (list.length === 0) return;
+
+      list.splice(galleryIndex, 1);
+      const field = session.seat === "p1" ? "polaroidP1" : "polaroidP2";
+      if (galleryIndex >= list.length) galleryIndex = Math.max(0, list.length - 1);
+
+      triggerPolaroidAnimation();
+      await saveRoomPatch({ [field]: list });
+      refreshDynamicLabelsAndViews();
+      renderGalleryPolaroid(true);
+    });
+
+    // ================= STICKY NOTES (AMAN ANTI-XSS) =================
+    const noteColorsP1 = ["#fef08a", "#bbf7d0", "#bae6fd"];
+    const noteColorsP2 = ["#fbcfe8", "#e9d5ff", "#fed7aa"];
+
+    function renderNotes() {
+      const ownGrid = document.getElementById("ownNotesGrid");
+      const incomingGrid = document.getElementById("incomingNotesGrid");
+      ownGrid.innerHTML = "";
+      incomingGrid.innerHTML = "";
+
+      const myName = getMyName();
+      const partnerName = getPartnerName();
+      const ownNotes = toArray(session.seat === "p1" ? roomData.notesP1 : roomData.notesP2);
+      const incomingNotes = toArray(session.seat === "p1" ? roomData.notesP2 : roomData.notesP1);
+
+      if (ownNotes.length === 0) {
+        const emptyOwn = document.createElement("div");
+        emptyOwn.className = "empty-notes-box";
+        emptyOwn.textContent = t("emptyOwnNotes", { me: myName });
+        ownGrid.appendChild(emptyOwn);
+      } else {
+        ownNotes.forEach((note, idx) => {
+          const card = document.createElement("div");
+          card.className = "sticky";
+          card.style.background = note.color || "#fef08a";
+
+          const ta = document.createElement("textarea");
+          ta.maxLength = 140;
+          ta.value = note.text || "";
+          ta.addEventListener("change", () => {
+            ownNotes[idx].text = ta.value.slice(0, 140);
+            const field = session.seat === "p1" ? "notesP1" : "notesP2";
+            saveRoomPatch({ [field]: ownNotes });
+          });
+
+          const footer = document.createElement("div");
+          footer.className = "sticky-footer";
+          const labelSpan = document.createElement("span");
+          labelSpan.textContent = `${myName} #${idx + 1}`;
+          const delBtn = document.createElement("button");
+          delBtn.type = "button";
+          delBtn.className = "del-note";
+          delBtn.textContent = "✕";
+          delBtn.addEventListener("click", () => {
+            ownNotes.splice(idx, 1);
+            const field = session.seat === "p1" ? "notesP1" : "notesP2";
+            renderNotes();
+            saveRoomPatch({ [field]: ownNotes });
+          });
+
+          footer.appendChild(labelSpan);
+          footer.appendChild(delBtn);
+          card.appendChild(ta);
+          card.appendChild(footer);
+          ownGrid.appendChild(card);
+        });
+      }
+
+      if (incomingNotes.length === 0) {
+        const emptyInc = document.createElement("div");
+        emptyInc.className = "empty-notes-box";
+        emptyInc.textContent = t("emptyIncomingNotes", { partner: partnerName });
+        incomingGrid.appendChild(emptyInc);
+      } else {
+        incomingNotes.forEach((note, idx) => {
+          const card = document.createElement("div");
+          card.className = "sticky";
+          card.style.background = note.color || "#fbcfe8";
+
+          const textDiv = document.createElement("div");
+          textDiv.className = "sticky-readonly-text";
+          textDiv.textContent = note.text || "";
+
+          const footer = document.createElement("div");
+          footer.className = "sticky-footer";
+          const senderSpan = document.createElement("span");
+          senderSpan.textContent = `💌 ${partnerName} #${idx + 1}`;
+          const liveSpan = document.createElement("span");
+          liveSpan.textContent = "Live";
+
+          footer.appendChild(senderSpan);
+          footer.appendChild(liveSpan);
+          card.appendChild(textDiv);
+          card.appendChild(footer);
+          incomingGrid.appendChild(card);
+        });
+      }
+    }
+
+    document.getElementById("addNoteBtn").addEventListener("click", async () => {
+      const field = session.seat === "p1" ? "notesP1" : "notesP2";
+      const palette = session.seat === "p1" ? noteColorsP1 : noteColorsP2;
+      const currentList = [...toArray(roomData[field])];
+      const color = palette[currentList.length % palette.length];
+      currentList.push({ text: t("defaultNoteText"), color });
+      roomData[field] = currentList;
+      renderNotes();
+      await awardMissionCoins(15);
+      await saveRoomPatch({ [field]: currentList });
+    });
+
+    // ================= SISTEM PELIHARAAN VIRTUAL =================
+    function updatePetCoinsUI() {
+      const coins = getCurrentCoins();
+      document.getElementById("navCoinBadge").textContent = `🪙 ${coins}`;
+      document.getElementById("adoptCoinInfo").textContent = `🪙 ${coins}`;
+      document.getElementById("shopCoinDisplay").textContent = `🪙 ${coins}`;
+    }
+
+    function renderBreedSelectionCards() {
+      const grid = document.getElementById("breedSelectionGrid");
+      grid.innerHTML = "";
+      Object.values(PET_BREEDS).forEach(breed => {
+        const card = document.createElement("div");
+        card.className = "breed-card" + (selectedBreedForAdopt === breed.id ? " selected" : "");
+        card.innerHTML = `
+          <div style="width:86px; height:86px;">${getPetSvgMarkup(breed.id)}</div>
+          <div class="breed-name">${escapeHtml(breed.name)}</div>
+          <div style="font-size:0.68rem; color:var(--accent-primary); font-weight:700;">${escapeHtml(breed.sub)}</div>
+          <div class="breed-desc">${escapeHtml(breed.desc[currentLang] || breed.desc.id)}</div>
+        `;
+        card.addEventListener("click", () => {
+          selectedBreedForAdopt = breed.id;
+          renderBreedSelectionCards();
+        });
+        grid.appendChild(card);
+      });
+    }
+
+    document.getElementById("adoptPetBtn").addEventListener("click", async () => {
+      if (roomData.pet) return;
+      const rawName = document.getElementById("petNameInput").value.trim().slice(0, 16);
+      const petName = rawName || (selectedBreedForAdopt === "japanese_spitz" ? "Yuki" : "Mochi");
+
+      const newPet = {
+        breed: selectedBreedForAdopt,
+        name: petName,
+        level: 1,
+        exp: 0,
+        fullness: 80,
+        happiness: 85,
+        adoptedBy: getMyName(),
+        lastFedBy: getMyName(),
+        lastFedAt: Date.now(),
+        lastLog: `${getMyName()} adopted ${petName}! 🎉`
+      };
+
+      roomData.pet = newPet;
+      await saveRoomPatch({ pet: newPet });
+      renderPetView();
+    });
+
+    function triggerPetJumpAnimation(speechText) {
+      const svgWrap = document.getElementById("petSvgContainer");
+      const speech = document.getElementById("petSpeechBubble");
+      speech.textContent = speechText;
+      svgWrap.classList.remove("happy-jump");
+      void svgWrap.offsetWidth;
+      svgWrap.classList.add("happy-jump");
+    }
+
+    async function handlePetHead() {
+      if (!roomData.pet) return;
+      const now = Date.now();
+      triggerPetJumpAnimation(`Woof! ${getMyName()} ♡`);
+
+      if (now - lastHeadPetTime >= 25000) {
+        lastHeadPetTime = now;
+        const pet = { ...roomData.pet };
+        pet.happiness = Math.min(100, Number(pet.happiness || 80) + 5);
+        pet.exp = Number(pet.exp || 0) + 5;
+        if (pet.exp >= 100) {
+          pet.level = Number(pet.level || 1) + 1;
+          pet.exp -= 100;
+        }
+        roomData.pet = pet;
+        await awardMissionCoins(5);
+        await saveRoomPatch({ pet });
+        renderPetView();
+      }
+    }
+
+    document.getElementById("petStageBox").addEventListener("click", handlePetHead);
+    document.getElementById("petHeadBtn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      handlePetHead();
+    });
+
+    async function feedOrPlayWithPet(item) {
+      if (!roomData.pet) return;
+      const currentCoins = getCurrentCoins();
+      if (currentCoins < item.cost) {
+        alert(t("notEnoughCoins"));
+        return;
+      }
+
+      const pet = { ...roomData.pet };
+      pet.fullness = Math.min(100, Number(pet.fullness || 70) + item.full);
+      pet.happiness = Math.min(100, Number(pet.happiness || 70) + item.happy);
+      pet.exp = Number(pet.exp || 0) + item.exp;
+      if (pet.exp >= 100) {
+        pet.level = Number(pet.level || 1) + 1;
+        pet.exp -= 100;
+      }
+
+      const itemName = item.name[currentLang] || item.name.id;
+      pet.lastFedBy = getMyName();
+      pet.lastFedAt = Date.now();
+      pet.lastLog = `${item.icon} ${getMyName()} → ${itemName} (+${item.exp} EXP)`;
+
+      const nextCoins = currentCoins - item.cost;
+      roomData.coins = nextCoins;
+      roomData.pet = pet;
+
+      triggerPetJumpAnimation(`Yummy ${itemName}! ♡`);
+      await saveRoomPatch({ coins: nextCoins, pet });
+      renderPetView();
+    }
+
+    function renderPetView() {
+      updatePetCoinsUI();
+      const adoptSection = document.getElementById("petAdoptionSection");
+      const careSection = document.getElementById("petCareSection");
+
+      if (!roomData.pet) {
+        adoptSection.style.display = "block";
+        careSection.style.display = "none";
+        renderBreedSelectionCards();
+        return;
+      }
+
+      adoptSection.style.display = "none";
+      careSection.style.display = "grid";
+
+      const pet = roomData.pet;
+      const breedInfo = PET_BREEDS[pet.breed] || PET_BREEDS.shiba;
+
+      document.getElementById("petSvgContainer").innerHTML = getPetSvgMarkup(breedInfo.id);
+      document.getElementById("petDisplayName").textContent = pet.name || "Mochi";
+      document.getElementById("petBreedLabel").textContent = `${breedInfo.name} (${breedInfo.sub})`;
+      document.getElementById("petLevelBadge").textContent = `Lv. ${pet.level || 1}`;
+
+      const fullness = Math.min(100, Math.max(0, Number(pet.fullness ?? 80)));
+      const happiness = Math.min(100, Math.max(0, Number(pet.happiness ?? 85)));
+      const exp = Math.min(100, Math.max(0, Number(pet.exp ?? 0)));
+
+      document.getElementById("petFullnessText").textContent = `${fullness} / 100`;
+      document.getElementById("petFullnessBar").style.width = `${fullness}%`;
+      document.getElementById("petHappinessText").textContent = `${happiness} / 100`;
+      document.getElementById("petHappinessBar").style.width = `${happiness}%`;
+      document.getElementById("petExpText").textContent = `${exp} / 100 EXP`;
+      document.getElementById("petExpBar").style.width = `${exp}%`;
+      document.getElementById("lastPetCareLog").textContent = pet.lastLog || "";
+
+      const shopGrid = document.getElementById("petShopGrid");
+      shopGrid.innerHTML = "";
+      PET_SHOP_ITEMS.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "shop-item-card";
+        const itemName = item.name[currentLang] || item.name.id;
+        card.innerHTML = `
+          <div class="shop-item-top">
+            <span class="shop-item-icon">${item.icon}</span>
+            <div>
+              <div class="shop-item-name">${escapeHtml(itemName)}</div>
+              <div class="shop-item-effect">+${item.full}🍖 +${item.happy}💖</div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary" style="width:100%; padding:6px 10px; font-size:0.75rem;">
+            🪙 ${item.cost}
+          </button>
+        `;
+        card.querySelector("button").addEventListener("click", () => feedOrPlayWithPet(item));
+        shopGrid.appendChild(card);
+      });
+
+      const missions = [
+        { label: currentLang === "zh" ? "📸 发送拍立得照片" : currentLang === "en" ? "📸 Send a Polaroid Photo" : "📸 Kirim Foto Polaroid", reward: "+25 🪙" },
+        { label: currentLang === "zh" ? "💌 发送新便利贴" : currentLang === "en" ? "💌 Add a Sticky Note" : "💌 Tambah Sticky Note", reward: "+15 🪙" },
+        { label: currentLang === "zh" ? "💭 更新实时状态" : currentLang === "en" ? "💭 Update Live Status" : "💭 Update Status Live", reward: "+10 🪙" },
+        { label: currentLang === "zh" ? "📍 同步GPS定位" : currentLang === "en" ? "📍 Sync GPS Location" : "📍 Sync Lokasi GPS", reward: "+10 🪙" },
+        { label: currentLang === "zh" ? "🖐️ 摸摸宠物头" : currentLang === "en" ? "🖐️ Pet Your Puppy" : "🖐️ Elus Kepala Peliharaan", reward: "+5 🪙" }
+      ];
+      const missionList = document.getElementById("petMissionList");
+      missionList.innerHTML = "";
+      missions.forEach(m => {
+        const row = document.createElement("div");
+        row.className = "mission-row";
+        row.innerHTML = `<span>${escapeHtml(m.label)}</span><span class="mission-reward-tag">${escapeHtml(m.reward)}</span>`;
+        missionList.appendChild(row);
+      });
+    }
+
+    // ================= FIREBASE REALTIME + BACKGROUND LIVE-SYNC =================
+    function startFirebaseRealtimeAndBackgroundSync() {
+      if (activeRoomRef) activeRoomRef.off("value");
+      if (backgroundPollTimer) clearInterval(backgroundPollTimer);
+
+      activeRoomRef = db.ref(`rooms/${session.roomCode}`);
+      activeRoomRef.on("value", (snap) => {
+        processIncomingRoomSnapshot(snap.val());
+      });
+
+      backgroundPollTimer = setInterval(() => {
+        pullLatestRoomState();
+      }, 8000);
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && session.roomCode) {
+        pullLatestRoomState();
+        autoRefreshGpsIfPermitted();
+      }
+    });
+    window.addEventListener("focus", () => {
+      if (session.roomCode) {
+        pullLatestRoomState();
+      }
+    });
+  </script>
+</body>
+</html>
