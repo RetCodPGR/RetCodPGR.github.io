@@ -78,31 +78,6 @@
       50% { opacity: 0.4; transform: scale(0.8); }
     }
 
-    @keyframes petFloat {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-7px); }
-    }
-
-    @keyframes petHappyJump {
-      0% { transform: translateY(0) scale(1); }
-      30% { transform: translateY(-22px) scale(1.08); }
-      55% { transform: translateY(0) scale(0.95); }
-      80% { transform: translateY(-9px) scale(1.03); }
-      100% { transform: translateY(0) scale(1); }
-    }
-
-    @keyframes tailWag {
-      0%, 100% { transform: rotate(-10deg); }
-      50% { transform: rotate(16deg); }
-    }
-
-    @keyframes coinFloatUp {
-      0% { opacity: 0; transform: translateY(12px) scale(0.85); }
-      20% { opacity: 1; transform: translateY(0) scale(1.05); }
-      80% { opacity: 1; transform: translateY(-18px) scale(1); }
-      100% { opacity: 0; transform: translateY(-30px) scale(0.95); }
-    }
-
     body {
       background-color: var(--bg-main);
       background-image:
@@ -113,7 +88,7 @@
       color: var(--cream);
       font-family: var(--font-ui);
       min-height: 100vh;
-      padding: 18px 16px 48px;
+      padding: 20px 16px 48px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -141,66 +116,6 @@
     }
     .lang-select:hover { background: rgba(255, 255, 255, 0.16); }
     .lang-select option { background: #1e1714; color: #fffdf9; }
-
-    /* ================= LIVE NOTIFICATION TOAST BANNER ================= */
-    .live-toast-banner {
-      position: fixed;
-      top: 16px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-140%);
-      width: calc(100% - 28px);
-      max-width: 440px;
-      background: rgba(34, 24, 28, 0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1.5px solid var(--accent-secondary);
-      border-radius: 20px;
-      padding: 13px 16px;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      opacity: 0;
-      pointer-events: none;
-      transition: transform 0.45s var(--ease-spring), opacity 0.35s ease;
-    }
-    .live-toast-banner.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .toast-icon-circle {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(251, 207, 232, 0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      flex-shrink: 0;
-    }
-    .toast-content { flex: 1; min-width: 0; }
-    .toast-title { font-size: 0.72rem; font-weight: 800; color: var(--accent-primary); text-transform: uppercase; letter-spacing: 0.6px; }
-    .toast-body { font-size: 0.85rem; font-weight: 700; color: var(--cream); margin-top: 2px; line-height: 1.35; }
-
-    .floating-coin-pop {
-      position: fixed;
-      bottom: 28px;
-      right: 24px;
-      background: var(--butter);
-      color: var(--ink);
-      font-weight: 800;
-      font-size: 0.85rem;
-      padding: 8px 14px;
-      border-radius: 999px;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.4);
-      z-index: 1900;
-      pointer-events: none;
-      animation: coinFloatUp 1.5s var(--ease-spring) forwards;
-    }
 
     /* ================= LAYAR MASUK ROOM (HANYA JIKA BELUM ADA SESI) ================= */
     #connectGate {
@@ -318,18 +233,18 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
       flex-wrap: wrap;
       gap: 10px;
     }
 
     .brand { display: flex; align-items: center; gap: 10px; }
-    .brand h1 { font-size: 1.3rem; font-weight: 800; color: var(--accent-primary); transition: color 0.35s ease; }
+    .brand h1 { font-size: 1.35rem; font-weight: 800; color: var(--accent-primary); transition: color 0.35s ease; }
     .brand-sub { font-size: 0.74rem; color: rgba(255, 253, 249, 0.68); font-weight: 600; }
 
     .header-actions {
       display: flex;
-      gap: 7px;
+      gap: 8px;
       align-items: center;
       flex-wrap: wrap;
     }
@@ -345,29 +260,6 @@
       cursor: pointer;
     }
     .room-pill-btn:hover { background: rgba(255, 255, 255, 0.16); }
-
-    .notif-bell-btn {
-      position: relative;
-      background: rgba(255, 255, 255, 0.09);
-      border: 1px solid var(--card-border);
-      color: var(--cream);
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .notif-unread-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #fb7185;
-      box-shadow: 0 0 8px #fb7185;
-      display: none;
-    }
 
     .leave-btn {
       background: rgba(248, 113, 113, 0.14);
@@ -402,53 +294,6 @@
       animation: pulse 1.8s infinite;
     }
 
-    /* ================= PAGE SWITCHER (MEJA VIRTUAL VS PELIHARAAN) ================= */
-    .main-page-nav {
-      width: 100%;
-      max-width: 980px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--card-border);
-      padding: 5px;
-      border-radius: 18px;
-      margin-bottom: 18px;
-    }
-
-    .page-nav-btn {
-      border: none;
-      background: transparent;
-      color: rgba(255, 253, 249, 0.7);
-      padding: 10px 14px;
-      border-radius: 13px;
-      font-size: 0.85rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .page-nav-btn:hover:not(.active) {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--cream);
-    }
-    .page-nav-btn.active {
-      background: var(--accent-primary);
-      color: var(--ink);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
-    }
-
-    .coin-pill-mini {
-      background: rgba(0, 0, 0, 0.18);
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 0.74rem;
-      font-weight: 800;
-    }
-
-    /* ================= PAGE 1: MEJA VIRTUAL ================= */
     .bento-grid {
       width: 100%;
       max-width: 980px;
@@ -714,7 +559,7 @@
     }
     .btn-primary:hover { filter: brightness(1.05); }
 
-    /* MODALS */
+    /* MODALS (CAMERA, CROPPER, EXIT) */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -775,28 +620,6 @@
     .crop-controls label { font-size: 0.75rem; font-weight: 700; color: rgba(255,253,249,0.7); }
     .crop-controls input[type="range"] { width: 100%; accent-color: var(--accent-primary); }
 
-    .notif-list-box {
-      width: 100%;
-      max-height: 280px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .notif-item-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 10px 12px;
-      font-size: 0.8rem;
-      line-height: 1.35;
-    }
-    .notif-item-time {
-      font-size: 0.68rem;
-      color: rgba(255, 253, 249, 0.5);
-      margin-top: 3px;
-    }
-
     /* RIGHT COLUMN: CLOCKS + GPS LOCATION + UNIFIED STATUS */
     .right-stack { display: flex; flex-direction: column; gap: 20px; }
     .clocks-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -841,6 +664,7 @@
       text-overflow: ellipsis;
     }
 
+    /* KOTAK STATUS TERPADU (TEMPLATE + TULIS SENDIRI) */
     .unified-status-select {
       width: 100%;
       background: rgba(254, 240, 138, 0.09);
@@ -952,183 +776,9 @@
       font-size: 0.78rem;
       color: rgba(255, 253, 249, 0.55);
     }
-
-    /* ================= PAGE 2: COUPLE PET SYSTEM ================= */
-    #petView {
-      display: none;
-      width: 100%;
-      max-width: 980px;
-      flex-direction: column;
-      gap: 20px;
-      animation: fadeSlideUp 0.45s var(--ease-spring);
-    }
-
-    .breed-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin: 14px 0;
-    }
-    @media (min-width: 720px) {
-      .breed-grid { grid-template-columns: repeat(4, 1fr); }
-    }
-
-    .breed-card {
-      background: var(--bg-secondary);
-      border: 2px solid var(--card-border);
-      border-radius: 20px;
-      padding: 14px 10px;
-      text-align: center;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      transition: transform 0.25s var(--ease-spring), border-color 0.25s ease, background-color 0.25s ease;
-    }
-    .breed-card:hover { transform: translateY(-3px); border-color: rgba(254, 240, 138, 0.45); }
-    .breed-card.selected {
-      border-color: var(--accent-primary);
-      background: rgba(254, 240, 138, 0.12);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
-    }
-    .breed-name { font-size: 0.9rem; font-weight: 800; color: var(--cream); }
-    .breed-desc { font-size: 0.72rem; color: rgba(255, 253, 249, 0.68); line-height: 1.35; }
-
-    .pet-dashboard-grid {
-      display: grid;
-      grid-template-columns: 1.05fr 1fr;
-      gap: 20px;
-    }
-    @media (max-width: 780px) {
-      .pet-dashboard-grid { grid-template-columns: 1fr; }
-    }
-
-    .pet-stage-box {
-      background: radial-gradient(circle at 50% 65%, rgba(254, 240, 138, 0.16), rgba(0, 0, 0, 0.28));
-      border: 1px solid var(--card-border);
-      border-radius: 22px;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      min-height: 250px;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .pet-speech-bubble {
-      background: var(--cream);
-      color: var(--ink);
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 800;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.28);
-      margin-bottom: 10px;
-      animation: popIn 0.3s var(--ease-spring);
-    }
-
-    .pet-svg-wrap {
-      width: 155px;
-      height: 155px;
-      animation: petFloat 3s ease-in-out infinite;
-    }
-    .pet-svg-wrap.happy-jump {
-      animation: petHappyJump 0.75s var(--ease-spring);
-    }
-    .pet-tail {
-      transform-origin: 140px 135px;
-      animation: tailWag 1.1s ease-in-out infinite;
-    }
-
-    .stat-bars {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 14px;
-    }
-    .stat-row { display: flex; flex-direction: column; gap: 4px; }
-    .stat-label-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.74rem;
-      font-weight: 700;
-      color: rgba(255, 253, 249, 0.8);
-    }
-    .progress-track {
-      width: 100%;
-      height: 9px;
-      background: rgba(0, 0, 0, 0.35);
-      border-radius: 999px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      border-radius: 999px;
-      transition: width 0.5s var(--ease-spring);
-    }
-
-    .shop-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .shop-item-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .shop-item-top { display: flex; align-items: center; gap: 8px; }
-    .shop-item-icon { font-size: 1.5rem; }
-    .shop-item-name { font-size: 0.82rem; font-weight: 800; color: var(--cream); }
-    .shop-item-effect { font-size: 0.7rem; color: var(--mint); font-weight: 600; }
-
-    .mission-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .mission-row {
-      background: rgba(0, 0, 0, 0.22);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 9px 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.78rem;
-      font-weight: 600;
-    }
-    .mission-reward-tag {
-      background: rgba(254, 240, 138, 0.16);
-      color: var(--butter);
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 0.72rem;
-      font-weight: 800;
-    }
   </style>
 </head>
 <body>
-
-  <!-- LIVE NOTIFICATION TOAST -->
-  <div id="liveToastBanner" class="live-toast-banner" role="alert">
-    <div class="toast-icon-circle" id="liveToastIcon">📸</div>
-    <div class="toast-content">
-      <div class="toast-title" id="liveToastTitle">New Update ✨</div>
-      <div class="toast-body" id="liveToastBody">Partner waiting for you to see his/her cute picture ~</div>
-    </div>
-  </div>
 
   <!-- LAYAR 1: CONNECT ROOM PRIVAT (HANYA MUNCUL JIKA BELUM ADA SESI) -->
   <div id="connectGate">
@@ -1195,10 +845,6 @@
           <span id="syncStatus">Live Synced ✓</span>
         </div>
 
-        <button type="button" class="notif-bell-btn" id="notifBellBtn" title="Notifikasi">
-          🔔 <span class="notif-unread-dot" id="notifUnreadDot"></span>
-        </button>
-
         <select class="lang-select" id="appLangSelect" aria-label="Language">
           <option value="id">🇮🇩 ID</option>
           <option value="en">🇬🇧 EN</option>
@@ -1209,19 +855,7 @@
       </div>
     </header>
 
-    <!-- NAVIGASI ANTAR PAGE DALAM SATU HALAMAN -->
-    <nav class="main-page-nav">
-      <button type="button" class="page-nav-btn active" id="navDeskTab">
-        <span id="navDeskLabel">🧸 Meja Virtual</span>
-      </button>
-      <button type="button" class="page-nav-btn" id="navPetTab">
-        <span id="navPetLabel">🐾 Peliharaan Kita</span>
-        <span class="coin-pill-mini" id="navCoinBadge">🪙 0</span>
-      </button>
-    </nav>
-
-    <!-- ================= PAGE 1: MEJA VIRTUAL ================= -->
-    <main class="bento-grid" id="deskView">
+    <main class="bento-grid">
       <!-- LEFT: POLAROID WIDGET DENGAN KAMERA & 3 TAB -->
       <section class="widget">
         <div class="widget-header">
@@ -1236,6 +870,7 @@
           </div>
         </div>
 
+        <!-- 3 TAB: POTRET & CORET | POLAROID KAMU | POLAROID PASANGAN -->
         <div class="polaroid-tabs-3">
           <button type="button" class="p-tab-btn active" id="pTabUpload">
             <span id="pTabUploadLabel">✨ Potret & Coret</span>
@@ -1280,7 +915,7 @@
           </div>
           <div style="display:flex; gap:6px;">
             <button type="button" class="btn" id="clearDraftBtn">Reset Kanvas</button>
-            <button type="button" class="btn btn-primary" id="sendLiveBtn">Kirim ke Dia ✨ (+25 🪙)</button>
+            <button type="button" class="btn btn-primary" id="sendLiveBtn">Kirim ke Dia ✨</button>
           </div>
         </div>
 
@@ -1295,6 +930,7 @@
             <button type="button" class="btn" id="requestGpsBtn" style="font-size:0.7rem; padding:4px 8px;">📍 Sync GPS</button>
           </div>
           <div class="clocks-row">
+            <!-- KARTU AKTIF (KAMU) -->
             <div class="clock-pill active-owner">
               <div class="clock-city" id="leftClockLabel">Kamu</div>
               <div class="clock-time-row">
@@ -1302,6 +938,7 @@
                 <div class="clock-location-badge" id="leftLocationBadge">📍 GPS Off</div>
               </div>
 
+              <!-- 1 KOTAK TERPADU: PILIH TEMPLATE ATAU KETIK SENDIRI -->
               <select class="unified-status-select" id="activeStatusSelect"></select>
               <div class="custom-status-wrap" id="customStatusWrap">
                 <input
@@ -1315,6 +952,7 @@
               </div>
             </div>
 
+            <!-- KARTU PASANGAN -->
             <div class="clock-pill">
               <div class="clock-city partner" id="rightClockLabel">Menunggu Pasangan...</div>
               <div class="clock-time-row">
@@ -1329,7 +967,7 @@
         <section class="widget" style="flex:1;">
           <div class="widget-header">
             <span class="widget-title" id="notesWidgetTitle">🗒️ Live Sticky Notes</span>
-            <button type="button" class="btn btn-primary" id="addNoteBtn">+ Note Baru (+15 🪙)</button>
+            <button type="button" class="btn btn-primary" id="addNoteBtn">+ Note Baru</button>
           </div>
 
           <div class="notes-section-label">
@@ -1344,95 +982,6 @@
         </section>
       </div>
     </main>
-
-    <!-- ================= PAGE 2: SISTEM PELIHARAAN VIRTUAL ================= -->
-    <section id="petView">
-      <div class="widget" id="petAdoptionSection">
-        <div class="widget-header">
-          <span class="widget-title" id="adoptWidgetTitle">🏡 Adopsi Peliharaan Bersama (Dipilih Sekali)</span>
-          <span class="coin-pill-mini" style="background:var(--butter); color:var(--ink);" id="adoptCoinInfo">🪙 0</span>
-        </div>
-        <p id="adoptSubtitle" style="font-size:0.82rem; color:rgba(255,253,249,0.75); line-height:1.45;">
-          Pilih satu anak anjing menggemaskan untuk dirawat berdua! Selesaikan misi kirim foto atau catatan untuk mengumpulkan koin makanan.
-        </p>
-
-        <div class="breed-grid" id="breedSelectionGrid"></div>
-
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-          <input type="text" id="petNameInput" class="gate-input" maxlength="16" placeholder="Beri nama peliharaan (Contoh: Mochi)..." />
-          <button type="button" class="btn btn-primary" id="adoptPetBtn" style="padding:11px 18px;">Adopsi Sekarang 🐾</button>
-        </div>
-      </div>
-
-      <div class="pet-dashboard-grid" id="petCareSection" style="display:none;">
-        <div class="widget">
-          <div class="widget-header">
-            <span class="widget-title" id="petRoomTitle">🐾 Ruang Peliharaan Kita</span>
-            <span class="coin-pill-mini" style="background:var(--butter); color:var(--ink);" id="petLevelBadge">Lv. 1</span>
-          </div>
-
-          <div class="pet-stage-box" id="petStageBox" title="Ketuk untuk mengelus!">
-            <div class="pet-speech-bubble" id="petSpeechBubble">Woof! Aku senang bertemu kalian ♡</div>
-            <div class="pet-svg-wrap" id="petSvgContainer"></div>
-            <div style="margin-top:10px; text-align:center;">
-              <div style="font-size:1.1rem; font-weight:800; color:var(--accent-primary);" id="petDisplayName">Mochi</div>
-              <div style="font-size:0.74rem; color:rgba(255,253,249,0.68); font-weight:700;" id="petBreedLabel">Shiba Inu</div>
-            </div>
-            <button type="button" class="btn" id="petHeadBtn" style="margin-top:10px; font-size:0.75rem;">🖐️ Elus Kepala (+5 🪙)</button>
-          </div>
-
-          <div class="stat-bars">
-            <div class="stat-row">
-              <div class="stat-label-row">
-                <span id="lblFullness">🍖 Kenyang (Fullness)</span>
-                <span id="petFullnessText">80 / 100</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill" id="petFullnessBar" style="width:80%; background:var(--butter);"></div>
-              </div>
-            </div>
-
-            <div class="stat-row">
-              <div class="stat-label-row">
-                <span id="lblHappiness">💖 Kebahagiaan (Happiness)</span>
-                <span id="petHappinessText">85 / 100</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill" id="petHappinessBar" style="width:85%; background:var(--pink);"></div>
-              </div>
-            </div>
-
-            <div class="stat-row">
-              <div class="stat-label-row">
-                <span id="lblExp">⭐ EXP Level</span>
-                <span id="petExpText">0 / 100 EXP</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill" id="petExpBar" style="width:0%; background:var(--mint);"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="right-stack">
-          <div class="widget">
-            <div class="widget-header">
-              <span class="widget-title" id="petShopTitle">🛒 Toko Makanan & Mainan</span>
-              <span class="coin-pill-mini" style="background:var(--butter); color:var(--ink);" id="shopCoinDisplay">🪙 0</span>
-            </div>
-            <div class="shop-grid" id="petShopGrid"></div>
-          </div>
-
-          <div class="widget">
-            <div class="widget-header">
-              <span class="widget-title" id="missionWidgetTitle">🎯 Misi Kumpulkan Koin</span>
-            </div>
-            <div class="mission-list" id="petMissionList"></div>
-            <div style="margin-top:12px; font-size:0.74rem; color:rgba(255,253,249,0.68);" id="lastPetCareLog"></div>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 
   <!-- MODAL KAMERA LIVE -->
@@ -1468,28 +1017,13 @@
     </div>
   </div>
 
-  <!-- MODAL RIWAYAT NOTIFIKASI -->
-  <div id="notifModal" class="modal-overlay">
-    <div class="modal-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
-        <span class="widget-title" id="notifModalTitle">🔔 Notifikasi Pasangan</span>
-        <button type="button" class="btn" id="enablePushNotifBtn" style="font-size:0.7rem; padding:4px 9px;">Aktifkan Push</button>
-      </div>
-      <div class="notif-list-box" id="notifListContainer"></div>
-      <div style="display:flex; gap:10px; width:100%; justify-content:flex-end;">
-        <button type="button" class="btn" id="clearNotifBtn">Bersihkan</button>
-        <button type="button" class="btn btn-primary" id="closeNotifBtn">Tutup</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL KONFIRMASI KELUAR (DARI KODE LAMA) -->
+  <!-- MODAL KONFIRMASI KELUAR -->
   <div id="exitConfirmModal" class="modal-overlay">
     <div class="modal-card" style="max-width: 360px; text-align: center;">
       <div style="font-size: 2rem;">🚪🧸</div>
       <h3 id="exitModalTitle" style="font-size: 1.05rem; color: var(--accent-primary);">Keluar dari Room?</h3>
       <p id="exitModalDesc" style="font-size: 0.82rem; color: rgba(255,253,249,0.75); line-height: 1.45;">
-        Kamu bisa masuk kembali kapan saja menggunakan Kode Room dan PIN yang sama.
+        Kamu bisa masuk kembali kapan saja menggunakan Kode Room dan Password/PIN yang sama.
       </p>
       <div style="display:flex; gap:10px; width:100%; margin-top:4px;">
         <button type="button" class="btn" id="cancelExitBtn" style="flex:1;">Batal</button>
@@ -1499,6 +1033,7 @@
   </div>
 
   <script>
+    // ================= 1. KONFIGURASI FIREBASE REALTIME DATABASE =================
     const firebaseConfig = {
       apiKey: "AIzaSyBF1LP9H26mRntsYXlkjm6Ebp3aR1QI8yU",
       authDomain: "widg-350f9.firebaseapp.com",
@@ -1513,32 +1048,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // ================= CYBERSECURITY & SANITIZATION HELPERS =================
-    function escapeHtml(str) {
-      return String(str ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-    }
-
-    function sanitizeRoomCode(raw) {
-      return String(raw || "").trim().toUpperCase().replace(/[^A-Z0-9-]/g, "").slice(0, 20);
-    }
-
-    async function hashPinSha256(pinText) {
-      const msgBuffer = new TextEncoder().encode("VDESK_SALT_2026::" + String(pinText));
-      const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-    }
-
-    function isValidDataImage(src) {
-      return typeof src === "string" && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(src);
-    }
-
-    // ================= KAMUS 3 BAHASA (ID, EN, ZH) =================
+    // ================= 2. KAMUS 3 BAHASA (ID, EN, ZH) =================
     const I18N = {
       id: {
         gateSubtitle: "Masukkan nama panggilanmu dan hubungkan room privat khusus berdua.",
@@ -1569,8 +1079,6 @@
         confirmExit: "Ya, Keluar",
         connectedSub: "Terhubung di Room",
         waitingSub: "Menunggu pasangan bergabung ke Room",
-        navDesk: "🧸 Meja Virtual",
-        navPet: "🐾 Peliharaan Kita",
         polaroidTitle: "📸 Live Polaroid Widget",
         cameraBtn: "📷 Kamera",
         galleryBtn: "🖼️ Galeri",
@@ -1582,7 +1090,7 @@
         noPolaroidYet: "Belum ada Polaroid",
         deletePhoto: "🗑️ Hapus foto ini",
         resetCanvas: "Reset Kanvas",
-        sendToPartner: "Kirim ke Dia ✨ (+25 🪙)",
+        sendToPartner: "Kirim ke Dia ✨",
         gallerySelfInfo: "🎨 Koleksi Polaroid yang sudah dikirim oleh {name}.",
         galleryPartnerInfo: "💌 Polaroid kiriman dari {name} khusus untukmu.",
         emptySelfCanvas: "{name} belum mengirim Polaroid ♡",
@@ -1600,7 +1108,7 @@
         customOption: "✍️ Tulis sendiri...",
         customPlaceholder: "✍️ Tulis status / pesan singkat...",
         notesTitle: "🗒️ Live Sticky Notes",
-        addNote: "+ Note Baru (+15 🪙)",
+        addNote: "+ Note Baru",
         ownNotesTitle: "✍️ Catatan {me} (Untuk {partner})",
         incomingNotesTitle: "💌 Catatan dari {partner}",
         emptyOwnNotes: "Belum ada catatan dari {me}. Klik + Note Baru ♡",
@@ -1609,16 +1117,6 @@
         cropTitle: "Sesuaikan Ukuran Foto ✂️",
         cropZoom: "Geser / Zoom Foto agar pas:",
         applyCrop: "Gunakan Foto ✓",
-        adoptTitle: "🏡 Adopsi Peliharaan Bersama (Dipilih Sekali)",
-        adoptSub: "Pilih satu anak anjing menggemaskan untuk dirawat berdua! Selesaikan misi kirim foto atau catatan untuk mengumpulkan koin makanan.",
-        adoptBtn: "Adopsi Sekarang 🐾",
-        petNamePh: "Beri nama peliharaan (Contoh: Mochi)...",
-        petRoomTitle: "🐾 Ruang Peliharaan Kita",
-        petHeadBtn: "🖐️ Elus Kepala (+5 🪙)",
-        petShopTitle: "🛒 Toko Makanan & Mainan",
-        missionTitle: "🎯 Misi Kumpulkan Koin",
-        notEnoughCoins: "Koin belum cukup! Kirim foto atau catatan dulu untuk dapat koin 🪙",
-        noNotifYet: "Belum ada notifikasi baru dari pasangan ♡",
         templates: [
           "☕ Ngopi santai dulu",
           "🌸 Lagi kangen kamu",
@@ -1659,8 +1157,6 @@
         confirmExit: "Yes, Exit",
         connectedSub: "Connected in Room",
         waitingSub: "Waiting for partner to join Room",
-        navDesk: "🧸 Virtual Desk",
-        navPet: "🐾 Our Pet",
         polaroidTitle: "📸 Live Polaroid Widget",
         cameraBtn: "📷 Camera",
         galleryBtn: "🖼️ Gallery",
@@ -1672,7 +1168,7 @@
         noPolaroidYet: "No Polaroids yet",
         deletePhoto: "🗑️ Delete photo",
         resetCanvas: "Reset Canvas",
-        sendToPartner: "Send Live ✨ (+25 🪙)",
+        sendToPartner: "Send Live ✨",
         gallerySelfInfo: "🎨 Polaroids uploaded and sent by {name}.",
         galleryPartnerInfo: "💌 Polaroids sent by {name} just for you.",
         emptySelfCanvas: "{name} hasn't sent any Polaroid yet ♡",
@@ -1690,7 +1186,7 @@
         customOption: "✍️ Write your own...",
         customPlaceholder: "✍️ Type your own status...",
         notesTitle: "🗒️ Live Sticky Notes",
-        addNote: "+ New Note (+15 🪙)",
+        addNote: "+ New Note",
         ownNotesTitle: "✍️ {me}'s Notes (For {partner})",
         incomingNotesTitle: "💌 Notes from {partner}",
         emptyOwnNotes: "No notes from {me} yet. Click + New Note ♡",
@@ -1699,16 +1195,6 @@
         cropTitle: "Adjust Photo Crop ✂️",
         cropZoom: "Drag / Zoom photo to fit:",
         applyCrop: "Use Photo ✓",
-        adoptTitle: "🏡 Adopt a Couple Pet (One-Time Choice)",
-        adoptSub: "Pick one cute puppy to raise together! Complete missions like sending photos or notes to earn treat coins.",
-        adoptBtn: "Adopt Now 🐾",
-        petNamePh: "Name your pet (e.g. Mochi)...",
-        petRoomTitle: "🐾 Our Pet Room",
-        petHeadBtn: "🖐️ Pet Head (+5 🪙)",
-        petShopTitle: "🛒 Treats & Toys Shop",
-        missionTitle: "🎯 Coin Missions",
-        notEnoughCoins: "Not enough coins! Send a photo or note to earn more 🪙",
-        noNotifYet: "No new notifications from your partner yet ♡",
         templates: [
           "☕ Sipping coffee",
           "🌸 Missing you right now",
@@ -1749,8 +1235,6 @@
         confirmExit: "确认退出",
         connectedSub: "已连接至房间",
         waitingSub: "正在等待另一半加入房间",
-        navDesk: "🧸 虚拟书桌",
-        navPet: "🐾 我们的宠物",
         polaroidTitle: "📸 实时拍立得组件",
         cameraBtn: "📷 相机拍照",
         galleryBtn: "🖼️ 相册",
@@ -1762,7 +1246,7 @@
         noPolaroidYet: "暂无拍立得照片",
         deletePhoto: "🗑️ 删除此照片",
         resetCanvas: "重置画布",
-        sendToPartner: "发送给Ta ✨ (+25 🪙)",
+        sendToPartner: "发送给Ta ✨",
         gallerySelfInfo: "🎨 {name} 已发送的拍立得相册。",
         galleryPartnerInfo: "💌 {name} 专属发送给你的拍立得。",
         emptySelfCanvas: "{name} 还没有发送过拍立得 ♡",
@@ -1780,7 +1264,7 @@
         customOption: "✍️ 自定义输入...",
         customPlaceholder: "✍️ 输入想对Ta说的话...",
         notesTitle: "🗒️ 实时便利贴",
-        addNote: "+ 新建便利贴 (+15 🪙)",
+        addNote: "+ 新建便利贴",
         ownNotesTitle: "✍️ {me} 的便利贴（写给 {partner}）",
         incomingNotesTitle: "💌 来自 {partner} 的便利贴",
         emptyOwnNotes: "{me} 还没有写便利贴，点击 + 新建便利贴 ♡",
@@ -1789,16 +1273,6 @@
         cropTitle: "裁剪照片尺寸 ✂️",
         cropZoom: "拖动 / 缩放照片以适配：",
         applyCrop: "确认使用 ✓",
-        adoptTitle: "🏡 共同领养宠物（仅选一次）",
-        adoptSub: "选择一只可爱的小狗一起抚养！完成发送照片或便利贴任务即可赚取金币购买零食。",
-        adoptBtn: "立即领养 🐾",
-        petNamePh: "给宠物起个名字（如：团子）...",
-        petRoomTitle: "🐾 我们的宠物小屋",
-        petHeadBtn: "🖐️ 摸摸头 (+5 🪙)",
-        petShopTitle: "🛒 宠物零食与玩具店",
-        missionTitle: "🎯 赚取金币任务",
-        notEnoughCoins: "金币不足！发送照片或便利贴即可获得金币 🪙",
-        noNotifYet: "暂无来自另一半的新通知 ♡",
         templates: [
           "☕ 正在喝咖啡",
           "🌸 正在想你哦",
@@ -1830,169 +1304,25 @@
     }
 
     (function attachDynamicManifest() {
-      const manifestObj = {
-        name: "Our Virtual Desk",
-        short_name: "Our Desk",
-        start_url: window.location.href,
-        display: "standalone",
-        background_color: "#1e1714",
-        theme_color: "#1e1714"
-      };
-      const blob = new Blob([JSON.stringify(manifestObj)], { type: "application/json" });
-      document.getElementById("dynamicManifest").href = URL.createObjectURL(blob);
+      try {
+        const manifestObj = {
+          name: "Our Virtual Desk",
+          short_name: "Our Desk",
+          start_url: window.location.href,
+          display: "standalone",
+          background_color: "#1e1714",
+          theme_color: "#1e1714"
+        };
+        const blob = new Blob([JSON.stringify(manifestObj)], { type: "application/json" });
+        document.getElementById("dynamicManifest").href = URL.createObjectURL(blob);
+      } catch {}
     })();
 
-    // ================= DATA PELIHARAAN & TOKO =================
-    const PET_BREEDS = {
-      shiba: {
-        id: "shiba",
-        name: "Shiba Inu",
-        sub: "柴犬 • Ceria & Setia",
-        desc: {
-          id: "Ceria, ekspresif, dan selalu setia menunggu kalian pulang.",
-          en: "Cheerful, expressive, and always loyally waiting for you both.",
-          zh: "开朗活泼，表情丰富，永远忠诚地陪伴你们。"
-        }
-      },
-      akita: {
-        id: "akita",
-        name: "Akita Inu",
-        sub: "秋田犬 • Lembut & Gagah",
-        desc: {
-          id: "Berbulu tebal, lembut, dan pelindung hangat hubungan kalian.",
-          en: "Plush, gentle, and a warm protector of your bond.",
-          zh: "毛茸茸又温柔，守护你们感情的暖心伙伴。"
-        }
-      },
-      japanese_spitz: {
-        id: "japanese_spitz",
-        name: "Japanese Spitz",
-        sub: "日本狐狸犬 • Putih Selembut Awan",
-        desc: {
-          id: "Bulu putih salju yang mengembang seperti awan kapas manis.",
-          en: "Snow-white fluffy coat as soft as a sweet cotton cloud.",
-          zh: "像棉花糖一样蓬松雪白的云朵小狗。"
-        }
-      },
-      chinese_spitz: {
-        id: "chinese_spitz",
-        name: "Chinese Spitz",
-        sub: "中国银狐犬 • Pintar & Manis",
-        desc: {
-          id: "Lincah, cerdas, dan suka bermanja saat diberi camilan.",
-          en: "Playful, clever, and loves cuddling whenever treated.",
-          zh: "聪明伶俐又爱撒娇，最喜欢你们一起陪它玩。"
-        }
-      }
-    };
-
-    const PET_SHOP_ITEMS = [
-      { id: "bone", icon: "🦴", name: { id: "Biskuit Tulang", en: "Crunchy Bone", zh: "脆脆骨头饼干" }, cost: 15, full: 18, happy: 10, exp: 15 },
-      { id: "milk", icon: "🧋", name: { id: "Puppuccino", en: "Puppuccino", zh: "汪汪奶盖杯" }, cost: 25, full: 12, happy: 30, exp: 25 },
-      { id: "salmon", icon: "🍣", name: { id: "Salmon Segar", en: "Fresh Salmon", zh: "新鲜三文鱼" }, cost: 35, full: 35, happy: 20, exp: 35 },
-      { id: "wagyu", icon: "🥩", name: { id: "Steak Spesial", en: "Wagyu Steak", zh: "特级和牛牛排" }, cost: 50, full: 55, happy: 40, exp: 55 }
-    ];
-
-    function getPetSvgMarkup(breedId) {
-      if (breedId === "akita") {
-        return `<svg viewBox="0 0 200 200" width="100%" height="100%">
-          <g class="pet-tail"><path d="M138 136 C168 118, 174 88, 148 92 C134 94, 134 116, 142 126" fill="#c97b42" stroke="#5c3317" stroke-width="4" stroke-linecap="round"/></g>
-          <ellipse cx="100" cy="144" rx="46" ry="38" fill="#c97b42" stroke="#5c3317" stroke-width="4"/>
-          <ellipse cx="100" cy="150" rx="28" ry="26" fill="#fdf6e9"/>
-          <polygon points="52,78 44,32 82,56" fill="#c97b42" stroke="#5c3317" stroke-width="4" stroke-linejoin="round"/>
-          <polygon points="56,70 51,42 74,58" fill="#f5c6a5"/>
-          <polygon points="148,78 156,32 118,56" fill="#c97b42" stroke="#5c3317" stroke-width="4" stroke-linejoin="round"/>
-          <polygon points="144,70 149,42 126,58" fill="#f5c6a5"/>
-          <circle cx="100" cy="92" r="46" fill="#c97b42" stroke="#5c3317" stroke-width="4"/>
-          <path d="M56 96 C62 128, 138 128, 144 96 C132 86, 114 96, 100 96 C86 96, 68 86, 56 96 Z" fill="#fdf6e9"/>
-          <circle cx="80" cy="86" r="5.5" fill="#29201c"/><circle cx="78" cy="84" r="1.8" fill="#fff"/>
-          <circle cx="120" cy="86" r="5.5" fill="#29201c"/><circle cx="118" cy="84" r="1.8" fill="#fff"/>
-          <ellipse cx="100" cy="100" rx="7" ry="5" fill="#29201c"/>
-          <path d="M90 108 Q100 117 110 108" fill="none" stroke="#29201c" stroke-width="3.5" stroke-linecap="round"/>
-          <ellipse cx="68" cy="102" rx="7" ry="4" fill="#f472b6" opacity="0.45"/>
-          <ellipse cx="132" cy="102" rx="7" ry="4" fill="#f472b6" opacity="0.45"/>
-          <rect x="74" y="128" width="52" height="9" rx="4.5" fill="#38bdf8" stroke="#1e293b" stroke-width="2.5"/>
-          <circle cx="100" cy="133" r="6" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
-        </svg>`;
-      }
-      if (breedId === "japanese_spitz") {
-        return `<svg viewBox="0 0 200 200" width="100%" height="100%">
-          <g class="pet-tail"><path d="M136 136 C175 112, 178 72, 144 78 C126 82, 128 110, 140 124" fill="#ffffff" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/></g>
-          <ellipse cx="100" cy="145" rx="46" ry="37" fill="#ffffff" stroke="#94a3b8" stroke-width="4"/>
-          <path d="M56 125 Q70 144 86 132 Q100 148 114 132 Q130 144 144 125" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3"/>
-          <polygon points="56,76 50,28 84,54" fill="#ffffff" stroke="#94a3b8" stroke-width="4" stroke-linejoin="round"/>
-          <polygon points="60,68 55,39 77,56" fill="#fbcfe8"/>
-          <polygon points="144,76 150,28 116,54" fill="#ffffff" stroke="#94a3b8" stroke-width="4" stroke-linejoin="round"/>
-          <polygon points="140,68 145,39 123,56" fill="#fbcfe8"/>
-          <circle cx="100" cy="92" r="44" fill="#ffffff" stroke="#94a3b8" stroke-width="4"/>
-          <circle cx="81" cy="88" r="5.5" fill="#1e293b"/><circle cx="79" cy="86" r="2" fill="#fff"/>
-          <circle cx="119" cy="88" r="5.5" fill="#1e293b"/><circle cx="117" cy="86" r="2" fill="#fff"/>
-          <ellipse cx="100" cy="100" rx="6" ry="4.5" fill="#1e293b"/>
-          <path d="M91 108 Q100 116 109 108" fill="none" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
-          <ellipse cx="69" cy="101" rx="7" ry="4" fill="#f472b6" opacity="0.4"/>
-          <ellipse cx="131" cy="101" rx="7" ry="4" fill="#f472b6" opacity="0.4"/>
-        </svg>`;
-      }
-      if (breedId === "chinese_spitz") {
-        return `<svg viewBox="0 0 200 200" width="100%" height="100%">
-          <g class="pet-tail"><path d="M136 136 C172 114, 174 78, 144 84 C128 88, 130 112, 140 124" fill="#fffdf9" stroke="#a8a29e" stroke-width="4" stroke-linecap="round"/></g>
-          <ellipse cx="100" cy="145" rx="44" ry="36" fill="#fffdf9" stroke="#a8a29e" stroke-width="4"/>
-          <path d="M58 76 Q52 34 84 55" fill="#fffdf9" stroke="#a8a29e" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M62 69 Q58 43 78 57" fill="#fecdd3"/>
-          <path d="M142 76 Q148 34 116 55" fill="#fffdf9" stroke="#a8a29e" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M138 69 Q142 43 122 57" fill="#fecdd3"/>
-          <circle cx="100" cy="92" r="43" fill="#fffdf9" stroke="#a8a29e" stroke-width="4"/>
-          <circle cx="81" cy="88" r="5.5" fill="#29201c"/><circle cx="79" cy="86" r="2" fill="#fff"/>
-          <circle cx="119" cy="88" r="5.5" fill="#29201c"/><circle cx="117" cy="86" r="2" fill="#fff"/>
-          <ellipse cx="100" cy="100" rx="6" ry="4.5" fill="#29201c"/>
-          <path d="M91 108 Q100 116 109 108" fill="none" stroke="#29201c" stroke-width="3" stroke-linecap="round"/>
-          <ellipse cx="69" cy="101" rx="7" ry="4" fill="#fb7185" opacity="0.45"/>
-          <ellipse cx="131" cy="101" rx="7" ry="4" fill="#fb7185" opacity="0.45"/>
-          <rect x="75" y="128" width="50" height="8" rx="4" fill="#f43f5e" stroke="#29201c" stroke-width="2"/>
-          <circle cx="100" cy="133" r="6" fill="#facc15" stroke="#29201c" stroke-width="2"/>
-        </svg>`;
-      }
-      return `<svg viewBox="0 0 200 200" width="100%" height="100%">
-        <g class="pet-tail"><path d="M136 138 C166 122, 170 92, 146 96 C134 98, 134 118, 141 128" fill="#e59a4c" stroke="#5c3317" stroke-width="4" stroke-linecap="round"/></g>
-        <ellipse cx="100" cy="145" rx="43" ry="36" fill="#e59a4c" stroke="#5c3317" stroke-width="4"/>
-        <ellipse cx="100" cy="150" rx="26" ry="25" fill="#fff8eb"/>
-        <polygon points="56,78 48,32 84,56" fill="#e59a4c" stroke="#5c3317" stroke-width="4" stroke-linejoin="round"/>
-        <polygon points="60,70 55,42 77,58" fill="#fbd38d"/>
-        <polygon points="144,78 152,32 116,56" fill="#e59a4c" stroke="#5c3317" stroke-width="4" stroke-linejoin="round"/>
-        <polygon points="140,70 145,42 123,58" fill="#fbd38d"/>
-        <circle cx="100" cy="92" r="43" fill="#e59a4c" stroke="#5c3317" stroke-width="4"/>
-        <path d="M58 96 C64 126, 136 126, 142 96 C130 87, 114 96, 100 96 C86 96, 70 87, 58 96 Z" fill="#fff8eb"/>
-        <ellipse cx="83" cy="75" rx="5" ry="3" fill="#fff8eb"/>
-        <ellipse cx="117" cy="75" rx="5" ry="3" fill="#fff8eb"/>
-        <circle cx="81" cy="87" r="5" fill="#29201c"/><circle cx="79" cy="85" r="1.8" fill="#fff"/>
-        <circle cx="119" cy="87" r="5" fill="#29201c"/><circle cx="117" cy="85" r="1.8" fill="#fff"/>
-        <ellipse cx="100" cy="100" rx="6.5" ry="4.5" fill="#29201c"/>
-        <path d="M90 108 Q100 116 110 108" fill="none" stroke="#29201c" stroke-width="3.2" stroke-linecap="round"/>
-        <ellipse cx="69" cy="101" rx="7" ry="4" fill="#f472b6" opacity="0.45"/>
-        <ellipse cx="131" cy="101" rx="7" ry="4" fill="#f472b6" opacity="0.45"/>
-        <rect x="76" y="128" width="48" height="8" rx="4" fill="#ef4444" stroke="#29201c" stroke-width="2"/>
-        <circle cx="100" cy="133" r="5.5" fill="#fef08a" stroke="#29201c" stroke-width="2"/>
-      </svg>`;
-    }
-
-    // ================= STATE UTAMA =================
-    const connectGate = document.getElementById("connectGate");
-    const deskApp = document.getElementById("deskApp");
-    const modeCreateBtn = document.getElementById("modeCreateBtn");
-    const modeJoinBtn = document.getElementById("modeJoinBtn");
-    const genRoomCodeBtn = document.getElementById("genRoomCodeBtn");
-    const userNameInput = document.getElementById("userNameInput");
-    const roomCodeInput = document.getElementById("roomCodeInput");
-    const roomPinInput = document.getElementById("roomPinInput");
-    const gateErrorBox = document.getElementById("gateErrorBox");
-    const connectSubmitBtn = document.getElementById("connectSubmitBtn");
-    const gateLangSelect = document.getElementById("gateLangSelect");
-    const appLangSelect = document.getElementById("appLangSelect");
-
+    // ================= 3. STATE & SESSION =================
     let gateMode = "create";
     let activeRoomRef = null;
     let backgroundPollTimer = null;
-    let session = { roomCode: "", pin: "", pinHash: "", seat: "p1", myName: "" };
+    let session = { roomCode: "", pin: "", seat: "p1", myName: "" };
 
     let roomData = {
       p1Name: "",
@@ -2010,13 +1340,9 @@
       tzP1: Intl.DateTimeFormat().resolvedOptions().timeZone,
       tzP2: "Asia/Shanghai",
       notesP1: [],
-      notesP2: [],
-      coins: 30,
-      pet: null
+      notesP2: []
     };
 
-    let activeMainPage = "desk";
-    let selectedBreedForAdopt = "shiba";
     let activePolaroidTab = "upload";
     let galleryIndex = 0;
     let draftImageDataUrl = "";
@@ -2025,156 +1351,18 @@
     let currentRenderedGallerySrc = "";
     let isCustomStatusEditing = false;
 
-    let isInitialSnapshot = true;
-    let baselineSnapshot = {
-      partnerPhotoCount: 0,
-      partnerNoteCount: 0,
-      partnerStatus: "",
-      petLastFedAt: 0
-    };
-    let notificationHistory = [];
-    let toastTimeout = null;
-    let lastHeadPetTime = 0;
-
-    // ================= NOTIFICATION SYSTEM =================
-    function playSoftChime() {
-      try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return;
-        const ctxAudio = new AudioCtx();
-        const osc = ctxAudio.createOscillator();
-        const gain = ctxAudio.createGain();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(587.33, ctxAudio.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(880, ctxAudio.currentTime + 0.16);
-        gain.gain.setValueAtTime(0.08, ctxAudio.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctxAudio.currentTime + 0.35);
-        osc.connect(gain);
-        gain.connect(ctxAudio.destination);
-        osc.start();
-        osc.stop(ctxAudio.currentTime + 0.36);
-      } catch {}
-    }
-
-    function triggerPartnerNotification({ icon = "📸", title = "New Update ✨", message, targetAction = null }) {
-      playSoftChime();
-
-      const banner = document.getElementById("liveToastBanner");
-      document.getElementById("liveToastIcon").textContent = icon;
-      document.getElementById("liveToastTitle").textContent = title;
-      document.getElementById("liveToastBody").textContent = message;
-
-      banner.onclick = () => {
-        banner.classList.remove("show");
-        if (typeof targetAction === "function") targetAction();
-      };
-
-      banner.classList.add("show");
-      if (toastTimeout) clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        banner.classList.remove("show");
-      }, 5200);
-
-      notificationHistory.unshift({
-        icon,
-        message,
-        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-      });
-      if (notificationHistory.length > 25) notificationHistory.pop();
-
-      document.getElementById("notifUnreadDot").style.display = "inline-block";
-      renderNotificationList();
-
-      if ("Notification" in window && Notification.permission === "granted" && document.visibilityState !== "visible") {
-        try {
-          new Notification("Our Virtual Desk ✨", { body: message });
-        } catch {}
-      }
-    }
-
-    function renderNotificationList() {
-      const box = document.getElementById("notifListContainer");
-      box.innerHTML = "";
-      if (notificationHistory.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "empty-notes-box";
-        empty.textContent = t("noNotifYet");
-        box.appendChild(empty);
-        return;
-      }
-      notificationHistory.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "notif-item-card";
-        card.innerHTML = `
-          <div><strong>${escapeHtml(item.icon)}</strong> ${escapeHtml(item.message)}</div>
-          <div class="notif-item-time">${escapeHtml(item.time)}</div>
-        `;
-        box.appendChild(card);
-      });
-    }
-
-    document.getElementById("notifBellBtn").addEventListener("click", () => {
-      document.getElementById("notifUnreadDot").style.display = "none";
-      renderNotificationList();
-      document.getElementById("notifModal").style.display = "flex";
-    });
-    document.getElementById("closeNotifBtn").addEventListener("click", () => {
-      document.getElementById("notifModal").style.display = "none";
-    });
-    document.getElementById("clearNotifBtn").addEventListener("click", () => {
-      notificationHistory = [];
-      renderNotificationList();
-    });
-    document.getElementById("enablePushNotifBtn").addEventListener("click", async () => {
-      if ("Notification" in window) {
-        try {
-          const perm = await Notification.requestPermission();
-          if (perm === "granted") {
-            document.getElementById("enablePushNotifBtn").textContent = "Push Aktif ✓";
-          }
-        } catch {}
-      }
-    });
-
-    function getCurrentCoins() {
-      return roomData.coins !== undefined && roomData.coins !== null ? Number(roomData.coins) : 30;
-    }
-
-    function showCoinFloatingReward(amount) {
-      const badge = document.createElement("div");
-      badge.className = "floating-coin-pop";
-      badge.textContent = `+${amount} 🪙`;
-      document.body.appendChild(badge);
-      setTimeout(() => badge.remove(), 1550);
-    }
-
-    async function awardMissionCoins(amount) {
-      const nextCoins = getCurrentCoins() + amount;
-      roomData.coins = nextCoins;
-      showCoinFloatingReward(amount);
-      updatePetCoinsUI();
-      await saveRoomPatch({ coins: nextCoins });
-    }
-
-    // ================= PAGE SWITCHING (MEJA VIRTUAL <-> PELIHARAAN) =================
-    const navDeskTab = document.getElementById("navDeskTab");
-    const navPetTab = document.getElementById("navPetTab");
-    const deskView = document.getElementById("deskView");
-    const petView = document.getElementById("petView");
-
-    function switchMainPage(page) {
-      activeMainPage = page;
-      navDeskTab.classList.toggle("active", page === "desk");
-      navPetTab.classList.toggle("active", page === "pet");
-      deskView.style.display = page === "desk" ? "grid" : "none";
-      petView.style.display = page === "pet" ? "flex" : "none";
-      if (page === "pet") {
-        renderPetView();
-      }
-    }
-
-    navDeskTab.addEventListener("click", () => switchMainPage("desk"));
-    navPetTab.addEventListener("click", () => switchMainPage("pet"));
+    const connectGate = document.getElementById("connectGate");
+    const deskApp = document.getElementById("deskApp");
+    const modeCreateBtn = document.getElementById("modeCreateBtn");
+    const modeJoinBtn = document.getElementById("modeJoinBtn");
+    const genRoomCodeBtn = document.getElementById("genRoomCodeBtn");
+    const userNameInput = document.getElementById("userNameInput");
+    const roomCodeInput = document.getElementById("roomCodeInput");
+    const roomPinInput = document.getElementById("roomPinInput");
+    const gateErrorBox = document.getElementById("gateErrorBox");
+    const connectSubmitBtn = document.getElementById("connectSubmitBtn");
+    const gateLangSelect = document.getElementById("gateLangSelect");
+    const appLangSelect = document.getElementById("appLangSelect");
 
     function applyLanguageUI() {
       gateLangSelect.value = currentLang;
@@ -2198,9 +1386,6 @@
       document.getElementById("cancelExitBtn").textContent = t("cancel");
       document.getElementById("confirmExitBtn").textContent = t("confirmExit");
 
-      document.getElementById("navDeskLabel").textContent = t("navDesk");
-      document.getElementById("navPetLabel").textContent = t("navPet");
-
       document.getElementById("polaroidWidgetTitle").textContent = t("polaroidTitle");
       document.getElementById("openCameraBtn").textContent = t("cameraBtn");
       document.getElementById("uploadBtnText").textContent = t("galleryBtn");
@@ -2221,18 +1406,7 @@
       document.getElementById("cancelCropBtn").textContent = t("cancel");
       document.getElementById("applyCropBtn").textContent = t("applyCrop");
 
-      document.getElementById("adoptWidgetTitle").textContent = t("adoptTitle");
-      document.getElementById("adoptSubtitle").textContent = t("adoptSub");
-      document.getElementById("petNameInput").placeholder = t("petNamePh");
-      document.getElementById("adoptPetBtn").textContent = t("adoptBtn");
-      document.getElementById("petRoomTitle").textContent = t("petRoomTitle");
-      document.getElementById("petHeadBtn").textContent = t("petHeadBtn");
-      document.getElementById("petShopTitle").textContent = t("petShopTitle");
-      document.getElementById("missionWidgetTitle").textContent = t("missionTitle");
-
       populateUnifiedStatusDropdown();
-      renderBreedSelectionCards();
-      renderPetView();
 
       if (session.roomCode) {
         refreshDynamicLabelsAndViews();
@@ -2281,7 +1455,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const savedLastCreds = localStorage.getItem("virtual_desk_last_creds");
     if (urlParams.get("room")) {
-      roomCodeInput.value = sanitizeRoomCode(urlParams.get("room"));
+      roomCodeInput.value = urlParams.get("room").toUpperCase();
       setGateMode("join");
     } else if (savedLastCreds) {
       try {
@@ -2303,8 +1477,8 @@
 
     connectSubmitBtn.addEventListener("click", async () => {
       gateErrorBox.style.display = "none";
-      const myName = userNameInput.value.trim().slice(0, 16);
-      const rawCode = sanitizeRoomCode(roomCodeInput.value);
+      const myName = userNameInput.value.trim();
+      const rawCode = roomCodeInput.value.trim().toUpperCase().replace(/[^A-Z0-9-]/g, "");
       const pin = roomPinInput.value.trim();
 
       if (!myName) return showGateError(t("errNoName"));
@@ -2315,15 +1489,11 @@
       connectSubmitBtn.textContent = t("btnConnecting");
 
       try {
-        const inputHash = await hashPinSha256(pin);
         const snap = await db.ref(`rooms/${rawCode}`).once("value");
         const existing = snap.val();
 
         if (existing) {
-          const validHash = existing.pinHash && existing.pinHash === inputHash;
-          const validLegacy = existing.pin && String(existing.pin) === String(pin);
-
-          if (!validHash && !validLegacy) {
+          if (String(existing.pin) !== String(pin)) {
             connectSubmitBtn.disabled = false;
             connectSubmitBtn.textContent = gateMode === "create" ? t("btnCreateSubmit") : t("btnJoinSubmit");
             return showGateError(t("errWrongPin"));
@@ -2344,11 +1514,11 @@
 
           const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
           const patch = assignedSeat === "p1"
-            ? { p1Name: myName, tzP1: localTz, pinHash: inputHash }
-            : { p2Name: myName, tzP2: localTz, pinHash: inputHash };
+            ? { p1Name: myName, tzP1: localTz }
+            : { p2Name: myName, tzP2: localTz };
 
           await db.ref(`rooms/${rawCode}`).update(patch);
-          enterConnectedRoom(rawCode, pin, inputHash, assignedSeat, myName, { ...existing, ...patch });
+          enterConnectedRoom(rawCode, pin, assignedSeat, myName, { ...existing, ...patch });
           return;
         }
 
@@ -2359,7 +1529,7 @@
         }
 
         const initialPayload = {
-          pinHash: inputHash,
+          pin: pin,
           p1Name: myName,
           p2Name: "",
           polaroidP1: [],
@@ -2372,13 +1542,11 @@
           tzP2: "Asia/Shanghai",
           notesP1: [],
           notesP2: [],
-          coins: 30,
-          pet: null,
           updatedAt: Date.now()
         };
 
         await db.ref(`rooms/${rawCode}`).set(initialPayload);
-        enterConnectedRoom(rawCode, pin, inputHash, "p1", myName, initialPayload);
+        enterConnectedRoom(rawCode, pin, "p1", myName, initialPayload);
       } catch (err) {
         connectSubmitBtn.disabled = false;
         connectSubmitBtn.textContent = gateMode === "create" ? t("btnCreateSubmit") : t("btnJoinSubmit");
@@ -2386,10 +1554,9 @@
       }
     });
 
-    function enterConnectedRoom(roomCode, pin, pinHash, seat, myName, initialData) {
-      session = { roomCode, pin, pinHash, seat, myName };
+    function enterConnectedRoom(roomCode, pin, seat, myName, initialData) {
+      session = { roomCode, pin, seat, myName };
       roomData = { ...roomData, ...initialData };
-      isInitialSnapshot = true;
 
       localStorage.setItem("virtual_desk_fb_session", JSON.stringify(session));
       localStorage.setItem("virtual_desk_last_creds", JSON.stringify({ myName, roomCode }));
@@ -2401,15 +1568,12 @@
       document.body.classList.toggle("theme-guest", seat === "p2");
 
       document.getElementById("headerRoomCode").textContent = roomCode;
-      resetDraftCanvas();
       switchPolaroidTab("upload");
       refreshDynamicLabelsAndViews();
-      renderPetView();
       startFirebaseRealtimeAndBackgroundSync();
       autoRefreshGpsIfPermitted();
     }
 
-    // ================= AUTO-LOGIN INSTAN TANPA KONFIRMASI ULANG =================
     (function tryRestoreSession() {
       applyLanguageUI();
       const saved = localStorage.getItem("virtual_desk_fb_session");
@@ -2419,25 +1583,23 @@
       }
       try {
         const parsed = JSON.parse(saved);
-        if (!parsed.roomCode || (!parsed.pinHash && !parsed.pin) || !parsed.myName) {
+        if (!parsed.roomCode || !parsed.pin || !parsed.myName) {
           connectGate.style.display = "flex";
           return;
         }
-        const cachedData = JSON.parse(localStorage.getItem("virtual_desk_cached_room") || "{}");
-        enterConnectedRoom(
-          parsed.roomCode,
-          parsed.pin || "",
-          parsed.pinHash || "",
-          parsed.seat || "p1",
-          parsed.myName,
-          cachedData
-        );
+        let cachedData = {};
+        try {
+          cachedData = JSON.parse(localStorage.getItem("virtual_desk_cached_room") || "{}");
+        } catch {}
+
+        enterConnectedRoom(parsed.roomCode, parsed.pin, parsed.seat || "p1", parsed.myName, cachedData);
       } catch {
+        localStorage.removeItem("virtual_desk_fb_session");
         connectGate.style.display = "flex";
       }
     })();
 
-    // ================= KONFIRMASI KELUAR =================
+    // ================= 4. KONFIRMASI KELUAR & SHARE =================
     const exitConfirmModal = document.getElementById("exitConfirmModal");
     document.getElementById("leaveRoomBtn").addEventListener("click", () => {
       exitConfirmModal.style.display = "flex";
@@ -2460,7 +1622,7 @@
       userNameInput.value = session.myName || "";
       roomCodeInput.value = session.roomCode || "";
       roomPinInput.value = "";
-      session = { roomCode: "", pin: "", pinHash: "", seat: "p1", myName: "" };
+      session = { roomCode: "", pin: "", seat: "p1", myName: "" };
 
       deskApp.style.display = "none";
       document.body.classList.remove("theme-guest");
@@ -2471,14 +1633,14 @@
     const copyInviteBtn = document.getElementById("copyInviteBtn");
     copyInviteBtn.addEventListener("click", () => {
       const shareLink = `${window.location.origin}${window.location.pathname}?room=${session.roomCode}`;
-      const inviteText = `Our Virtual Desk 🧸\nLink: ${shareLink}\nRoom Code: ${session.roomCode}`;
+      const inviteText = `Our Virtual Desk 🧸\nLink: ${shareLink}\nRoom Code: ${session.roomCode}\nPIN: ${session.pin}`;
       navigator.clipboard?.writeText(inviteText);
       const oldHtml = copyInviteBtn.innerHTML;
       copyInviteBtn.textContent = t("copiedToast");
       setTimeout(() => { copyInviteBtn.innerHTML = oldHtml; }, 1600);
     });
 
-    // ================= HELPER SIMPAN & TARIK DATA FIREBASE =================
+    // ================= 5. HELPER SIMPAN & TARIK DATA FIREBASE =================
     async function saveRoomPatch(patchObj) {
       if (!session.roomCode) return;
       const syncStatus = document.getElementById("syncStatus");
@@ -2498,86 +1660,17 @@
       }
     }
 
-    function processIncomingRoomSnapshot(val) {
-      if (!val) return;
-      const partnerSeat = session.seat === "p1" ? "p2" : "p1";
-      const partnerName = (partnerSeat === "p1" ? val.p1Name : val.p2Name)?.trim() || "Partner";
-      const partnerPhotos = toArray(partnerSeat === "p1" ? val.polaroidP1 : val.polaroidP2);
-      const partnerNotes = toArray(partnerSeat === "p1" ? val.notesP1 : val.notesP2);
-      const partnerStatus = (partnerSeat === "p1"
-        ? (val.statusP1 || val.shortNoteP1 || val.moodP1)
-        : (val.statusP2 || val.shortNoteP2 || val.moodP2)) || "";
-      const petObj = val.pet || null;
-
-      if (isInitialSnapshot) {
-        baselineSnapshot = {
-          partnerPhotoCount: partnerPhotos.length,
-          partnerNoteCount: partnerNotes.length,
-          partnerStatus: partnerStatus,
-          petLastFedAt: petObj?.lastFedAt || 0
-        };
-        isInitialSnapshot = false;
-      } else {
-        if (partnerPhotos.length > baselineSnapshot.partnerPhotoCount) {
-          triggerPartnerNotification({
-            icon: "📸",
-            title: "Cute Picture Alert ✨",
-            message: `${partnerName} waiting for you to see his/her cute picture ~`,
-            targetAction: () => {
-              switchMainPage("desk");
-              switchPolaroidTab("partner");
-              galleryIndex = partnerPhotos.length - 1;
-              renderGalleryPolaroid(true);
-            }
-          });
-        }
-        baselineSnapshot.partnerPhotoCount = partnerPhotos.length;
-
-        if (partnerNotes.length > baselineSnapshot.partnerNoteCount) {
-          triggerPartnerNotification({
-            icon: "💌",
-            title: "New Sticky Note ✨",
-            message: `${partnerName} waiting for you to read a new note ~`,
-            targetAction: () => switchMainPage("desk")
-          });
-        }
-        baselineSnapshot.partnerNoteCount = partnerNotes.length;
-
-        if (partnerStatus && partnerStatus !== baselineSnapshot.partnerStatus) {
-          triggerPartnerNotification({
-            icon: "💭",
-            title: `${partnerName} Updated Status`,
-            message: `${partnerName}: "${partnerStatus}"`,
-            targetAction: () => switchMainPage("desk")
-          });
-        }
-        baselineSnapshot.partnerStatus = partnerStatus;
-
-        if (petObj && petObj.lastFedAt && petObj.lastFedAt > baselineSnapshot.petLastFedAt && petObj.lastFedBy && petObj.lastFedBy !== getMyName()) {
-          triggerPartnerNotification({
-            icon: "🐾",
-            title: "Couple Pet Update 💖",
-            message: `${petObj.lastFedBy} just fed ${petObj.name}!`,
-            targetAction: () => switchMainPage("pet")
-          });
-        }
-        if (petObj) {
-          baselineSnapshot.petLastFedAt = petObj.lastFedAt || 0;
-        }
-      }
-
-      roomData = { ...roomData, ...val };
-      localStorage.setItem("virtual_desk_cached_room", JSON.stringify(roomData));
-      document.getElementById("syncStatus").textContent = t("liveSynced");
-      refreshDynamicLabelsAndViews();
-      if (activeMainPage === "pet") renderPetView();
-    }
-
     async function pullLatestRoomState() {
       if (!session.roomCode || drawing) return;
       try {
         const snap = await db.ref(`rooms/${session.roomCode}`).once("value");
-        processIncomingRoomSnapshot(snap.val());
+        const val = snap.val();
+        if (val) {
+          roomData = { ...roomData, ...val };
+          localStorage.setItem("virtual_desk_cached_room", JSON.stringify(roomData));
+          document.getElementById("syncStatus").textContent = t("liveSynced");
+          refreshDynamicLabelsAndViews();
+        }
       } catch {}
     }
 
@@ -2598,7 +1691,7 @@
       return toArray(session.seat === "p1" ? roomData.polaroidP2 : roomData.polaroidP1);
     }
 
-    // ================= SATU OPSI STATUS TERPADU (TEMPLATE + TULIS SENDIRI) =================
+    // ================= 6. STATUS TERPADU (TEMPLATE + TULIS SENDIRI) =================
     const activeStatusSelect = document.getElementById("activeStatusSelect");
     const customStatusWrap = document.getElementById("customStatusWrap");
     const activeCustomStatusInput = document.getElementById("activeCustomStatusInput");
@@ -2632,7 +1725,7 @@
       }
     }
 
-    activeStatusSelect.addEventListener("change", async () => {
+    activeStatusSelect.addEventListener("change", () => {
       if (activeStatusSelect.value === "__WRITE_OWN__") {
         isCustomStatusEditing = true;
         activeStatusSelect.style.display = "none";
@@ -2642,13 +1735,12 @@
       } else {
         const field = session.seat === "p1" ? "statusP1" : "statusP2";
         roomData[field] = activeStatusSelect.value;
-        await awardMissionCoins(10);
-        await saveRoomPatch({ [field]: activeStatusSelect.value });
+        saveRoomPatch({ [field]: activeStatusSelect.value });
       }
     });
 
-    async function commitCustomStatus() {
-      const typed = activeCustomStatusInput.value.trim().slice(0, 50);
+    function commitCustomStatus() {
+      const typed = activeCustomStatusInput.value.trim();
       isCustomStatusEditing = false;
       customStatusWrap.style.display = "none";
       activeStatusSelect.style.display = "block";
@@ -2657,8 +1749,7 @@
         const field = session.seat === "p1" ? "statusP1" : "statusP2";
         roomData[field] = typed;
         populateUnifiedStatusDropdown(typed);
-        await awardMissionCoins(10);
-        await saveRoomPatch({ [field]: typed });
+        saveRoomPatch({ [field]: typed });
       } else {
         const currentSaved = (session.seat === "p1" ? roomData.statusP1 : roomData.statusP2) || I18N[currentLang].templates[0];
         populateUnifiedStatusDropdown(currentSaved);
@@ -2690,8 +1781,6 @@
       document.getElementById("headerSubtitle").textContent = partnerJoined
         ? `${t("connectedSub")} ${session.roomCode}`
         : `${t("waitingSub")} ${session.roomCode}...`;
-
-      updatePetCoinsUI();
 
       if (currentLang === "id") {
         document.getElementById("pTabSelfLabel").textContent = `🎨 Polaroid ${myName}`;
@@ -2741,7 +1830,7 @@
       }
     }
 
-    // ================= GPS LOKASI & ZONA WAKTU OTOMATIS =================
+    // ================= 7. GPS LOKASI & ZONA WAKTU OTOMATIS =================
     async function detectAndSyncGps(silent = false) {
       if (!navigator.geolocation) return;
       const leftBadge = document.getElementById("leftLocationBadge");
@@ -2771,8 +1860,7 @@
         updateClocks();
 
         if (session.roomCode) {
-          if (!silent) await awardMissionCoins(10);
-          await saveRoomPatch({ [tzField]: detectedTz, [locField]: locText });
+          saveRoomPatch({ [tzField]: detectedTz, [locField]: locText });
         }
       }, () => {
         if (!silent) {
@@ -2818,7 +1906,7 @@
     }
     setInterval(updateClocks, 1000);
 
-    // ================= KAMERA LIVE + CROPPER + 3 TAB POLAROID =================
+    // ================= 8. KAMERA LIVE + CROPPER + 3 TAB POLAROID =================
     const cameraModal = document.getElementById("cameraModal");
     const cameraVideo = document.getElementById("cameraVideo");
     const openCameraBtn = document.getElementById("openCameraBtn");
@@ -2895,10 +1983,12 @@
       openCropperWithDataUrl(capturedDataUrl);
     });
 
+    // POLAROID & CANVAS
     const pTabUpload = document.getElementById("pTabUpload");
     const pTabSelf = document.getElementById("pTabSelf");
     const pTabPartner = document.getElementById("pTabPartner");
     const polaroidFrame = document.getElementById("polaroidFrame");
+
     const canvas = document.getElementById("polaroidCanvas");
     const ctx = canvas.getContext("2d");
     const captionInput = document.getElementById("captionInput");
@@ -2910,6 +2000,11 @@
     const stackIndicator = document.getElementById("stackIndicator");
     const toolbarSection = document.getElementById("toolbarSection");
     const galleryInfoBar = document.getElementById("galleryInfoBar");
+
+    let brushColor = "#fef08a";
+    let drawing = false;
+    let lastX = 0;
+    let lastY = 0;
 
     function triggerPolaroidAnimation() {
       polaroidFrame.classList.remove("animate-switch");
@@ -2993,10 +2088,6 @@
       };
       img.src = draftImageDataUrl;
     }
-
-    let brushColor = "#fef08a";
-    let drawing = false;
-    let lastX = 0, lastY = 0;
 
     document.querySelectorAll(".swatch").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -3094,7 +2185,12 @@
     const photoInput = document.getElementById("photoInput");
 
     let uploadedImg = null;
-    let imgScale = 1, imgOffsetX = 0, imgOffsetY = 0, isDraggingImg = false, startDragX = 0, startDragY = 0;
+    let imgScale = 1;
+    let imgOffsetX = 0;
+    let imgOffsetY = 0;
+    let isDraggingImg = false;
+    let startDragX = 0;
+    let startDragY = 0;
 
     function drawCropPreview() {
       cropCtx.clearRect(0, 0, 400, 400);
@@ -3198,11 +2294,9 @@
       }
 
       const finalImg = canvas.toDataURL("image/jpeg", 0.72);
-      if (!isValidDataImage(finalImg)) return;
-
       const item = {
         img: finalImg,
-        caption: captionInput.value.trim().slice(0, 36) || "thinking of you ♡",
+        caption: captionInput.value.trim() || "thinking of you ♡",
         sentAt: Date.now()
       };
 
@@ -3210,7 +2304,6 @@
       let updatedList = [...getMyPolaroidList(), item];
       if (updatedList.length > 15) updatedList = updatedList.slice(-15);
 
-      await awardMissionCoins(25);
       await saveRoomPatch({ [field]: updatedList });
       resetDraftCanvas();
       refreshDynamicLabelsAndViews();
@@ -3260,7 +2353,6 @@
       const imgSrc = typeof entry === "string" ? entry : entry.img;
       captionInput.value = typeof entry === "object" && entry.caption ? entry.caption : "miss you ♡";
 
-      if (!isValidDataImage(imgSrc)) return;
       if (!forceRedraw && imgSrc === currentRenderedGallerySrc) return;
 
       const img = new Image();
@@ -3305,7 +2397,7 @@
       renderGalleryPolaroid(true);
     });
 
-    // ================= STICKY NOTES (AMAN ANTI-XSS) =================
+    // ================= 9. STICKY NOTES =================
     const noteColorsP1 = ["#fef08a", "#bbf7d0", "#bae6fd"];
     const noteColorsP2 = ["#fbcfe8", "#e9d5ff", "#fed7aa"];
 
@@ -3321,80 +2413,56 @@
       const incomingNotes = toArray(session.seat === "p1" ? roomData.notesP2 : roomData.notesP1);
 
       if (ownNotes.length === 0) {
-        const emptyOwn = document.createElement("div");
-        emptyOwn.className = "empty-notes-box";
-        emptyOwn.textContent = t("emptyOwnNotes", { me: myName });
-        ownGrid.appendChild(emptyOwn);
+        ownGrid.innerHTML = `<div class="empty-notes-box">${t("emptyOwnNotes", { me: myName })}</div>`;
       } else {
         ownNotes.forEach((note, idx) => {
           const card = document.createElement("div");
           card.className = "sticky";
           card.style.background = note.color || "#fef08a";
-
-          const ta = document.createElement("textarea");
-          ta.maxLength = 140;
-          ta.value = note.text || "";
+          card.innerHTML = `
+            <textarea>${note.text || ""}</textarea>
+            <div class="sticky-footer">
+              <span>${myName} #${idx + 1}</span>
+              <button type="button" class="del-note">✕</button>
+            </div>
+          `;
+          const ta = card.querySelector("textarea");
           ta.addEventListener("change", () => {
-            ownNotes[idx].text = ta.value.slice(0, 140);
+            ownNotes[idx].text = ta.value;
             const field = session.seat === "p1" ? "notesP1" : "notesP2";
             saveRoomPatch({ [field]: ownNotes });
           });
-
-          const footer = document.createElement("div");
-          footer.className = "sticky-footer";
-          const labelSpan = document.createElement("span");
-          labelSpan.textContent = `${myName} #${idx + 1}`;
-          const delBtn = document.createElement("button");
-          delBtn.type = "button";
-          delBtn.className = "del-note";
-          delBtn.textContent = "✕";
-          delBtn.addEventListener("click", () => {
+          card.querySelector(".del-note").addEventListener("click", () => {
             ownNotes.splice(idx, 1);
             const field = session.seat === "p1" ? "notesP1" : "notesP2";
             renderNotes();
             saveRoomPatch({ [field]: ownNotes });
           });
-
-          footer.appendChild(labelSpan);
-          footer.appendChild(delBtn);
-          card.appendChild(ta);
-          card.appendChild(footer);
           ownGrid.appendChild(card);
         });
       }
 
       if (incomingNotes.length === 0) {
-        const emptyInc = document.createElement("div");
-        emptyInc.className = "empty-notes-box";
-        emptyInc.textContent = t("emptyIncomingNotes", { partner: partnerName });
-        incomingGrid.appendChild(emptyInc);
+        incomingGrid.innerHTML = `<div class="empty-notes-box">${t("emptyIncomingNotes", { partner: partnerName })}</div>`;
       } else {
         incomingNotes.forEach((note, idx) => {
           const card = document.createElement("div");
           card.className = "sticky";
           card.style.background = note.color || "#fbcfe8";
-
-          const textDiv = document.createElement("div");
-          textDiv.className = "sticky-readonly-text";
-          textDiv.textContent = note.text || "";
-
-          const footer = document.createElement("div");
-          footer.className = "sticky-footer";
-          const senderSpan = document.createElement("span");
-          senderSpan.textContent = `💌 ${partnerName} #${idx + 1}`;
-          const liveSpan = document.createElement("span");
-          liveSpan.textContent = "Live";
-
-          footer.appendChild(senderSpan);
-          footer.appendChild(liveSpan);
-          card.appendChild(textDiv);
-          card.appendChild(footer);
+          card.innerHTML = `
+            <div class="sticky-readonly-text"></div>
+            <div class="sticky-footer">
+              <span>💌 ${partnerName} #${idx + 1}</span>
+              <span>Live</span>
+            </div>
+          `;
+          card.querySelector(".sticky-readonly-text").textContent = note.text || "";
           incomingGrid.appendChild(card);
         });
       }
     }
 
-    document.getElementById("addNoteBtn").addEventListener("click", async () => {
+    document.getElementById("addNoteBtn").addEventListener("click", () => {
       const field = session.seat === "p1" ? "notesP1" : "notesP2";
       const palette = session.seat === "p1" ? noteColorsP1 : noteColorsP2;
       const currentList = [...toArray(roomData[field])];
@@ -3402,210 +2470,22 @@
       currentList.push({ text: t("defaultNoteText"), color });
       roomData[field] = currentList;
       renderNotes();
-      await awardMissionCoins(15);
-      await saveRoomPatch({ [field]: currentList });
+      saveRoomPatch({ [field]: currentList });
     });
 
-    // ================= SISTEM PELIHARAAN VIRTUAL =================
-    function updatePetCoinsUI() {
-      const coins = getCurrentCoins();
-      document.getElementById("navCoinBadge").textContent = `🪙 ${coins}`;
-      document.getElementById("adoptCoinInfo").textContent = `🪙 ${coins}`;
-      document.getElementById("shopCoinDisplay").textContent = `🪙 ${coins}`;
-    }
-
-    function renderBreedSelectionCards() {
-      const grid = document.getElementById("breedSelectionGrid");
-      grid.innerHTML = "";
-      Object.values(PET_BREEDS).forEach(breed => {
-        const card = document.createElement("div");
-        card.className = "breed-card" + (selectedBreedForAdopt === breed.id ? " selected" : "");
-        card.innerHTML = `
-          <div style="width:86px; height:86px;">${getPetSvgMarkup(breed.id)}</div>
-          <div class="breed-name">${escapeHtml(breed.name)}</div>
-          <div style="font-size:0.68rem; color:var(--accent-primary); font-weight:700;">${escapeHtml(breed.sub)}</div>
-          <div class="breed-desc">${escapeHtml(breed.desc[currentLang] || breed.desc.id)}</div>
-        `;
-        card.addEventListener("click", () => {
-          selectedBreedForAdopt = breed.id;
-          renderBreedSelectionCards();
-        });
-        grid.appendChild(card);
-      });
-    }
-
-    document.getElementById("adoptPetBtn").addEventListener("click", async () => {
-      if (roomData.pet) return;
-      const rawName = document.getElementById("petNameInput").value.trim().slice(0, 16);
-      const petName = rawName || (selectedBreedForAdopt === "japanese_spitz" ? "Yuki" : "Mochi");
-
-      const newPet = {
-        breed: selectedBreedForAdopt,
-        name: petName,
-        level: 1,
-        exp: 0,
-        fullness: 80,
-        happiness: 85,
-        adoptedBy: getMyName(),
-        lastFedBy: getMyName(),
-        lastFedAt: Date.now(),
-        lastLog: `${getMyName()} adopted ${petName}! 🎉`
-      };
-
-      roomData.pet = newPet;
-      await saveRoomPatch({ pet: newPet });
-      renderPetView();
-    });
-
-    function triggerPetJumpAnimation(speechText) {
-      const svgWrap = document.getElementById("petSvgContainer");
-      const speech = document.getElementById("petSpeechBubble");
-      speech.textContent = speechText;
-      svgWrap.classList.remove("happy-jump");
-      void svgWrap.offsetWidth;
-      svgWrap.classList.add("happy-jump");
-    }
-
-    async function handlePetHead() {
-      if (!roomData.pet) return;
-      const now = Date.now();
-      triggerPetJumpAnimation(`Woof! ${getMyName()} ♡`);
-
-      if (now - lastHeadPetTime >= 25000) {
-        lastHeadPetTime = now;
-        const pet = { ...roomData.pet };
-        pet.happiness = Math.min(100, Number(pet.happiness || 80) + 5);
-        pet.exp = Number(pet.exp || 0) + 5;
-        if (pet.exp >= 100) {
-          pet.level = Number(pet.level || 1) + 1;
-          pet.exp -= 100;
-        }
-        roomData.pet = pet;
-        await awardMissionCoins(5);
-        await saveRoomPatch({ pet });
-        renderPetView();
-      }
-    }
-
-    document.getElementById("petStageBox").addEventListener("click", handlePetHead);
-    document.getElementById("petHeadBtn").addEventListener("click", (e) => {
-      e.stopPropagation();
-      handlePetHead();
-    });
-
-    async function feedOrPlayWithPet(item) {
-      if (!roomData.pet) return;
-      const currentCoins = getCurrentCoins();
-      if (currentCoins < item.cost) {
-        alert(t("notEnoughCoins"));
-        return;
-      }
-
-      const pet = { ...roomData.pet };
-      pet.fullness = Math.min(100, Number(pet.fullness || 70) + item.full);
-      pet.happiness = Math.min(100, Number(pet.happiness || 70) + item.happy);
-      pet.exp = Number(pet.exp || 0) + item.exp;
-      if (pet.exp >= 100) {
-        pet.level = Number(pet.level || 1) + 1;
-        pet.exp -= 100;
-      }
-
-      const itemName = item.name[currentLang] || item.name.id;
-      pet.lastFedBy = getMyName();
-      pet.lastFedAt = Date.now();
-      pet.lastLog = `${item.icon} ${getMyName()} → ${itemName} (+${item.exp} EXP)`;
-
-      const nextCoins = currentCoins - item.cost;
-      roomData.coins = nextCoins;
-      roomData.pet = pet;
-
-      triggerPetJumpAnimation(`Yummy ${itemName}! ♡`);
-      await saveRoomPatch({ coins: nextCoins, pet });
-      renderPetView();
-    }
-
-    function renderPetView() {
-      updatePetCoinsUI();
-      const adoptSection = document.getElementById("petAdoptionSection");
-      const careSection = document.getElementById("petCareSection");
-
-      if (!roomData.pet) {
-        adoptSection.style.display = "block";
-        careSection.style.display = "none";
-        renderBreedSelectionCards();
-        return;
-      }
-
-      adoptSection.style.display = "none";
-      careSection.style.display = "grid";
-
-      const pet = roomData.pet;
-      const breedInfo = PET_BREEDS[pet.breed] || PET_BREEDS.shiba;
-
-      document.getElementById("petSvgContainer").innerHTML = getPetSvgMarkup(breedInfo.id);
-      document.getElementById("petDisplayName").textContent = pet.name || "Mochi";
-      document.getElementById("petBreedLabel").textContent = `${breedInfo.name} (${breedInfo.sub})`;
-      document.getElementById("petLevelBadge").textContent = `Lv. ${pet.level || 1}`;
-
-      const fullness = Math.min(100, Math.max(0, Number(pet.fullness ?? 80)));
-      const happiness = Math.min(100, Math.max(0, Number(pet.happiness ?? 85)));
-      const exp = Math.min(100, Math.max(0, Number(pet.exp ?? 0)));
-
-      document.getElementById("petFullnessText").textContent = `${fullness} / 100`;
-      document.getElementById("petFullnessBar").style.width = `${fullness}%`;
-      document.getElementById("petHappinessText").textContent = `${happiness} / 100`;
-      document.getElementById("petHappinessBar").style.width = `${happiness}%`;
-      document.getElementById("petExpText").textContent = `${exp} / 100 EXP`;
-      document.getElementById("petExpBar").style.width = `${exp}%`;
-      document.getElementById("lastPetCareLog").textContent = pet.lastLog || "";
-
-      const shopGrid = document.getElementById("petShopGrid");
-      shopGrid.innerHTML = "";
-      PET_SHOP_ITEMS.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "shop-item-card";
-        const itemName = item.name[currentLang] || item.name.id;
-        card.innerHTML = `
-          <div class="shop-item-top">
-            <span class="shop-item-icon">${item.icon}</span>
-            <div>
-              <div class="shop-item-name">${escapeHtml(itemName)}</div>
-              <div class="shop-item-effect">+${item.full}🍖 +${item.happy}💖</div>
-            </div>
-          </div>
-          <button type="button" class="btn btn-primary" style="width:100%; padding:6px 10px; font-size:0.75rem;">
-            🪙 ${item.cost}
-          </button>
-        `;
-        card.querySelector("button").addEventListener("click", () => feedOrPlayWithPet(item));
-        shopGrid.appendChild(card);
-      });
-
-      const missions = [
-        { label: currentLang === "zh" ? "📸 发送拍立得照片" : currentLang === "en" ? "📸 Send a Polaroid Photo" : "📸 Kirim Foto Polaroid", reward: "+25 🪙" },
-        { label: currentLang === "zh" ? "💌 发送新便利贴" : currentLang === "en" ? "💌 Add a Sticky Note" : "💌 Tambah Sticky Note", reward: "+15 🪙" },
-        { label: currentLang === "zh" ? "💭 更新实时状态" : currentLang === "en" ? "💭 Update Live Status" : "💭 Update Status Live", reward: "+10 🪙" },
-        { label: currentLang === "zh" ? "📍 同步GPS定位" : currentLang === "en" ? "📍 Sync GPS Location" : "📍 Sync Lokasi GPS", reward: "+10 🪙" },
-        { label: currentLang === "zh" ? "🖐️ 摸摸宠物头" : currentLang === "en" ? "🖐️ Pet Your Puppy" : "🖐️ Elus Kepala Peliharaan", reward: "+5 🪙" }
-      ];
-      const missionList = document.getElementById("petMissionList");
-      missionList.innerHTML = "";
-      missions.forEach(m => {
-        const row = document.createElement("div");
-        row.className = "mission-row";
-        row.innerHTML = `<span>${escapeHtml(m.label)}</span><span class="mission-reward-tag">${escapeHtml(m.reward)}</span>`;
-        missionList.appendChild(row);
-      });
-    }
-
-    // ================= FIREBASE REALTIME + BACKGROUND LIVE-SYNC =================
+    // ================= 10. FIREBASE REALTIME + BACKGROUND LIVE-SYNC =================
     function startFirebaseRealtimeAndBackgroundSync() {
       if (activeRoomRef) activeRoomRef.off("value");
       if (backgroundPollTimer) clearInterval(backgroundPollTimer);
 
       activeRoomRef = db.ref(`rooms/${session.roomCode}`);
       activeRoomRef.on("value", (snap) => {
-        processIncomingRoomSnapshot(snap.val());
+        const val = snap.val();
+        if (!val) return;
+        roomData = { ...roomData, ...val };
+        localStorage.setItem("virtual_desk_cached_room", JSON.stringify(roomData));
+        document.getElementById("syncStatus").textContent = t("liveSynced");
+        refreshDynamicLabelsAndViews();
       });
 
       backgroundPollTimer = setInterval(() => {
