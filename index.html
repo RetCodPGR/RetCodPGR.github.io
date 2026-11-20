@@ -1483,7 +1483,7 @@
     </div>
   </div>
 
-  <!-- MODAL KONFIRMASI KELUAR (DARI KODE LAMA) -->
+  <!-- MODAL KONFIRMASI KELUAR -->
   <div id="exitConfirmModal" class="modal-overlay">
     <div class="modal-card" style="max-width: 360px; text-align: center;">
       <div style="font-size: 2rem;">🚪🧸</div>
@@ -1499,6 +1499,7 @@
   </div>
 
   <script>
+    // ================= 1. INISIALISASI FIREBASE & SEMUA VARIABEL GLOBAL DI ATAS =================
     const firebaseConfig = {
       apiKey: "AIzaSyBF1LP9H26mRntsYXlkjm6Ebp3aR1QI8yU",
       authDomain: "widg-350f9.firebaseapp.com",
@@ -1510,10 +1511,132 @@
       measurementId: "G-GG6Q8PM583"
     };
 
-    firebase.initializeApp(firebaseConfig);
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
     const db = firebase.database();
 
-    // ================= CYBERSECURITY & SANITIZATION HELPERS =================
+    // Referensi DOM Utama
+    const connectGate = document.getElementById("connectGate");
+    const deskApp = document.getElementById("deskApp");
+    const modeCreateBtn = document.getElementById("modeCreateBtn");
+    const modeJoinBtn = document.getElementById("modeJoinBtn");
+    const genRoomCodeBtn = document.getElementById("genRoomCodeBtn");
+    const userNameInput = document.getElementById("userNameInput");
+    const roomCodeInput = document.getElementById("roomCodeInput");
+    const roomPinInput = document.getElementById("roomPinInput");
+    const gateErrorBox = document.getElementById("gateErrorBox");
+    const connectSubmitBtn = document.getElementById("connectSubmitBtn");
+    const gateLangSelect = document.getElementById("gateLangSelect");
+    const appLangSelect = document.getElementById("appLangSelect");
+
+    const navDeskTab = document.getElementById("navDeskTab");
+    const navPetTab = document.getElementById("navPetTab");
+    const deskView = document.getElementById("deskView");
+    const petView = document.getElementById("petView");
+
+    const activeStatusSelect = document.getElementById("activeStatusSelect");
+    const customStatusWrap = document.getElementById("customStatusWrap");
+    const activeCustomStatusInput = document.getElementById("activeCustomStatusInput");
+    const backToTemplatesBtn = document.getElementById("backToTemplatesBtn");
+
+    const cameraModal = document.getElementById("cameraModal");
+    const cameraVideo = document.getElementById("cameraVideo");
+    const openCameraBtn = document.getElementById("openCameraBtn");
+    const switchCamBtn = document.getElementById("switchCamBtn");
+    const capturePhotoBtn = document.getElementById("capturePhotoBtn");
+    const closeCameraBtn = document.getElementById("closeCameraBtn");
+    const fallbackCameraInput = document.getElementById("fallbackCameraInput");
+
+    const pTabUpload = document.getElementById("pTabUpload");
+    const pTabSelf = document.getElementById("pTabSelf");
+    const pTabPartner = document.getElementById("pTabPartner");
+    const polaroidFrame = document.getElementById("polaroidFrame");
+    const canvas = document.getElementById("polaroidCanvas");
+    const ctx = canvas.getContext("2d");
+    const captionInput = document.getElementById("captionInput");
+    const prevPhotoBtn = document.getElementById("prevPhotoBtn");
+    const nextPhotoBtn = document.getElementById("nextPhotoBtn");
+    const deleteSinglePhotoBtn = document.getElementById("deleteSinglePhotoBtn");
+    const stackBg1 = document.getElementById("stackBg1");
+    const stackBg2 = document.getElementById("stackBg2");
+    const stackIndicator = document.getElementById("stackIndicator");
+    const toolbarSection = document.getElementById("toolbarSection");
+    const galleryInfoBar = document.getElementById("galleryInfoBar");
+
+    const cropModal = document.getElementById("cropModal");
+    const cropCanvas = document.getElementById("cropCanvas");
+    const cropCtx = cropCanvas.getContext("2d");
+    const zoomRange = document.getElementById("zoomRange");
+    const photoInput = document.getElementById("photoInput");
+    const exitConfirmModal = document.getElementById("exitConfirmModal");
+    const copyInviteBtn = document.getElementById("copyInviteBtn");
+
+    // Semua State Aplikasi
+    let currentLang = localStorage.getItem("desk_lang") || "id";
+    let gateMode = "create";
+    let activeRoomRef = null;
+    let backgroundPollTimer = null;
+    let session = { roomCode: "", pin: "", pinHash: "", seat: "p1", myName: "" };
+
+    let roomData = {
+      p1Name: "",
+      p2Name: "",
+      polaroidP1: [],
+      polaroidP2: [],
+      statusP1: "",
+      statusP2: "",
+      moodP1: "",
+      moodP2: "",
+      shortNoteP1: "",
+      shortNoteP2: "",
+      locP1: "",
+      locP2: "",
+      tzP1: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      tzP2: "Asia/Shanghai",
+      notesP1: [],
+      notesP2: [],
+      coins: 30,
+      pet: null
+    };
+
+    let activeMainPage = "desk";
+    let selectedBreedForAdopt = "shiba";
+    let activePolaroidTab = "upload";
+    let galleryIndex = 0;
+    let draftImageDataUrl = "";
+    let draftIsPlaceholder = true;
+    let draftStrokeHistory = [];
+    let currentRenderedGallerySrc = "";
+    let isCustomStatusEditing = false;
+
+    let activeCameraStream = null;
+    let cameraFacingMode = "user";
+    let brushColor = "#fef08a";
+    let drawing = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    let uploadedImg = null;
+    let imgScale = 1;
+    let imgOffsetX = 0;
+    let imgOffsetY = 0;
+    let isDraggingImg = false;
+    let startDragX = 0;
+    let startDragY = 0;
+
+    let isInitialSnapshot = true;
+    let baselineSnapshot = {
+      partnerPhotoCount: 0,
+      partnerNoteCount: 0,
+      partnerStatus: "",
+      petLastFedAt: 0
+    };
+    let notificationHistory = [];
+    let toastTimeout = null;
+    let lastHeadPetTime = 0;
+
+    // ================= 2. CYBERSECURITY & SANITIZATION HELPERS =================
     function escapeHtml(str) {
       return String(str ?? "")
         .replace(/&/g, "&amp;")
@@ -1528,6 +1651,7 @@
     }
 
     async function hashPinSha256(pinText) {
+      if (!window.crypto || !window.crypto.subtle) return String(pinText);
       const msgBuffer = new TextEncoder().encode("VDESK_SALT_2026::" + String(pinText));
       const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
       const hashArray = Array.from(new Uint8Array(hashBuffer));
@@ -1538,7 +1662,7 @@
       return typeof src === "string" && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(src);
     }
 
-    // ================= KAMUS 3 BAHASA (ID, EN, ZH) =================
+    // ================= 3. KAMUS 3 BAHASA (ID, EN, ZH) =================
     const I18N = {
       id: {
         gateSubtitle: "Masukkan nama panggilanmu dan hubungkan room privat khusus berdua.",
@@ -1812,7 +1936,6 @@
       }
     };
 
-    let currentLang = localStorage.getItem("desk_lang") || "id";
     if (!I18N[currentLang]) currentLang = "id";
 
     function t(key, vars = {}) {
@@ -1830,19 +1953,21 @@
     }
 
     (function attachDynamicManifest() {
-      const manifestObj = {
-        name: "Our Virtual Desk",
-        short_name: "Our Desk",
-        start_url: window.location.href,
-        display: "standalone",
-        background_color: "#1e1714",
-        theme_color: "#1e1714"
-      };
-      const blob = new Blob([JSON.stringify(manifestObj)], { type: "application/json" });
-      document.getElementById("dynamicManifest").href = URL.createObjectURL(blob);
+      try {
+        const manifestObj = {
+          name: "Our Virtual Desk",
+          short_name: "Our Desk",
+          start_url: window.location.href,
+          display: "standalone",
+          background_color: "#1e1714",
+          theme_color: "#1e1714"
+        };
+        const blob = new Blob([JSON.stringify(manifestObj)], { type: "application/json" });
+        document.getElementById("dynamicManifest").href = URL.createObjectURL(blob);
+      } catch {}
     })();
 
-    // ================= DATA PELIHARAAN & TOKO =================
+    // ================= 4. DATA PELIHARAAN & TOKO =================
     const PET_BREEDS = {
       shiba: {
         id: "shiba",
@@ -1975,68 +2100,7 @@
       </svg>`;
     }
 
-    // ================= STATE UTAMA =================
-    const connectGate = document.getElementById("connectGate");
-    const deskApp = document.getElementById("deskApp");
-    const modeCreateBtn = document.getElementById("modeCreateBtn");
-    const modeJoinBtn = document.getElementById("modeJoinBtn");
-    const genRoomCodeBtn = document.getElementById("genRoomCodeBtn");
-    const userNameInput = document.getElementById("userNameInput");
-    const roomCodeInput = document.getElementById("roomCodeInput");
-    const roomPinInput = document.getElementById("roomPinInput");
-    const gateErrorBox = document.getElementById("gateErrorBox");
-    const connectSubmitBtn = document.getElementById("connectSubmitBtn");
-    const gateLangSelect = document.getElementById("gateLangSelect");
-    const appLangSelect = document.getElementById("appLangSelect");
-
-    let gateMode = "create";
-    let activeRoomRef = null;
-    let backgroundPollTimer = null;
-    let session = { roomCode: "", pin: "", pinHash: "", seat: "p1", myName: "" };
-
-    let roomData = {
-      p1Name: "",
-      p2Name: "",
-      polaroidP1: [],
-      polaroidP2: [],
-      statusP1: "",
-      statusP2: "",
-      moodP1: "",
-      moodP2: "",
-      shortNoteP1: "",
-      shortNoteP2: "",
-      locP1: "",
-      locP2: "",
-      tzP1: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      tzP2: "Asia/Shanghai",
-      notesP1: [],
-      notesP2: [],
-      coins: 30,
-      pet: null
-    };
-
-    let activeMainPage = "desk";
-    let selectedBreedForAdopt = "shiba";
-    let activePolaroidTab = "upload";
-    let galleryIndex = 0;
-    let draftImageDataUrl = "";
-    let draftIsPlaceholder = true;
-    let draftStrokeHistory = [];
-    let currentRenderedGallerySrc = "";
-    let isCustomStatusEditing = false;
-
-    let isInitialSnapshot = true;
-    let baselineSnapshot = {
-      partnerPhotoCount: 0,
-      partnerNoteCount: 0,
-      partnerStatus: "",
-      petLastFedAt: 0
-    };
-    let notificationHistory = [];
-    let toastTimeout = null;
-    let lastHeadPetTime = 0;
-
-    // ================= NOTIFICATION SYSTEM =================
+    // ================= 5. NOTIFICATION SYSTEM =================
     function playSoftChime() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -2156,12 +2220,7 @@
       await saveRoomPatch({ coins: nextCoins });
     }
 
-    // ================= PAGE SWITCHING (MEJA VIRTUAL <-> PELIHARAAN) =================
-    const navDeskTab = document.getElementById("navDeskTab");
-    const navPetTab = document.getElementById("navPetTab");
-    const deskView = document.getElementById("deskView");
-    const petView = document.getElementById("petView");
-
+    // ================= 6. PAGE SWITCHING =================
     function switchMainPage(page) {
       activeMainPage = page;
       navDeskTab.classList.toggle("active", page === "desk");
@@ -2266,1364 +2325,4 @@
       modeJoinBtn.classList.toggle("active", mode === "join");
       genRoomCodeBtn.style.display = mode === "create" ? "inline-flex" : "none";
       gateErrorBox.style.display = "none";
-      if (mode === "create" && !roomCodeInput.value.trim()) {
-        roomCodeInput.value = generateRandomCode();
-      }
-      connectSubmitBtn.textContent = mode === "create" ? t("btnCreateSubmit") : t("btnJoinSubmit");
-    }
-
-    modeCreateBtn.addEventListener("click", () => setGateMode("create"));
-    modeJoinBtn.addEventListener("click", () => setGateMode("join"));
-    genRoomCodeBtn.addEventListener("click", () => {
-      roomCodeInput.value = generateRandomCode();
-    });
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const savedLastCreds = localStorage.getItem("virtual_desk_last_creds");
-    if (urlParams.get("room")) {
-      roomCodeInput.value = sanitizeRoomCode(urlParams.get("room"));
-      setGateMode("join");
-    } else if (savedLastCreds) {
-      try {
-        const creds = JSON.parse(savedLastCreds);
-        if (creds.myName) userNameInput.value = creds.myName;
-        if (creds.roomCode) roomCodeInput.value = creds.roomCode;
-        setGateMode("join");
-      } catch {
-        roomCodeInput.value = generateRandomCode();
-      }
-    } else {
-      roomCodeInput.value = generateRandomCode();
-    }
-
-    function showGateError(msg) {
-      gateErrorBox.textContent = msg;
-      gateErrorBox.style.display = "block";
-    }
-
-    connectSubmitBtn.addEventListener("click", async () => {
-      gateErrorBox.style.display = "none";
-      const myName = userNameInput.value.trim().slice(0, 16);
-      const rawCode = sanitizeRoomCode(roomCodeInput.value);
-      const pin = roomPinInput.value.trim();
-
-      if (!myName) return showGateError(t("errNoName"));
-      if (rawCode.length < 4) return showGateError(t("errShortCode"));
-      if (pin.length < 4) return showGateError(t("errShortPin"));
-
-      connectSubmitBtn.disabled = true;
-      connectSubmitBtn.textContent = t("btnConnecting");
-
-      try {
-        const inputHash = await hashPinSha256(pin);
-        const snap = await db.ref(`rooms/${rawCode}`).once("value");
-        const existing = snap.val();
-
-        if (existing) {
-          const validHash = existing.pinHash && existing.pinHash === inputHash;
-          const validLegacy = existing.pin && String(existing.pin) === String(pin);
-
-          if (!validHash && !validLegacy) {
-            connectSubmitBtn.disabled = false;
-            connectSubmitBtn.textContent = gateMode === "create" ? t("btnCreateSubmit") : t("btnJoinSubmit");
-            return showGateError(t("errWrongPin"));
-          }
-
-          let assignedSeat = "p2";
-          if (existing.p1Name && existing.p1Name.trim().toLowerCase() === myName.toLowerCase()) {
-            assignedSeat = "p1";
-          } else if (existing.p2Name && existing.p2Name.trim().toLowerCase() === myName.toLowerCase()) {
-            assignedSeat = "p2";
-          } else if (!existing.p2Name || !existing.p2Name.trim()) {
-            assignedSeat = "p2";
-          } else {
-            connectSubmitBtn.disabled = false;
-            connectSubmitBtn.textContent = t("btnJoinSubmit");
-            return showGateError(`${t("errRoomFull")} (${existing.p1Name} & ${existing.p2Name})`);
-          }
-
-          const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-          const patch = assignedSeat === "p1"
-            ? { p1Name: myName, tzP1: localTz, pinHash: inputHash }
-            : { p2Name: myName, tzP2: localTz, pinHash: inputHash };
-
-          await db.ref(`rooms/${rawCode}`).update(patch);
-          enterConnectedRoom(rawCode, pin, inputHash, assignedSeat, myName, { ...existing, ...patch });
-          return;
-        }
-
-        if (gateMode === "join") {
-          connectSubmitBtn.disabled = false;
-          connectSubmitBtn.textContent = t("btnJoinSubmit");
-          return showGateError(t("errRoomNotFound"));
-        }
-
-        const initialPayload = {
-          pinHash: inputHash,
-          p1Name: myName,
-          p2Name: "",
-          polaroidP1: [],
-          polaroidP2: [],
-          statusP1: I18N[currentLang].templates[0],
-          statusP2: "",
-          locP1: "",
-          locP2: "",
-          tzP1: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          tzP2: "Asia/Shanghai",
-          notesP1: [],
-          notesP2: [],
-          coins: 30,
-          pet: null,
-          updatedAt: Date.now()
-        };
-
-        await db.ref(`rooms/${rawCode}`).set(initialPayload);
-        enterConnectedRoom(rawCode, pin, inputHash, "p1", myName, initialPayload);
-      } catch (err) {
-        connectSubmitBtn.disabled = false;
-        connectSubmitBtn.textContent = gateMode === "create" ? t("btnCreateSubmit") : t("btnJoinSubmit");
-        showGateError("Firebase error: " + (err.message || "Check connection"));
-      }
-    });
-
-    function enterConnectedRoom(roomCode, pin, pinHash, seat, myName, initialData) {
-      session = { roomCode, pin, pinHash, seat, myName };
-      roomData = { ...roomData, ...initialData };
-      isInitialSnapshot = true;
-
-      localStorage.setItem("virtual_desk_fb_session", JSON.stringify(session));
-      localStorage.setItem("virtual_desk_last_creds", JSON.stringify({ myName, roomCode }));
-      localStorage.setItem("virtual_desk_cached_room", JSON.stringify(roomData));
-
-      connectSubmitBtn.disabled = false;
-      connectGate.style.display = "none";
-      deskApp.style.display = "flex";
-      document.body.classList.toggle("theme-guest", seat === "p2");
-
-      document.getElementById("headerRoomCode").textContent = roomCode;
-      resetDraftCanvas();
-      switchPolaroidTab("upload");
-      refreshDynamicLabelsAndViews();
-      renderPetView();
-      startFirebaseRealtimeAndBackgroundSync();
-      autoRefreshGpsIfPermitted();
-    }
-
-    // ================= AUTO-LOGIN INSTAN TANPA KONFIRMASI ULANG =================
-    (function tryRestoreSession() {
-      applyLanguageUI();
-      const saved = localStorage.getItem("virtual_desk_fb_session");
-      if (!saved) {
-        connectGate.style.display = "flex";
-        return;
-      }
-      try {
-        const parsed = JSON.parse(saved);
-        if (!parsed.roomCode || (!parsed.pinHash && !parsed.pin) || !parsed.myName) {
-          connectGate.style.display = "flex";
-          return;
-        }
-        const cachedData = JSON.parse(localStorage.getItem("virtual_desk_cached_room") || "{}");
-        enterConnectedRoom(
-          parsed.roomCode,
-          parsed.pin || "",
-          parsed.pinHash || "",
-          parsed.seat || "p1",
-          parsed.myName,
-          cachedData
-        );
-      } catch {
-        connectGate.style.display = "flex";
-      }
-    })();
-
-    // ================= KONFIRMASI KELUAR =================
-    const exitConfirmModal = document.getElementById("exitConfirmModal");
-    document.getElementById("leaveRoomBtn").addEventListener("click", () => {
-      exitConfirmModal.style.display = "flex";
-    });
-    document.getElementById("cancelExitBtn").addEventListener("click", () => {
-      exitConfirmModal.style.display = "none";
-    });
-    document.getElementById("confirmExitBtn").addEventListener("click", () => {
-      exitConfirmModal.style.display = "none";
-      if (activeRoomRef) activeRoomRef.off("value");
-      if (backgroundPollTimer) clearInterval(backgroundPollTimer);
-
-      localStorage.setItem("virtual_desk_last_creds", JSON.stringify({
-        myName: session.myName,
-        roomCode: session.roomCode
-      }));
-      localStorage.removeItem("virtual_desk_fb_session");
-      localStorage.removeItem("virtual_desk_cached_room");
-
-      userNameInput.value = session.myName || "";
-      roomCodeInput.value = session.roomCode || "";
-      roomPinInput.value = "";
-      session = { roomCode: "", pin: "", pinHash: "", seat: "p1", myName: "" };
-
-      deskApp.style.display = "none";
-      document.body.classList.remove("theme-guest");
-      connectGate.style.display = "flex";
-      setGateMode("join");
-    });
-
-    const copyInviteBtn = document.getElementById("copyInviteBtn");
-    copyInviteBtn.addEventListener("click", () => {
-      const shareLink = `${window.location.origin}${window.location.pathname}?room=${session.roomCode}`;
-      const inviteText = `Our Virtual Desk 🧸\nLink: ${shareLink}\nRoom Code: ${session.roomCode}`;
-      navigator.clipboard?.writeText(inviteText);
-      const oldHtml = copyInviteBtn.innerHTML;
-      copyInviteBtn.textContent = t("copiedToast");
-      setTimeout(() => { copyInviteBtn.innerHTML = oldHtml; }, 1600);
-    });
-
-    // ================= HELPER SIMPAN & TARIK DATA FIREBASE =================
-    async function saveRoomPatch(patchObj) {
-      if (!session.roomCode) return;
-      const syncStatus = document.getElementById("syncStatus");
-      syncStatus.textContent = t("syncing");
-
-      roomData = { ...roomData, ...patchObj };
-      localStorage.setItem("virtual_desk_cached_room", JSON.stringify(roomData));
-
-      try {
-        await db.ref(`rooms/${session.roomCode}`).update({
-          ...patchObj,
-          updatedAt: Date.now()
-        });
-        syncStatus.textContent = t("liveSynced");
-      } catch {
-        syncStatus.textContent = "Retry...";
-      }
-    }
-
-    function processIncomingRoomSnapshot(val) {
-      if (!val) return;
-      const partnerSeat = session.seat === "p1" ? "p2" : "p1";
-      const partnerName = (partnerSeat === "p1" ? val.p1Name : val.p2Name)?.trim() || "Partner";
-      const partnerPhotos = toArray(partnerSeat === "p1" ? val.polaroidP1 : val.polaroidP2);
-      const partnerNotes = toArray(partnerSeat === "p1" ? val.notesP1 : val.notesP2);
-      const partnerStatus = (partnerSeat === "p1"
-        ? (val.statusP1 || val.shortNoteP1 || val.moodP1)
-        : (val.statusP2 || val.shortNoteP2 || val.moodP2)) || "";
-      const petObj = val.pet || null;
-
-      if (isInitialSnapshot) {
-        baselineSnapshot = {
-          partnerPhotoCount: partnerPhotos.length,
-          partnerNoteCount: partnerNotes.length,
-          partnerStatus: partnerStatus,
-          petLastFedAt: petObj?.lastFedAt || 0
-        };
-        isInitialSnapshot = false;
-      } else {
-        if (partnerPhotos.length > baselineSnapshot.partnerPhotoCount) {
-          triggerPartnerNotification({
-            icon: "📸",
-            title: "Cute Picture Alert ✨",
-            message: `${partnerName} waiting for you to see his/her cute picture ~`,
-            targetAction: () => {
-              switchMainPage("desk");
-              switchPolaroidTab("partner");
-              galleryIndex = partnerPhotos.length - 1;
-              renderGalleryPolaroid(true);
-            }
-          });
-        }
-        baselineSnapshot.partnerPhotoCount = partnerPhotos.length;
-
-        if (partnerNotes.length > baselineSnapshot.partnerNoteCount) {
-          triggerPartnerNotification({
-            icon: "💌",
-            title: "New Sticky Note ✨",
-            message: `${partnerName} waiting for you to read a new note ~`,
-            targetAction: () => switchMainPage("desk")
-          });
-        }
-        baselineSnapshot.partnerNoteCount = partnerNotes.length;
-
-        if (partnerStatus && partnerStatus !== baselineSnapshot.partnerStatus) {
-          triggerPartnerNotification({
-            icon: "💭",
-            title: `${partnerName} Updated Status`,
-            message: `${partnerName}: "${partnerStatus}"`,
-            targetAction: () => switchMainPage("desk")
-          });
-        }
-        baselineSnapshot.partnerStatus = partnerStatus;
-
-        if (petObj && petObj.lastFedAt && petObj.lastFedAt > baselineSnapshot.petLastFedAt && petObj.lastFedBy && petObj.lastFedBy !== getMyName()) {
-          triggerPartnerNotification({
-            icon: "🐾",
-            title: "Couple Pet Update 💖",
-            message: `${petObj.lastFedBy} just fed ${petObj.name}!`,
-            targetAction: () => switchMainPage("pet")
-          });
-        }
-        if (petObj) {
-          baselineSnapshot.petLastFedAt = petObj.lastFedAt || 0;
-        }
-      }
-
-      roomData = { ...roomData, ...val };
-      localStorage.setItem("virtual_desk_cached_room", JSON.stringify(roomData));
-      document.getElementById("syncStatus").textContent = t("liveSynced");
-      refreshDynamicLabelsAndViews();
-      if (activeMainPage === "pet") renderPetView();
-    }
-
-    async function pullLatestRoomState() {
-      if (!session.roomCode || drawing) return;
-      try {
-        const snap = await db.ref(`rooms/${session.roomCode}`).once("value");
-        processIncomingRoomSnapshot(snap.val());
-      } catch {}
-    }
-
-    function getMyName() {
-      return session.myName || (session.seat === "p1" ? roomData.p1Name : roomData.p2Name) || "You";
-    }
-
-    function getPartnerName() {
-      const pName = session.seat === "p1" ? roomData.p2Name : roomData.p1Name;
-      return pName && pName.trim() ? pName.trim() : (currentLang === "zh" ? "另一半" : currentLang === "en" ? "Partner" : "Pasangan");
-    }
-
-    function getMyPolaroidList() {
-      return toArray(session.seat === "p1" ? roomData.polaroidP1 : roomData.polaroidP2);
-    }
-
-    function getPartnerPolaroidList() {
-      return toArray(session.seat === "p1" ? roomData.polaroidP2 : roomData.polaroidP1);
-    }
-
-    // ================= SATU OPSI STATUS TERPADU (TEMPLATE + TULIS SENDIRI) =================
-    const activeStatusSelect = document.getElementById("activeStatusSelect");
-    const customStatusWrap = document.getElementById("customStatusWrap");
-    const activeCustomStatusInput = document.getElementById("activeCustomStatusInput");
-    const backToTemplatesBtn = document.getElementById("backToTemplatesBtn");
-
-    function populateUnifiedStatusDropdown(currentVal = "") {
-      const templates = I18N[currentLang].templates;
-      activeStatusSelect.innerHTML = "";
-
-      if (currentVal && !templates.includes(currentVal)) {
-        const customOpt = document.createElement("option");
-        customOpt.value = currentVal;
-        customOpt.textContent = currentVal;
-        activeStatusSelect.appendChild(customOpt);
-      }
-
-      templates.forEach(tpl => {
-        const opt = document.createElement("option");
-        opt.value = tpl;
-        opt.textContent = tpl;
-        activeStatusSelect.appendChild(opt);
-      });
-
-      const writeOwnOpt = document.createElement("option");
-      writeOwnOpt.value = "__WRITE_OWN__";
-      writeOwnOpt.textContent = t("customOption");
-      activeStatusSelect.appendChild(writeOwnOpt);
-
-      if (currentVal) {
-        activeStatusSelect.value = currentVal;
-      }
-    }
-
-    activeStatusSelect.addEventListener("change", async () => {
-      if (activeStatusSelect.value === "__WRITE_OWN__") {
-        isCustomStatusEditing = true;
-        activeStatusSelect.style.display = "none";
-        customStatusWrap.style.display = "flex";
-        activeCustomStatusInput.value = "";
-        activeCustomStatusInput.focus();
-      } else {
-        const field = session.seat === "p1" ? "statusP1" : "statusP2";
-        roomData[field] = activeStatusSelect.value;
-        await awardMissionCoins(10);
-        await saveRoomPatch({ [field]: activeStatusSelect.value });
-      }
-    });
-
-    async function commitCustomStatus() {
-      const typed = activeCustomStatusInput.value.trim().slice(0, 50);
-      isCustomStatusEditing = false;
-      customStatusWrap.style.display = "none";
-      activeStatusSelect.style.display = "block";
-
-      if (typed) {
-        const field = session.seat === "p1" ? "statusP1" : "statusP2";
-        roomData[field] = typed;
-        populateUnifiedStatusDropdown(typed);
-        await awardMissionCoins(10);
-        await saveRoomPatch({ [field]: typed });
-      } else {
-        const currentSaved = (session.seat === "p1" ? roomData.statusP1 : roomData.statusP2) || I18N[currentLang].templates[0];
-        populateUnifiedStatusDropdown(currentSaved);
-      }
-    }
-
-    activeCustomStatusInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        commitCustomStatus();
-      }
-    });
-    activeCustomStatusInput.addEventListener("blur", commitCustomStatus);
-    backToTemplatesBtn.addEventListener("mousedown", (e) => {
-      e.preventDefault();
-      isCustomStatusEditing = false;
-      customStatusWrap.style.display = "none";
-      activeStatusSelect.style.display = "block";
-      const currentSaved = (session.seat === "p1" ? roomData.statusP1 : roomData.statusP2) || I18N[currentLang].templates[0];
-      populateUnifiedStatusDropdown(currentSaved);
-    });
-
-    function refreshDynamicLabelsAndViews() {
-      const myName = getMyName();
-      const partnerName = getPartnerName();
-      const partnerJoined = Boolean((session.seat === "p1" ? roomData.p2Name : roomData.p1Name)?.trim());
-
-      document.getElementById("headerTitle").textContent = `${myName} & ${partnerName} ✨`;
-      document.getElementById("headerSubtitle").textContent = partnerJoined
-        ? `${t("connectedSub")} ${session.roomCode}`
-        : `${t("waitingSub")} ${session.roomCode}...`;
-
-      updatePetCoinsUI();
-
-      if (currentLang === "id") {
-        document.getElementById("pTabSelfLabel").textContent = `🎨 Polaroid ${myName}`;
-        document.getElementById("pTabPartnerLabel").textContent = `💌 Dari ${partnerName}`;
-      } else {
-        document.getElementById("pTabSelfLabel").textContent = t("tabSelfPrefix", { name: myName });
-        document.getElementById("pTabPartnerLabel").textContent = t("tabPartnerPrefix", { name: partnerName });
-      }
-
-      document.getElementById("selfCountBadge").textContent = getMyPolaroidList().length;
-      document.getElementById("partnerCountBadge").textContent = getPartnerPolaroidList().length;
-
-      document.getElementById("leftClockLabel").textContent = `${myName} ${t("youTag")}`;
-      document.getElementById("rightClockLabel").textContent = partnerJoined
-        ? `${partnerName} ${t("liveTag")}`
-        : t("waitingPartner");
-
-      const myLoc = session.seat === "p1" ? roomData.locP1 : roomData.locP2;
-      const partnerLoc = session.seat === "p1" ? roomData.locP2 : roomData.locP1;
-      document.getElementById("leftLocationBadge").textContent = myLoc || t("gpsOff");
-      document.getElementById("rightLocationBadge").textContent = partnerLoc || "📍 --";
-
-      const myStatus = session.seat === "p1"
-        ? (roomData.statusP1 || roomData.shortNoteP1 || roomData.moodP1 || I18N[currentLang].templates[0])
-        : (roomData.statusP2 || roomData.shortNoteP2 || roomData.moodP2 || I18N[currentLang].templates[0]);
-
-      const partnerStatus = session.seat === "p1"
-        ? (roomData.statusP2 || roomData.shortNoteP2 || roomData.moodP2)
-        : (roomData.statusP1 || roomData.shortNoteP1 || roomData.moodP1);
-
-      if (!isCustomStatusEditing) {
-        populateUnifiedStatusDropdown(myStatus);
-      }
-
-      document.getElementById("partnerStatusDisplay").textContent = partnerJoined
-        ? (partnerStatus || I18N[currentLang].templates[1])
-        : t("waitingStatus");
-
-      document.getElementById("ownNotesTitle").textContent = t("ownNotesTitle", { me: myName, partner: partnerName });
-      document.getElementById("incomingNotesTitle").textContent = t("incomingNotesTitle", { partner: partnerName });
-
-      updateClocks();
-      renderNotes();
-
-      if (activePolaroidTab !== "upload") {
-        renderGalleryPolaroid(false);
-      }
-    }
-
-    // ================= GPS LOKASI & ZONA WAKTU OTOMATIS =================
-    async function detectAndSyncGps(silent = false) {
-      if (!navigator.geolocation) return;
-      const leftBadge = document.getElementById("leftLocationBadge");
-      if (!silent) leftBadge.textContent = t("gpsLocating");
-
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        const detectedTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-        let locText = `📍 ${lat.toFixed(1)}°, ${lon.toFixed(1)}°`;
-        try {
-          const resp = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
-          const geo = await resp.json();
-          const city = geo.city || geo.locality || geo.principalSubdivision || "";
-          const cc = geo.countryCode || "";
-          if (city) {
-            locText = cc ? `📍 ${city}, ${cc}` : `📍 ${city}`;
-          }
-        } catch {}
-
-        const tzField = session.seat === "p1" ? "tzP1" : "tzP2";
-        const locField = session.seat === "p1" ? "locP1" : "locP2";
-        roomData[tzField] = detectedTz;
-        roomData[locField] = locText;
-        leftBadge.textContent = locText;
-        updateClocks();
-
-        if (session.roomCode) {
-          if (!silent) await awardMissionCoins(10);
-          await saveRoomPatch({ [tzField]: detectedTz, [locField]: locText });
-        }
-      }, () => {
-        if (!silent) {
-          const currentLoc = session.seat === "p1" ? roomData.locP1 : roomData.locP2;
-          leftBadge.textContent = currentLoc || t("gpsOff");
-        }
-      }, { enableHighAccuracy: false, timeout: 8000 });
-    }
-
-    async function autoRefreshGpsIfPermitted() {
-      try {
-        if (navigator.permissions) {
-          const perm = await navigator.permissions.query({ name: "geolocation" });
-          if (perm.state === "granted") {
-            detectAndSyncGps(true);
-          }
-        }
-      } catch {}
-    }
-
-    document.getElementById("requestGpsBtn").addEventListener("click", () => detectAndSyncGps(false));
-
-    function updateClocks() {
-      const now = new Date();
-      const myTz = session.seat === "p1" ? roomData.tzP1 : roomData.tzP2;
-      const partnerTz = session.seat === "p1" ? roomData.tzP2 : roomData.tzP1;
-
-      try {
-        document.getElementById("leftClockTime").textContent = now.toLocaleTimeString("en-GB", {
-          timeZone: myTz, hour: "2-digit", minute: "2-digit"
-        });
-      } catch {
-        document.getElementById("leftClockTime").textContent = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
-      }
-
-      try {
-        document.getElementById("rightClockTime").textContent = now.toLocaleTimeString("en-GB", {
-          timeZone: partnerTz, hour: "2-digit", minute: "2-digit"
-        });
-      } catch {
-        document.getElementById("rightClockTime").textContent = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
-      }
-    }
-    setInterval(updateClocks, 1000);
-
-    // ================= KAMERA LIVE + CROPPER + 3 TAB POLAROID =================
-    const cameraModal = document.getElementById("cameraModal");
-    const cameraVideo = document.getElementById("cameraVideo");
-    const openCameraBtn = document.getElementById("openCameraBtn");
-    const switchCamBtn = document.getElementById("switchCamBtn");
-    const capturePhotoBtn = document.getElementById("capturePhotoBtn");
-    const closeCameraBtn = document.getElementById("closeCameraBtn");
-    const fallbackCameraInput = document.getElementById("fallbackCameraInput");
-
-    let activeCameraStream = null;
-    let cameraFacingMode = "user";
-
-    function stopCameraStream() {
-      if (activeCameraStream) {
-        activeCameraStream.getTracks().forEach(track => track.stop());
-        activeCameraStream = null;
-      }
-      cameraVideo.srcObject = null;
-    }
-
-    async function startCameraStream() {
-      stopCameraStream();
-      try {
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-          throw new Error("Camera API unavailable");
-        }
-        activeCameraStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: cameraFacingMode, width: { ideal: 720 }, height: { ideal: 720 } },
-          audio: false
-        });
-        cameraVideo.srcObject = activeCameraStream;
-        cameraVideo.classList.toggle("mirrored", cameraFacingMode === "user");
-        cameraModal.style.display = "flex";
-      } catch {
-        fallbackCameraInput.click();
-      }
-    }
-
-    openCameraBtn.addEventListener("click", () => {
-      if (activePolaroidTab !== "upload") switchPolaroidTab("upload");
-      startCameraStream();
-    });
-
-    switchCamBtn.addEventListener("click", () => {
-      cameraFacingMode = cameraFacingMode === "user" ? "environment" : "user";
-      startCameraStream();
-    });
-
-    closeCameraBtn.addEventListener("click", () => {
-      stopCameraStream();
-      cameraModal.style.display = "none";
-    });
-
-    capturePhotoBtn.addEventListener("click", () => {
-      if (!cameraVideo.videoWidth) return;
-      const tempCanvas = document.createElement("canvas");
-      const size = Math.min(cameraVideo.videoWidth, cameraVideo.videoHeight);
-      tempCanvas.width = size;
-      tempCanvas.height = size;
-      const tCtx = tempCanvas.getContext("2d");
-
-      const sx = (cameraVideo.videoWidth - size) / 2;
-      const sy = (cameraVideo.videoHeight - size) / 2;
-
-      if (cameraFacingMode === "user") {
-        tCtx.translate(size, 0);
-        tCtx.scale(-1, 1);
-      }
-      tCtx.drawImage(cameraVideo, sx, sy, size, size, 0, 0, size, size);
-
-      const capturedDataUrl = tempCanvas.toDataURL("image/jpeg", 0.85);
-      stopCameraStream();
-      cameraModal.style.display = "none";
-
-      openCropperWithDataUrl(capturedDataUrl);
-    });
-
-    const pTabUpload = document.getElementById("pTabUpload");
-    const pTabSelf = document.getElementById("pTabSelf");
-    const pTabPartner = document.getElementById("pTabPartner");
-    const polaroidFrame = document.getElementById("polaroidFrame");
-    const canvas = document.getElementById("polaroidCanvas");
-    const ctx = canvas.getContext("2d");
-    const captionInput = document.getElementById("captionInput");
-    const prevPhotoBtn = document.getElementById("prevPhotoBtn");
-    const nextPhotoBtn = document.getElementById("nextPhotoBtn");
-    const deleteSinglePhotoBtn = document.getElementById("deleteSinglePhotoBtn");
-    const stackBg1 = document.getElementById("stackBg1");
-    const stackBg2 = document.getElementById("stackBg2");
-    const stackIndicator = document.getElementById("stackIndicator");
-    const toolbarSection = document.getElementById("toolbarSection");
-    const galleryInfoBar = document.getElementById("galleryInfoBar");
-
-    function triggerPolaroidAnimation() {
-      polaroidFrame.classList.remove("animate-switch");
-      void polaroidFrame.offsetWidth;
-      polaroidFrame.classList.add("animate-switch");
-    }
-
-    function switchPolaroidTab(tabName) {
-      activePolaroidTab = tabName;
-      galleryIndex = 0;
-      currentRenderedGallerySrc = "";
-      triggerPolaroidAnimation();
-
-      pTabUpload.classList.toggle("active", tabName === "upload");
-      pTabSelf.classList.toggle("active", tabName === "self");
-      pTabPartner.classList.toggle("active", tabName === "partner");
-
-      const isUploadTab = tabName === "upload";
-      toolbarSection.style.display = isUploadTab ? "flex" : "none";
-      galleryInfoBar.style.display = isUploadTab ? "none" : "block";
-      canvas.classList.toggle("readonly-mode", !isUploadTab);
-
-      if (isUploadTab) {
-        prevPhotoBtn.style.display = "none";
-        nextPhotoBtn.style.display = "none";
-        deleteSinglePhotoBtn.style.display = "none";
-        stackBg1.style.display = "none";
-        stackBg2.style.display = "none";
-        stackIndicator.textContent = t("canvasNew");
-        captionInput.removeAttribute("readonly");
-        restoreDraftToCanvas();
-      } else {
-        captionInput.setAttribute("readonly", "true");
-        galleryInfoBar.textContent = tabName === "self"
-          ? t("gallerySelfInfo", { name: getMyName() })
-          : t("galleryPartnerInfo", { name: getPartnerName() });
-        renderGalleryPolaroid(true);
-      }
-    }
-
-    pTabUpload.addEventListener("click", () => switchPolaroidTab("upload"));
-    pTabSelf.addEventListener("click", () => switchPolaroidTab("self"));
-    pTabPartner.addEventListener("click", () => switchPolaroidTab("partner"));
-
-    function paintCleanBg() {
-      const grad = ctx.createLinearGradient(0, 0, 600, 600);
-      if (session.seat === "p1") {
-        grad.addColorStop(0, "#3b2c35");
-        grad.addColorStop(1, "#1e1714");
-      } else {
-        grad.addColorStop(0, "#432339");
-        grad.addColorStop(1, "#23151e");
-      }
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 600, 600);
-    }
-
-    function resetDraftCanvas() {
-      paintCleanBg();
-      ctx.fillStyle = session.seat === "p1" ? "rgba(254, 240, 138, 0.85)" : "rgba(251, 207, 232, 0.88)";
-      ctx.font = "bold 28px sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillText("Upload Your Cute Photos please~ ✨", 300, 290);
-      ctx.font = "600 18px sans-serif";
-      ctx.fillText(t("draftHint"), 300, 326);
-
-      draftIsPlaceholder = true;
-      draftImageDataUrl = "";
-      draftStrokeHistory = [];
-    }
-
-    function restoreDraftToCanvas() {
-      if (!draftImageDataUrl || draftIsPlaceholder) {
-        resetDraftCanvas();
-        return;
-      }
-      const img = new Image();
-      img.onload = () => {
-        ctx.clearRect(0, 0, 600, 600);
-        ctx.drawImage(img, 0, 0, 600, 600);
-      };
-      img.src = draftImageDataUrl;
-    }
-
-    let brushColor = "#fef08a";
-    let drawing = false;
-    let lastX = 0, lastY = 0;
-
-    document.querySelectorAll(".swatch").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".swatch").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        brushColor = btn.dataset.color;
-      });
-    });
-
-    function getPos(e) {
-      const rect = canvas.getBoundingClientRect();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      return {
-        x: ((clientX - rect.left) / rect.width) * canvas.width,
-        y: ((clientY - rect.top) / rect.height) * canvas.height
-      };
-    }
-
-    function startDraw(e) {
-      if (activePolaroidTab !== "upload") return;
-      drawing = true;
-
-      if (draftIsPlaceholder) {
-        paintCleanBg();
-        draftIsPlaceholder = false;
-      }
-
-      draftStrokeHistory.push(canvas.toDataURL("image/jpeg", 0.85));
-      if (draftStrokeHistory.length > 15) draftStrokeHistory.shift();
-
-      const pos = getPos(e);
-      lastX = pos.x;
-      lastY = pos.y;
-
-      ctx.fillStyle = brushColor;
-      ctx.beginPath();
-      ctx.arc(lastX, lastY, 4, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    function moveDraw(e) {
-      if (!drawing || activePolaroidTab !== "upload") return;
-      e.preventDefault();
-      const pos = getPos(e);
-      ctx.strokeStyle = brushColor;
-      ctx.lineWidth = 8;
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-      ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
-      ctx.lineTo(pos.x, pos.y);
-      ctx.stroke();
-      lastX = pos.x;
-      lastY = pos.y;
-    }
-
-    function endDraw() {
-      if (!drawing) return;
-      drawing = false;
-      draftImageDataUrl = canvas.toDataURL("image/jpeg", 0.76);
-    }
-
-    document.getElementById("undoDrawBtn").addEventListener("click", () => {
-      if (activePolaroidTab !== "upload" || draftStrokeHistory.length === 0) return;
-      const prevUrl = draftStrokeHistory.pop();
-      const img = new Image();
-      img.onload = () => {
-        ctx.clearRect(0, 0, 600, 600);
-        ctx.drawImage(img, 0, 0, 600, 600);
-        draftImageDataUrl = canvas.toDataURL("image/jpeg", 0.76);
-      };
-      img.src = prevUrl;
-    });
-
-    canvas.addEventListener("mousedown", startDraw);
-    canvas.addEventListener("mousemove", moveDraw);
-    window.addEventListener("mouseup", endDraw);
-    canvas.addEventListener("touchstart", startDraw, { passive: false });
-    canvas.addEventListener("touchmove", moveDraw, { passive: false });
-    window.addEventListener("touchend", endDraw);
-
-    document.getElementById("clearDraftBtn").addEventListener("click", () => {
-      if (activePolaroidTab === "upload") {
-        triggerPolaroidAnimation();
-        resetDraftCanvas();
-      }
-    });
-
-    // CROPPER MODAL
-    const cropModal = document.getElementById("cropModal");
-    const cropCanvas = document.getElementById("cropCanvas");
-    const cropCtx = cropCanvas.getContext("2d");
-    const zoomRange = document.getElementById("zoomRange");
-    const photoInput = document.getElementById("photoInput");
-
-    let uploadedImg = null;
-    let imgScale = 1, imgOffsetX = 0, imgOffsetY = 0, isDraggingImg = false, startDragX = 0, startDragY = 0;
-
-    function drawCropPreview() {
-      cropCtx.clearRect(0, 0, 400, 400);
-      if (!uploadedImg) return;
-      cropCtx.save();
-      cropCtx.translate(200 + imgOffsetX, 200 + imgOffsetY);
-      cropCtx.scale(imgScale, imgScale);
-      const drawW = 400;
-      const drawH = (uploadedImg.height / uploadedImg.width) * 400;
-      cropCtx.drawImage(uploadedImg, -drawW / 2, -drawH / 2, drawW, drawH);
-      cropCtx.restore();
-    }
-
-    function openCropperWithDataUrl(dataUrl) {
-      const img = new Image();
-      img.onload = () => {
-        uploadedImg = img;
-        imgScale = Math.max(400 / img.width, 400 / img.height);
-        zoomRange.value = imgScale;
-        imgOffsetX = 0;
-        imgOffsetY = 0;
-        cropModal.style.display = "flex";
-        drawCropPreview();
-      };
-      img.src = dataUrl;
-    }
-
-    function handleFileSelected(e) {
-      const file = e.target.files[0];
-      e.target.value = "";
-      if (!file) return;
-      if (activePolaroidTab !== "upload") switchPolaroidTab("upload");
-
-      const reader = new FileReader();
-      reader.onload = (ev) => openCropperWithDataUrl(ev.target.result);
-      reader.readAsDataURL(file);
-    }
-
-    photoInput.addEventListener("change", handleFileSelected);
-    fallbackCameraInput.addEventListener("change", handleFileSelected);
-
-    zoomRange.addEventListener("input", (e) => {
-      imgScale = parseFloat(e.target.value);
-      drawCropPreview();
-    });
-
-    cropCanvas.addEventListener("mousedown", (e) => {
-      isDraggingImg = true;
-      startDragX = e.clientX - imgOffsetX;
-      startDragY = e.clientY - imgOffsetY;
-    });
-    window.addEventListener("mousemove", (e) => {
-      if (!isDraggingImg) return;
-      imgOffsetX = e.clientX - startDragX;
-      imgOffsetY = e.clientY - startDragY;
-      drawCropPreview();
-    });
-    window.addEventListener("mouseup", () => { isDraggingImg = false; });
-
-    cropCanvas.addEventListener("touchstart", (e) => {
-      isDraggingImg = true;
-      startDragX = e.touches[0].clientX - imgOffsetX;
-      startDragY = e.touches[0].clientY - imgOffsetY;
-    }, { passive: true });
-    cropCanvas.addEventListener("touchmove", (e) => {
-      if (!isDraggingImg) return;
-      imgOffsetX = e.touches[0].clientX - startDragX;
-      imgOffsetY = e.touches[0].clientY - startDragY;
-      drawCropPreview();
-    }, { passive: true });
-    window.addEventListener("touchend", () => { isDraggingImg = false; });
-
-    document.getElementById("cancelCropBtn").addEventListener("click", () => {
-      cropModal.style.display = "none";
-    });
-
-    document.getElementById("applyCropBtn").addEventListener("click", () => {
-      cropModal.style.display = "none";
-      draftStrokeHistory = [];
-      draftIsPlaceholder = false;
-
-      ctx.clearRect(0, 0, 600, 600);
-      ctx.save();
-      const ratio = 600 / 400;
-      ctx.translate(300 + (imgOffsetX * ratio), 300 + (imgOffsetY * ratio));
-      ctx.scale(imgScale, imgScale);
-      const drawW = 600;
-      const drawH = (uploadedImg.height / uploadedImg.width) * 600;
-      ctx.drawImage(uploadedImg, -drawW / 2, -drawH / 2, drawW, drawH);
-      ctx.restore();
-
-      draftImageDataUrl = canvas.toDataURL("image/jpeg", 0.74);
-      triggerPolaroidAnimation();
-    });
-
-    document.getElementById("sendLiveBtn").addEventListener("click", async () => {
-      if (activePolaroidTab !== "upload") return;
-      if (draftIsPlaceholder) {
-        alert(t("alertEmptyCanvas"));
-        return;
-      }
-
-      const finalImg = canvas.toDataURL("image/jpeg", 0.72);
-      if (!isValidDataImage(finalImg)) return;
-
-      const item = {
-        img: finalImg,
-        caption: captionInput.value.trim().slice(0, 36) || "thinking of you ♡",
-        sentAt: Date.now()
-      };
-
-      const field = session.seat === "p1" ? "polaroidP1" : "polaroidP2";
-      let updatedList = [...getMyPolaroidList(), item];
-      if (updatedList.length > 15) updatedList = updatedList.slice(-15);
-
-      await awardMissionCoins(25);
-      await saveRoomPatch({ [field]: updatedList });
-      resetDraftCanvas();
-      refreshDynamicLabelsAndViews();
-      switchPolaroidTab("self");
-      galleryIndex = updatedList.length - 1;
-      renderGalleryPolaroid(true);
-    });
-
-    function renderGalleryPolaroid(forceRedraw = false) {
-      if (activePolaroidTab === "upload") return;
-
-      const list = activePolaroidTab === "self" ? getMyPolaroidList() : getPartnerPolaroidList();
-      const total = list.length;
-
-      if (total === 0) {
-        prevPhotoBtn.style.display = "none";
-        nextPhotoBtn.style.display = "none";
-        deleteSinglePhotoBtn.style.display = "none";
-        stackBg1.style.display = "none";
-        stackBg2.style.display = "none";
-        stackIndicator.textContent = t("noPolaroidYet");
-        captionInput.value = "";
-
-        paintCleanBg();
-        ctx.fillStyle = "rgba(255, 253, 249, 0.72)";
-        ctx.font = "bold 24px sans-serif";
-        ctx.textAlign = "center";
-        const emptyMsg = activePolaroidTab === "self"
-          ? t("emptySelfCanvas", { name: getMyName() })
-          : t("emptyPartnerCanvas", { name: getPartnerName() });
-        ctx.fillText(emptyMsg, 300, 305);
-        currentRenderedGallerySrc = "";
-        return;
-      }
-
-      if (galleryIndex >= total) galleryIndex = total - 1;
-      if (galleryIndex < 0) galleryIndex = 0;
-
-      prevPhotoBtn.style.display = total > 1 ? "flex" : "none";
-      nextPhotoBtn.style.display = total > 1 ? "flex" : "none";
-      deleteSinglePhotoBtn.style.display = activePolaroidTab === "self" ? "inline-block" : "none";
-      stackBg1.style.display = total > 1 ? "block" : "none";
-      stackBg2.style.display = total > 2 ? "block" : "none";
-      stackIndicator.textContent = t("photoOf", { cur: galleryIndex + 1, tot: total });
-
-      const entry = list[galleryIndex];
-      const imgSrc = typeof entry === "string" ? entry : entry.img;
-      captionInput.value = typeof entry === "object" && entry.caption ? entry.caption : "miss you ♡";
-
-      if (!isValidDataImage(imgSrc)) return;
-      if (!forceRedraw && imgSrc === currentRenderedGallerySrc) return;
-
-      const img = new Image();
-      img.onload = () => {
-        ctx.clearRect(0, 0, 600, 600);
-        ctx.drawImage(img, 0, 0, 600, 600);
-        currentRenderedGallerySrc = imgSrc;
-      };
-      img.src = imgSrc;
-    }
-
-    prevPhotoBtn.addEventListener("click", () => {
-      const list = activePolaroidTab === "self" ? getMyPolaroidList() : getPartnerPolaroidList();
-      if (list.length > 1) {
-        galleryIndex = (galleryIndex - 1 + list.length) % list.length;
-        triggerPolaroidAnimation();
-        renderGalleryPolaroid(true);
-      }
-    });
-
-    nextPhotoBtn.addEventListener("click", () => {
-      const list = activePolaroidTab === "self" ? getMyPolaroidList() : getPartnerPolaroidList();
-      if (list.length > 1) {
-        galleryIndex = (galleryIndex + 1) % list.length;
-        triggerPolaroidAnimation();
-        renderGalleryPolaroid(true);
-      }
-    });
-
-    deleteSinglePhotoBtn.addEventListener("click", async () => {
-      if (activePolaroidTab !== "self") return;
-      const list = [...getMyPolaroidList()];
-      if (list.length === 0) return;
-
-      list.splice(galleryIndex, 1);
-      const field = session.seat === "p1" ? "polaroidP1" : "polaroidP2";
-      if (galleryIndex >= list.length) galleryIndex = Math.max(0, list.length - 1);
-
-      triggerPolaroidAnimation();
-      await saveRoomPatch({ [field]: list });
-      refreshDynamicLabelsAndViews();
-      renderGalleryPolaroid(true);
-    });
-
-    // ================= STICKY NOTES (AMAN ANTI-XSS) =================
-    const noteColorsP1 = ["#fef08a", "#bbf7d0", "#bae6fd"];
-    const noteColorsP2 = ["#fbcfe8", "#e9d5ff", "#fed7aa"];
-
-    function renderNotes() {
-      const ownGrid = document.getElementById("ownNotesGrid");
-      const incomingGrid = document.getElementById("incomingNotesGrid");
-      ownGrid.innerHTML = "";
-      incomingGrid.innerHTML = "";
-
-      const myName = getMyName();
-      const partnerName = getPartnerName();
-      const ownNotes = toArray(session.seat === "p1" ? roomData.notesP1 : roomData.notesP2);
-      const incomingNotes = toArray(session.seat === "p1" ? roomData.notesP2 : roomData.notesP1);
-
-      if (ownNotes.length === 0) {
-        const emptyOwn = document.createElement("div");
-        emptyOwn.className = "empty-notes-box";
-        emptyOwn.textContent = t("emptyOwnNotes", { me: myName });
-        ownGrid.appendChild(emptyOwn);
-      } else {
-        ownNotes.forEach((note, idx) => {
-          const card = document.createElement("div");
-          card.className = "sticky";
-          card.style.background = note.color || "#fef08a";
-
-          const ta = document.createElement("textarea");
-          ta.maxLength = 140;
-          ta.value = note.text || "";
-          ta.addEventListener("change", () => {
-            ownNotes[idx].text = ta.value.slice(0, 140);
-            const field = session.seat === "p1" ? "notesP1" : "notesP2";
-            saveRoomPatch({ [field]: ownNotes });
-          });
-
-          const footer = document.createElement("div");
-          footer.className = "sticky-footer";
-          const labelSpan = document.createElement("span");
-          labelSpan.textContent = `${myName} #${idx + 1}`;
-          const delBtn = document.createElement("button");
-          delBtn.type = "button";
-          delBtn.className = "del-note";
-          delBtn.textContent = "✕";
-          delBtn.addEventListener("click", () => {
-            ownNotes.splice(idx, 1);
-            const field = session.seat === "p1" ? "notesP1" : "notesP2";
-            renderNotes();
-            saveRoomPatch({ [field]: ownNotes });
-          });
-
-          footer.appendChild(labelSpan);
-          footer.appendChild(delBtn);
-          card.appendChild(ta);
-          card.appendChild(footer);
-          ownGrid.appendChild(card);
-        });
-      }
-
-      if (incomingNotes.length === 0) {
-        const emptyInc = document.createElement("div");
-        emptyInc.className = "empty-notes-box";
-        emptyInc.textContent = t("emptyIncomingNotes", { partner: partnerName });
-        incomingGrid.appendChild(emptyInc);
-      } else {
-        incomingNotes.forEach((note, idx) => {
-          const card = document.createElement("div");
-          card.className = "sticky";
-          card.style.background = note.color || "#fbcfe8";
-
-          const textDiv = document.createElement("div");
-          textDiv.className = "sticky-readonly-text";
-          textDiv.textContent = note.text || "";
-
-          const footer = document.createElement("div");
-          footer.className = "sticky-footer";
-          const senderSpan = document.createElement("span");
-          senderSpan.textContent = `💌 ${partnerName} #${idx + 1}`;
-          const liveSpan = document.createElement("span");
-          liveSpan.textContent = "Live";
-
-          footer.appendChild(senderSpan);
-          footer.appendChild(liveSpan);
-          card.appendChild(textDiv);
-          card.appendChild(footer);
-          incomingGrid.appendChild(card);
-        });
-      }
-    }
-
-    document.getElementById("addNoteBtn").addEventListener("click", async () => {
-      const field = session.seat === "p1" ? "notesP1" : "notesP2";
-      const palette = session.seat === "p1" ? noteColorsP1 : noteColorsP2;
-      const currentList = [...toArray(roomData[field])];
-      const color = palette[currentList.length % palette.length];
-      currentList.push({ text: t("defaultNoteText"), color });
-      roomData[field] = currentList;
-      renderNotes();
-      await awardMissionCoins(15);
-      await saveRoomPatch({ [field]: currentList });
-    });
-
-    // ================= SISTEM PELIHARAAN VIRTUAL =================
-    function updatePetCoinsUI() {
-      const coins = getCurrentCoins();
-      document.getElementById("navCoinBadge").textContent = `🪙 ${coins}`;
-      document.getElementById("adoptCoinInfo").textContent = `🪙 ${coins}`;
-      document.getElementById("shopCoinDisplay").textContent = `🪙 ${coins}`;
-    }
-
-    function renderBreedSelectionCards() {
-      const grid = document.getElementById("breedSelectionGrid");
-      grid.innerHTML = "";
-      Object.values(PET_BREEDS).forEach(breed => {
-        const card = document.createElement("div");
-        card.className = "breed-card" + (selectedBreedForAdopt === breed.id ? " selected" : "");
-        card.innerHTML = `
-          <div style="width:86px; height:86px;">${getPetSvgMarkup(breed.id)}</div>
-          <div class="breed-name">${escapeHtml(breed.name)}</div>
-          <div style="font-size:0.68rem; color:var(--accent-primary); font-weight:700;">${escapeHtml(breed.sub)}</div>
-          <div class="breed-desc">${escapeHtml(breed.desc[currentLang] || breed.desc.id)}</div>
-        `;
-        card.addEventListener("click", () => {
-          selectedBreedForAdopt = breed.id;
-          renderBreedSelectionCards();
-        });
-        grid.appendChild(card);
-      });
-    }
-
-    document.getElementById("adoptPetBtn").addEventListener("click", async () => {
-      if (roomData.pet) return;
-      const rawName = document.getElementById("petNameInput").value.trim().slice(0, 16);
-      const petName = rawName || (selectedBreedForAdopt === "japanese_spitz" ? "Yuki" : "Mochi");
-
-      const newPet = {
-        breed: selectedBreedForAdopt,
-        name: petName,
-        level: 1,
-        exp: 0,
-        fullness: 80,
-        happiness: 85,
-        adoptedBy: getMyName(),
-        lastFedBy: getMyName(),
-        lastFedAt: Date.now(),
-        lastLog: `${getMyName()} adopted ${petName}! 🎉`
-      };
-
-      roomData.pet = newPet;
-      await saveRoomPatch({ pet: newPet });
-      renderPetView();
-    });
-
-    function triggerPetJumpAnimation(speechText) {
-      const svgWrap = document.getElementById("petSvgContainer");
-      const speech = document.getElementById("petSpeechBubble");
-      speech.textContent = speechText;
-      svgWrap.classList.remove("happy-jump");
-      void svgWrap.offsetWidth;
-      svgWrap.classList.add("happy-jump");
-    }
-
-    async function handlePetHead() {
-      if (!roomData.pet) return;
-      const now = Date.now();
-      triggerPetJumpAnimation(`Woof! ${getMyName()} ♡`);
-
-      if (now - lastHeadPetTime >= 25000) {
-        lastHeadPetTime = now;
-        const pet = { ...roomData.pet };
-        pet.happiness = Math.min(100, Number(pet.happiness || 80) + 5);
-        pet.exp = Number(pet.exp || 0) + 5;
-        if (pet.exp >= 100) {
-          pet.level = Number(pet.level || 1) + 1;
-          pet.exp -= 100;
-        }
-        roomData.pet = pet;
-        await awardMissionCoins(5);
-        await saveRoomPatch({ pet });
-        renderPetView();
-      }
-    }
-
-    document.getElementById("petStageBox").addEventListener("click", handlePetHead);
-    document.getElementById("petHeadBtn").addEventListener("click", (e) => {
-      e.stopPropagation();
-      handlePetHead();
-    });
-
-    async function feedOrPlayWithPet(item) {
-      if (!roomData.pet) return;
-      const currentCoins = getCurrentCoins();
-      if (currentCoins < item.cost) {
-        alert(t("notEnoughCoins"));
-        return;
-      }
-
-      const pet = { ...roomData.pet };
-      pet.fullness = Math.min(100, Number(pet.fullness || 70) + item.full);
-      pet.happiness = Math.min(100, Number(pet.happiness || 70) + item.happy);
-      pet.exp = Number(pet.exp || 0) + item.exp;
-      if (pet.exp >= 100) {
-        pet.level = Number(pet.level || 1) + 1;
-        pet.exp -= 100;
-      }
-
-      const itemName = item.name[currentLang] || item.name.id;
-      pet.lastFedBy = getMyName();
-      pet.lastFedAt = Date.now();
-      pet.lastLog = `${item.icon} ${getMyName()} → ${itemName} (+${item.exp} EXP)`;
-
-      const nextCoins = currentCoins - item.cost;
-      roomData.coins = nextCoins;
-      roomData.pet = pet;
-
-      triggerPetJumpAnimation(`Yummy ${itemName}! ♡`);
-      await saveRoomPatch({ coins: nextCoins, pet });
-      renderPetView();
-    }
-
-    function renderPetView() {
-      updatePetCoinsUI();
-      const adoptSection = document.getElementById("petAdoptionSection");
-      const careSection = document.getElementById("petCareSection");
-
-      if (!roomData.pet) {
-        adoptSection.style.display = "block";
-        careSection.style.display = "none";
-        renderBreedSelectionCards();
-        return;
-      }
-
-      adoptSection.style.display = "none";
-      careSection.style.display = "grid";
-
-      const pet = roomData.pet;
-      const breedInfo = PET_BREEDS[pet.breed] || PET_BREEDS.shiba;
-
-      document.getElementById("petSvgContainer").innerHTML = getPetSvgMarkup(breedInfo.id);
-      document.getElementById("petDisplayName").textContent = pet.name || "Mochi";
-      document.getElementById("petBreedLabel").textContent = `${breedInfo.name} (${breedInfo.sub})`;
-      document.getElementById("petLevelBadge").textContent = `Lv. ${pet.level || 1}`;
-
-      const fullness = Math.min(100, Math.max(0, Number(pet.fullness ?? 80)));
-      const happiness = Math.min(100, Math.max(0, Number(pet.happiness ?? 85)));
-      const exp = Math.min(100, Math.max(0, Number(pet.exp ?? 0)));
-
-      document.getElementById("petFullnessText").textContent = `${fullness} / 100`;
-      document.getElementById("petFullnessBar").style.width = `${fullness}%`;
-      document.getElementById("petHappinessText").textContent = `${happiness} / 100`;
-      document.getElementById("petHappinessBar").style.width = `${happiness}%`;
-      document.getElementById("petExpText").textContent = `${exp} / 100 EXP`;
-      document.getElementById("petExpBar").style.width = `${exp}%`;
-      document.getElementById("lastPetCareLog").textContent = pet.lastLog || "";
-
-      const shopGrid = document.getElementById("petShopGrid");
-      shopGrid.innerHTML = "";
-      PET_SHOP_ITEMS.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "shop-item-card";
-        const itemName = item.name[currentLang] || item.name.id;
-        card.innerHTML = `
-          <div class="shop-item-top">
-            <span class="shop-item-icon">${item.icon}</span>
-            <div>
-              <div class="shop-item-name">${escapeHtml(itemName)}</div>
-              <div class="shop-item-effect">+${item.full}🍖 +${item.happy}💖</div>
-            </div>
-          </div>
-          <button type="button" class="btn btn-primary" style="width:100%; padding:6px 10px; font-size:0.75rem;">
-            🪙 ${item.cost}
-          </button>
-        `;
-        card.querySelector("button").addEventListener("click", () => feedOrPlayWithPet(item));
-        shopGrid.appendChild(card);
-      });
-
-      const missions = [
-        { label: currentLang === "zh" ? "📸 发送拍立得照片" : currentLang === "en" ? "📸 Send a Polaroid Photo" : "📸 Kirim Foto Polaroid", reward: "+25 🪙" },
-        { label: currentLang === "zh" ? "💌 发送新便利贴" : currentLang === "en" ? "💌 Add a Sticky Note" : "💌 Tambah Sticky Note", reward: "+15 🪙" },
-        { label: currentLang === "zh" ? "💭 更新实时状态" : currentLang === "en" ? "💭 Update Live Status" : "💭 Update Status Live", reward: "+10 🪙" },
-        { label: currentLang === "zh" ? "📍 同步GPS定位" : currentLang === "en" ? "📍 Sync GPS Location" : "📍 Sync Lokasi GPS", reward: "+10 🪙" },
-        { label: currentLang === "zh" ? "🖐️ 摸摸宠物头" : currentLang === "en" ? "🖐️ Pet Your Puppy" : "🖐️ Elus Kepala Peliharaan", reward: "+5 🪙" }
-      ];
-      const missionList = document.getElementById("petMissionList");
-      missionList.innerHTML = "";
-      missions.forEach(m => {
-        const row = document.createElement("div");
-        row.className = "mission-row";
-        row.innerHTML = `<span>${escapeHtml(m.label)}</span><span class="mission-reward-tag">${escapeHtml(m.reward)}</span>`;
-        missionList.appendChild(row);
-      });
-    }
-
-    // ================= FIREBASE REALTIME + BACKGROUND LIVE-SYNC =================
-    function startFirebaseRealtimeAndBackgroundSync() {
-      if (activeRoomRef) activeRoomRef.off("value");
-      if (backgroundPollTimer) clearInterval(backgroundPollTimer);
-
-      activeRoomRef = db.ref(`rooms/${session.roomCode}`);
-      activeRoomRef.on("value", (snap) => {
-        processIncomingRoomSnapshot(snap.val());
-      });
-
-      backgroundPollTimer = setInterval(() => {
-        pullLatestRoomState();
-      }, 8000);
-    }
-
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "visible" && session.roomCode) {
-        pullLatestRoomState();
-        autoRefreshGpsIfPermitted();
-      }
-    });
-    window.addEventListener("focus", () => {
-      if (session.roomCode) {
-        pullLatestRoomState();
-      }
-    });
-  </script>
-</body>
-</html>
+      if (mode === "create" && !roomCode
