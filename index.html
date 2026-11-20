@@ -3,9 +3,14 @@
 
 <head>
   <script>
-  window.onerror = function(message, source, lineno) {
-    alert("JS Error: " + message + "\nBaris ke-" + lineno);
-  };
+  function showFatalError(msg) {
+    const box = document.createElement('div');
+    box.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:#900;color:#fff;padding:12px;font-family:monospace;font-size:12px;white-space:pre-wrap;';
+    box.textContent = msg;
+    document.documentElement.appendChild(box);
+  }
+  window.onerror = (msg, src, line, col) => showFatalError(`ERROR: ${msg}\nBaris: ${line}:${col}`);
+  window.onunhandledrejection = (e) => showFatalError(`ASYNC/FIREBASE ERROR:\n${e.reason?.stack || e.reason}`);
 </script>
 
   <meta charset="UTF-8" />
