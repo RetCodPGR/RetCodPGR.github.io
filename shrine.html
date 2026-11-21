@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>THE WHISPERING SHRINE - 3D Co-op Horror</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+    body, html {
+      width: 100%; height: 100%; overflow: hidden;
+      background: #050507; color: #e5e5e5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    #game-canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+
+    /* Vignette & Danger Effect */
+    #danger-overlay {
+      position: fixed; inset: 0; pointer-events: none; z-index: 5;
+      background: radial-gradient(circle, transparent 45%, rgba(120, 0, 0, 0) 100%);
+      transition: background 0.15s ease;
+    }
+
+    /* HUD */
+    #hud {
+      position: fixed; inset: 0; pointer-events: none; z-index: 10;
+      display: none; flex-direction: column; justify-content: space-between; padding: 16px;
+    }
+    .hud-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+    .panel {
+      background: rgba(10, 10, 14, 0.76); border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(6px); padding: 10px 14px; border-radius: 8px;
+    }
+    .objective-title { font-size: 11px; letter-spacing: 1.5px; color: #ff5c5c; text-transform: uppercase; margin-bottom: 3px; }
+    .objective-text { font-size: 14px; font-weight: 700; }
+    .controls-hint { font-size: 11px; color: #aaa; line-height: 1.5; text-align: right; }
+
+    /* Crosshair & Interact Prompt */
+    #crosshair {
+      position: fixed; top: 50%; left: 50%; width: 6px; height: 6px;
+      background: rgba(255,255,255,0.7); border-radius: 50%;
+      transform: translate(-50%, -50%); pointer-events: none; z-index: 11;
+    }
+    #interact-prompt {
+      position: fixed; top: 56%; left: 50%; transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.88); border: 1px solid #ff4d4d;
+      padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: bold;
+      color: #fff; display: none; z-index: 12; pointer-events: none;
+    }
+
+    /* Bottom Bars (Stamina & Battery) */
+    .hud-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+    .bars-wrap { width: 230px; display: flex; flex-direction: column; gap: 7px; }
+    .bar-label { font-size: 10px; letter-spacing: 1px; color: #ccc; display: flex; justify-content: space-between; }
+    .bar-bg { width: 100%; height: 7px; background: rgba(255,255,255,0.14); border-radius: 4px; overflow: hidden; }
+    #stamina-fill { width: 100%; height: 100%; background: #4ade80; transition: width 0.08s linear; }
+    #battery-fill { width: 100%; height: 100%; background: #facc15; transition: width 0.2s linear; }
+
+    /* Lore Modal */
+    #lore-modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.84); z-index: 30;
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .lore-card {
+      max-width: 500px; width: 100%; background: #14110f; border: 1px solid #7c5c38;
+      padding: 24px; border-radius: 8px; box-shadow: 0 0 40px rgba(0,0,0,0.95);
+    }
+    .lore-card h3 { color: #e2b879; margin-bottom: 10px; font-size: 17px; }
+    .lore-card p { color: #d6cfc7; line-height: 1.65; font-size: 14px; margin-bottom: 18px; white-space: pre-line; }
+
+    /* Start / End Screens */
+    .overlay-screen {
+      position: fixed; inset: 0; z-index: 25;
+      background: radial-gradient(circle at center, rgba(24, 10, 12, 0.94), #040406 92%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 24px; text-align: center;
+    }
+    .game-title {
+      font-size: clamp(26px, 5vw, 48px); font-weight: 800; letter-spacing: 3px;
+      color: #f5f5f5; text-shadow: 0 0 25px rgba(220, 38, 38, 0.7); margin-bottom: 8px;
+    }
+    .subtitle { color: #a3a3a3; max-width: 540px; line-height: 1.6; margin-bottom: 18px; font-size: 14px; }
+    .lang-switch { display: flex; gap: 8px; margin-bottom: 18px; }
+    .lang-btn {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+      color: #fff; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px;
+    }
+    .lang-btn.active { background: #b91c1c; border-color: #ef4444; font-weight: bold; }
+
+    .room-panel {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);
+      padding: 14px 16px; border-radius: 8px; width: 100%; max-width: 380px; margin-bottom: 18px;
+    }
+    .room-label { font-size: 12px; color: #fca5a5; margin-bottom: 8px; font-weight: 600; display: block; }
+    .room-row { display: flex; gap: 8px; }
+    .room-row input {
+      flex: 1; background: #0d0d12; border: 1px solid #444; color: #fff;
+      padding: 10px 12px; border-radius: 6px; font-size: 14px; font-weight: bold;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .btn-secondary {
+      background: #27272a; color: #e4e4e7; border: 1px solid #3f3f46;
+      padding: 0 12px; border-radius: 6px; font-size: 12px; cursor: pointer;
+    }
+    .btn-secondary:hover { background: #3f3f46; }
+
+    .btn-primary {
+      background: #dc2626; color: #fff; border: none; padding: 14px 36px;
+      font-size: 16px; font-weight: 700; letter-spacing: 1.5px; border-radius: 6px;
+      cursor: pointer; box-shadow: 0 0 20px rgba(220, 38, 38, 0.45); transition: 0.2s;
+    }
+    .btn-primary:hover { background: #ef4444; transform: translateY(-1px); }
+
+    /* Mobile Touch Controls */
+    #mobile-controls {
+      display: none; position: fixed; inset: 0; pointer-events: none; z-index: 15;
+    }
+    .touch-pad {
+      position: absolute; bottom: 95px; left: 24px; width: 105px; height: 105px;
+      border-radius: 50%; background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.25);
+      pointer-events: auto; touch-action: none;
+    }
+    .touch-actions {
+      position: absolute; bottom: 26px; right: 20px; display: flex; flex-direction: column; gap: 9px;
+      pointer-events: auto;
+    }
+    .touch-btn {
+      width: 52px; height: 52px; border-radius: 50%; background: rgba(20,20,25,0.85);
+      border: 1px solid rgba(255,255,255,0.35); color: #fff; font-weight: bold; font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="game-canvas"></canvas>
+  <div id="danger-overlay"></div>
+  <div id="crosshair"></div>
+  <div id="interact-prompt">[E] Ambil Jimat</div>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div class="hud-top">
+      <div class="panel">
+        <div class="objective-title" id="ui-chapter">CHAPTER I: KUIL BERBISIK</div>
+        <div class="objective-text" id="ui-objective">Kumpulkan Jimat Segel: 0 / 3</div>
+        <div style="font-size:11px; color:#86efac; margin-top:4px;" id="ui-coop-status">Menghubungkan Firebase...</div>
+      </div>
+      <div class="panel controls-hint" id="ui-controls">
+        WASD: Jalan | SHIFT: Lari<br/>
+        Mouse/Geser: Kamera<br/>
+        E: Ambil | F: Senter | V: 1P/3P
+      </div>
+    </div>
+
+    <div class="hud-bottom">
+      <div class="panel bars-wrap">
+        <div>
+          <div class="bar-label"><span id="ui-stamina-lbl">STAMINA</span><span id="stamina-val">100%</span></div>
+          <div class="bar-bg"><div id="stamina-fill"></div></div>
+        </div>
+        <div>
+          <div class="bar-label"><span id="ui-battery-lbl">SENTER</span><span id="battery-val">100%</span></div>
+          <div class="bar-bg"><div id="battery-fill"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Controls -->
+  <div id="mobile-controls">
+    <div class="touch-pad" id="touch-joystick"></div>
+    <div class="touch-actions">
+      <button class="touch-btn" id="m-interact">E</button>
+      <button class="touch-btn" id="m-flash">F</button>
+      <button class="touch-btn" id="m-cam">3P</button>
+      <button class="touch-btn" id="m-sprint">RUN</button>
+    </div>
+  </div>
+
+  <!-- Lore Modal -->
+  <div id="lore-modal">
+    <div class="lore-card">
+      <h3 id="lore-title">Catatan Terkutuk</h3>
+      <p id="lore-body">...</p>
+      <button class="btn-primary" style="padding:10px 24px; font-size:14px;" onclick="closeLore()" id="lore-close">LANJUTKAN</button>
+    </div>
+  </div>
+
+  <!-- Start Screen -->
+  <div class="overlay-screen" id="start-screen">
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('id', this)">Indonesia</button>
+      <button class="lang-btn" onclick="setLang('zh', this)">中文 (中国)</button>
+      <button class="lang-btn" onclick="setLang('en', this)">English</button>
+    </div>
+    <div class="game-title">THE WHISPERING SHRINE</div>
+    <p class="subtitle" id="ui-story-intro">
+      Dua pelancong terpisah lautan terjebak di dalam Kuil Kabut Merah. Temukan 3 Jimat Segel untuk membuka gerbang keluar sebelum Penjaga Tanpa Wajah menangkapmu.
+    </p>
+
+    <div class="room-panel">
+      <label class="room-label" id="ui-room-lbl">KODE RUANGAN CO-OP (Masukkan kode yang sama berdua)</label>
+      <div class="room-row">
+        <input type="text" id="room-code-input" value="KUIL88" maxlength="12" />
+        <button class="btn-secondary" onclick="resetFirebaseRoom()" id="ui-reset-room-btn">Reset Room</button>
+      </div>
+      <div id="room-reset-msg" style="font-size:11px; color:#4ade80; margin-top:6px; display:none;">Ruangan di-reset!</div>
+    </div>
+
+    <button class="btn-primary" onclick="startGame()" id="ui-start-btn">MULAI BERMAIN</button>
+  </div>
+
+  <!-- Game Over / Win Screen -->
+  <div class="overlay-screen" id="end-screen" style="display:none;">
+    <div class="game-title" id="end-title">TERTANGKAP</div>
+    <p class="subtitle" id="end-desc">Kegelapan kuil menelan jiwamu...</p>
+    <button class="btn-primary" onclick="restartFresh()" id="ui-retry-btn">MAIN LAGI</button>
+  </div>
+
+  <!-- Three.js & Firebase Realtime Database SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+  <script>
+    // ================= 1. FIREBASE CONFIGURATION =================
+    const firebaseConfig = {
+      apiKey: "AIzaSyBF1LP9H26mRntsYXlkjm6Ebp3aR1QI8yU",
+      authDomain: "widg-350f9.firebaseapp.com",
+      projectId: "widg-350f9",
+      databaseURL: "https://widg-350f9-default-rtdb.asia-southeast1.firebasedatabase.app"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // ================= 2. MULTI-LANGUAGE DATA =================
+    const I18N = {
+      id: {
+        chapter: "CHAPTER I: KUIL BERBISIK",
+        storyIntro: "Dua pelancong terpisah lautan terjebak di dalam Kuil Kabut Merah. Temukan 3 Jimat Segel untuk membuka gerbang keluar sebelum Penjaga Tanpa Wajah menangkapmu.",
+        roomLbl: "KODE RUANGAN CO-OP (Masukkan kode yang sama berdua)",
+        resetBtn: "Reset Room",
+        startBtn: "MULAI BERMAIN",
+        objCollect: (c, t) => `Kumpulkan Jimat Segel: ${c} / ${t}`,
+        objEscape: "SEMUA SEGEL TERBUKA! Cari Gerbang Cahaya Hijau!",
+        controls: "WASD: Jalan | SHIFT: Lari<br/>Mouse/Geser: Kamera<br/>E: Ambil | F: Senter | V: 1P/3P",
+        stamina: "STAMINA",
+        battery: "SENTER",
+        promptTalisman: "[E] Ambil Jimat & Baca Catatan",
+        promptExitLocked: "Gerbang Terkunci (Butuh 3 Jimat)",
+        promptExitOpen: "[E] Buka Gerbang Keluar",
+        loreClose: "LANJUTKAN",
+        winTitle: "SELAMAT! KAMU LOLOS",
+        winDesc: "Segel kuil hancur dan kabut merah menghilang. Kalian berhasil keluar dari kutukan.",
+        loseTitle: "DIA MENEMUKANMU",
+        loseDesc: "Langkahmu terdengar di kegelapan. Penjaga Kuil menarikmu ke dalam bayangan.",
+        retry: "MAIN LAGI",
+        waitPartner: (r) => `Room ${r} • Menunggu Partner...`,
+        partnerOnline: (r) => `Room ${r} • Partner Online!`,
+        lores: [
+          { title: "Gulungan I: Janji Dua Benua", body: "“Kami datang dari dua negeri yang dipisahkan samudra untuk mematahkan kutukan mimpi buruk yang sama. Namun saat lentera padam, lorong kuil ini berubah menjadi labirin tak berujung.”" },
+          { title: "Gulungan II: Mata di Balik Kabut", body: "“Jangan berlari terlalu lama di dekatnya. Ia buta terhadap cahaya senter, tetapi ia dapat mendengar detak jantung dan langkah kaki yang tergesa-gesa.”" },
+          { title: "Gulungan III: Segel Terakhir", body: "“Tiga jimat telah terangkat. Gerbang utama di ujung lorong kini terbuka. Cepatlah sebelum ia memasuki fase berburu!”" }
+        ]
+      },
+      zh: {
+        chapter: "第一章：低语神庙",
+        storyIntro: "两名隔海相望的旅人被困在了红雾神庙中。在无面守护者抓住你之前，找到 3 张封印符咒并打开出口大门。",
+        roomLbl: "双人联机房间码（两人输入相同代码即可同屏）",
+        resetBtn: "重置房间",
+        startBtn: "开始游戏",
+        objCollect: (c, t) => `收集封印符咒: ${c} / ${t}`,
+        objEscape: "封印已解除！快寻找绿色光芒的出口大门！",
+        controls: "WASD: 移动 | SHIFT: 冲刺<br/>鼠标/滑动: 转动视角<br/>E: 互动 | F: 手电筒 | V: 第一/第三人称",
+        stamina: "体力",
+        battery: "手电电量",
+        promptTalisman: "[E] 拾取符咒并阅读残卷",
+        promptExitLocked: "大门已上锁 (需要 3 张符咒)",
+        promptExitOpen: "[E] 打开出口大门",
+        loreClose: "继续",
+        winTitle: "逃脱成功！",
+        winDesc: "神庙的诅咒被打破，红雾散去，你们成功逃离了黑暗。",
+        loseTitle: "你被抓住了",
+        loseDesc: "你的脚步声暴露了位置，守护者将你拖入了无尽的阴影……",
+        retry: "重新开始",
+        waitPartner: (r) => `房间 ${r} • 等待队友加入...`,
+        partnerOnline: (r) => `房间 ${r} • 队友已在线！`,
+        lores: [
+          { title: "残卷一：跨海之约", body: "“我们来自隔海相望的两片土地，为了解除共同的噩梦来到这座古庙。但灯笼熄灭的那一刻，走廊变成了无尽的迷宫。”" },
+          { title: "残卷二：迷雾中的双眸", body: "“不要在它附近长时间奔跑。它看不见手电筒的光，却能清晰听见急促的脚步和心跳声。”" },
+          { title: "残卷三：最后的封印", body: "“三张符咒已全部集齐。走廊尽头的大门已经开启，趁它彻底狂暴之前快逃！”" }
+        ]
+      },
+      en: {
+        chapter: "CHAPTER I: THE WHISPERING SHRINE",
+        storyIntro: "Two travelers separated by the sea are trapped inside the Red Mist Shrine. Find 3 Sacred Talismans to unlock the exit gate before the Faceless Guardian catches you.",
+        roomLbl: "CO-OP ROOM CODE (Enter the same code together)",
+        resetBtn: "Reset Room",
+        startBtn: "PLAY GAME",
+        objCollect: (c, t) => `Collect Sacred Talismans: ${c} / ${t}`,
+        objEscape: "SEAL BROKEN! Find the Green Exit Gate!",
+        controls: "WASD: Move | SHIFT: Sprint<br/>Mouse/Drag: Look<br/>E: Interact | F: Flashlight | V: 1P/3P",
+        stamina: "STAMINA",
+        battery: "FLASHLIGHT",
+        promptTalisman: "[E] Take Talisman & Read Note",
+        promptExitLocked: "Gate Locked (Requires 3 Talismans)",
+        promptExitOpen: "[E] Open Exit Gate",
+        loreClose: "CONTINUE",
+        winTitle: "ESCAPED!",
+        winDesc: "The shrine's seal is shattered and the red mist fades away.",
+        loseTitle: "IT CAUGHT YOU",
+        loseDesc: "Your footsteps echoed in the dark. The Guardian pulled you into the shadows.",
+        retry: "PLAY AGAIN",
+        waitPartner: (r) => `Room ${r} • Waiting for Partner...`,
+        partnerOnline: (r) => `Room ${r} • Partner Connected!`,
+        lores: [
+          { title: "Scroll I: Pact Across the Sea", body: "“We came from two lands separated by the ocean to break a shared nightmare. The moment the lanterns died, the shrine became an endless labyrinth.”" },
+          { title: "Scroll II: Eyes in the Mist", body: "“Do not sprint too close to it. It cannot see your flashlight beam, yet it hears every hurried footstep and heartbeat.”" },
+          { title: "Scroll III: The Final Seal", body: "“All three talismans are gathered. The main gate is now unlocked. Run before it enters its frenzy!”" }
+        ]
+      }
+    };
+
+    let currentLang = 'id';
+    function setLang(lang, btn) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const t = I18N[lang];
+      document.getElementById('ui-chapter').textContent = t.chapter;
+      document.getElementById('ui-story-intro').textContent = t.storyIntro;
+      document.getElementById('ui-room-lbl').textContent = t.roomLbl;
+      document.getElementById('ui-reset-room-btn').textContent = t.resetBtn;
+      document.getElementById('ui-start-btn').textContent = t.startBtn;
+      document.getElementById('ui-controls').innerHTML = t.controls;
+      document.getElementById('ui-stamina-lbl').textContent = t.stamina;
+      document.getElementById('ui-battery-lbl').textContent = t.battery;
+      document.getElementById('lore-close').textContent = t.loreClose;
+      document.getElementById('ui-retry-btn').textContent = t.retry;
+    }
+
+    function getCleanRoomCode() {
+      const raw = document.getElementById('room-code-input').value.trim().toUpperCase();
+      return raw.replace(/[^A-Z0-9_-]/g, '') || 'KUIL88';
+    }
+
+    function resetFirebaseRoom() {
+      const code = getCleanRoomCode();
+      db.ref('shrine_rooms/' + code).remove().then(() => {
+        const msg = document.getElementById('room-reset-msg');
+        msg.style.display = 'block';
+        setTimeout(() => msg.style.display = 'none', 2500);
+      });
+    }
+
+    function restartFresh() {
+      const code = getCleanRoomCode();
+      db.ref('shrine_rooms/' + code + '/talismans').remove().finally(() => {
+        location.reload();
+      });
+    }
+
+    // ================= 3. PROCEDURAL AUDIO (WEB AUDIO API) =================
+    let audioCtx = null;
+    let lastStepTime = 0;
+    let lastHeartbeatTime = 0;
+
+    function initAudio() {
+      if (audioCtx) return;
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
+      osc.type = 'sawtooth';
+      osc.frequency.value = 46;
+      filter.type = 'lowpass';
+      filter.frequency.value = 130;
+      gain.gain.value = 0.08;
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+    }
+
+    function playFootstep(sprinting) {
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime;
+      const interval = sprinting ? 0.3 : 0.48;
+      if (now - lastStepTime < interval) return;
+      lastStepTime = now;
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(95 + Math.random() * 20, now);
+      osc.frequency.exponentialRampToValueAtTime(30, now + 0.09);
+      gain.gain.setValueAtTime(sprinting ? 0.14 : 0.07, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.09);
+    }
+
+    function playHeartbeat(intensity) {
+      if (!audioCtx || intensity <= 0) return;
+      const now = audioCtx.currentTime;
+      const beatInterval = Math.max(0.32, 1.1 - intensity * 0.75);
+      if (now - lastHeartbeatTime < beatInterval) return;
+      lastHeartbeatTime = now;
+
+      [0, 0.14].forEach((offset, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(idx === 0 ? 65 : 52, now + offset);
+        osc.frequency.exponentialRampToValueAtTime(25, now + offset + 0.12);
+        gain.gain.setValueAtTime(0.25 * intensity, now + offset);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.12);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + offset);
+        osc.stop(now + offset + 0.12);
+      });
+    }
+
+    function playChime() {
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime;
+      [523.25, 659.25, 783.99].forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + i * 0.08);
+        gain.gain.setValueAtTime(0.12, now + i * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.6);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + i * 0.08);
+        osc.stop(now + i * 0.08 + 0.6);
+      });
+    }
+
+    function playJumpscareSound() {
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime;
+      [180, 235, 310, 490].forEach(freq => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(freq, now);
+        osc.frequency.linearRampToValueAtTime(freq * 1.6, now + 0.5);
+        gain.gain.setValueAtTime(0.22, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.9);
+      });
+    }
+
+    // ================= 4. PROCEDURAL TEXTURES =================
+    function createWoodTexture() {
+      const c = document.createElement('canvas');
+      c.width = 256; c.height = 256;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#241711';
+      ctx.fillRect(0, 0, 256, 256);
+      for (let i = 0; i < 60; i++) {
+        ctx.fillStyle = i % 2 === 0 ? 'rgba(15,8,5,0.45)' : 'rgba(60,38,26,0.25)';
+        ctx.fillRect(0, Math.random() * 256, 256, 2 + Math.random() * 6);
+      }
+      ctx.strokeStyle = '#120a07';
+      ctx.lineWidth = 3;
+      for (let y = 0; y < 256; y += 64) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(256, y); ctx.stroke();
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+      return tex;
+    }
+
+    function createStoneTexture() {
+      const c = document.createElement('canvas');
+      c.width = 256; c.height = 256;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#1b1d21';
+      ctx.fillRect(0, 0, 256, 256);
+      for (let i = 0; i < 900; i++) {
+        ctx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.22)';
+        ctx.fillRect(Math.random() * 256, Math.random() * 256, 4, 4);
+      }
+      ctx.strokeStyle = '#0e0f12';
+      ctx.lineWidth = 4;
+      for (let x = 0; x <= 256; x += 64) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 256); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, x); ctx.lineTo(256, x); ctx.stroke();
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(16, 16);
+      return tex;
+    }
+
+    // ================= 5. THREE.JS SCENE & SHRINE MAZE =================
+    const TILE = 4;
+    const MAP = [
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      [1,0,0,0,1,0,0,0,0,0,1,0,0,2,1],
+      [1,0,1,0,1,0,1,1,1,0,1,0,1,1,1],
+      [1,0,1,0,0,0,0,0,1,0,0,0,0,0,1],
+      [1,0,1,1,1,1,1,0,1,1,1,1,1,0,1],
+      [1,0,0,0,0,0,1,0,0,0,0,0,1,0,1],
+      [1,1,1,0,1,0,1,1,1,0,1,0,1,0,1],
+      [1,2,0,0,1,0,0,0,0,0,1,0,0,0,1],
+      [1,0,1,1,1,0,1,1,1,0,1,1,1,0,1],
+      [1,0,0,0,0,0,1,0,0,0,0,0,1,0,1],
+      [1,0,1,1,1,1,1,0,1,1,1,0,1,0,1],
+      [1,0,1,0,0,0,0,0,1,2,0,0,0,0,1],
+      [1,0,1,0,1,1,1,1,1,0,1,1,1,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,1,3,1],
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ];
+
+    let scene, camera, renderer;
+    let playerGroup, leftLeg, rightLeg, rightArm, flashlight, flashlightTarget;
+    let partnerGroup = null, partnerTargetPos = new THREE.Vector3(), partnerTargetYaw = 0;
+    let monsterGroup, monsterHead;
+    let talismans = [];
+    let exitGateMesh = null, exitLight = null;
+    let lanterns = [];
+
+    let gameActive = false;
+    let isPaused = false;
+    let isThirdPerson = true;
+    let collectedCount = 0;
+    let stamina = 100;
+    let battery = 100;
+    let flashlightOn = true;
+    let yaw = 0, pitch = -0.15;
+    let walkTime = 0;
+    let nearbyInteractable = null;
+
+    const keys = {};
+    const playerPos = new THREE.Vector3(1 * TILE, 0, 1 * TILE);
+    const monsterPos = new THREE.Vector3(11 * TILE, 0, 5 * TILE);
+    const syncedMonsterPos = new THREE.Vector3(11 * TILE, 0, 5 * TILE);
+    let monsterWaypointIdx = 0;
+    const waypoints = [
+      new THREE.Vector3(11 * TILE, 0, 5 * TILE),
+      new THREE.Vector3(7 * TILE, 0, 7 * TILE),
+      new THREE.Vector3(3 * TILE, 0, 9 * TILE),
+      new THREE.Vector3(9 * TILE, 0, 13 * TILE),
+      new THREE.Vector3(5 * TILE, 0, 3 * TILE)
+    ];
+
+    // Firebase Multiplayer State
+    const myPlayerId = 'P_' + Math.random().toString(36).substring(2, 8);
+    let roomRef = null;
+    let isMonsterHost = true;
+    let lastNetSync = 0;
+
+    function buildRobloxAvatar(bodyColor, headColor) {
+      const group = new THREE.Group();
+      const matBody = new THREE.MeshStandardMaterial({ color: bodyColor, roughness: 0.6 });
+      const matHead = new THREE.MeshStandardMaterial({ color: headColor, roughness: 0.5 });
+      const matLimb = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.7 });
+
+      const torso = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.9, 0.4), matBody);
+      torso.position.y = 1.25;
+      torso.castShadow = true;
+      group.add(torso);
+
+      const head = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.52, 0.52), matHead);
+      head.position.y = 2.02;
+      head.castShadow = true;
+      group.add(head);
+
+      const lArm = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.82, 0.26), matHead);
+      lArm.position.set(-0.54, 1.25, 0);
+      group.add(lArm);
+
+      const rArm = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.82, 0.26), matHead);
+      rArm.position.set(0.54, 1.35, 0.2);
+      rArm.rotation.x = -Math.PI / 2.6;
+      group.add(rArm);
+
+      const lLeg = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.8, 0.32), matLimb);
+      lLeg.position.set(-0.2, 0.4, 0);
+      group.add(lLeg);
+
+      const rLeg = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.8, 0.32), matLimb);
+      rLeg.position.set(0.2, 0.4, 0);
+      group.add(rLeg);
+
+      return { group, lLeg, rLeg, rArm };
+    }
+
+    function buildMonster() {
+      const group = new THREE.Group();
+      const robeMat = new THREE.MeshStandardMaterial({ color: 0x09090b, roughness: 0.9 });
+      const skinMat = new THREE.MeshStandardMaterial({ color: 0xd4d4d8, roughness: 0.4 });
+      const eyeMat = new THREE.MeshBasicMaterial({ color: 0xff1e1e });
+
+      const body = new THREE.Mesh(new THREE.ConeGeometry(0.65, 2.5, 8), robeMat);
+      body.position.y = 1.25;
+      group.add(body);
+
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.32, 12, 12), skinMat);
+      head.position.set(0, 2.55, 0.08);
+      group.add(head);
+
+      const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.05, 8, 8), eyeMat);
+      eyeL.position.set(-0.11, 2.58, 0.36);
+      const eyeR = new THREE.Mesh(new THREE.SphereGeometry(0.05, 8, 8), eyeMat);
+      eyeR.position.set(0.11, 2.58, 0.36);
+      group.add(eyeL, eyeR);
+
+      const aura = new THREE.PointLight(0xdc2626, 1.4, 7);
+      aura.position.set(0, 2.2, 0.4);
+      group.add(aura);
+
+      monsterHead = head;
+      return group;
+    }
+
+    function initScene() {
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x060405);
+      scene.fog = new THREE.FogExp2(0x090506, 0.075);
+
+      camera = new THREE.PerspectiveCamera(72, window.innerWidth / window.innerHeight, 0.1, 80);
+      renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('game-canvas'), antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+
+      const hemi = new THREE.HemisphereLight(0x3b2a35, 0x09090b, 0.35);
+      scene.add(hemi);
+
+      const woodTex = createWoodTexture();
+      const stoneTex = createStoneTexture();
+
+      const mapSize = MAP.length * TILE;
+      const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(mapSize, mapSize),
+        new THREE.MeshStandardMaterial({ map: stoneTex, roughness: 0.85 })
+      );
+      floor.rotation.x = -Math.PI / 2;
+      floor.position.set(mapSize / 2 - TILE / 2, 0, mapSize / 2 - TILE / 2);
+      floor.receiveShadow = true;
+      scene.add(floor);
+
+      const ceiling = new THREE.Mesh(
+        new THREE.PlaneGeometry(mapSize, mapSize),
+        new THREE.MeshStandardMaterial({ color: 0x0c0908, roughness: 0.95 })
+      );
+      ceiling.rotation.x = Math.PI / 2;
+      ceiling.position.set(mapSize / 2 - TILE / 2, 4.2, mapSize / 2 - TILE / 2);
+      scene.add(ceiling);
+
+      const wallGeo = new THREE.BoxGeometry(TILE, 4.2, TILE);
+      const wallMat = new THREE.MeshStandardMaterial({ map: woodTex, roughness: 0.8 });
+
+      let talismanIdx = 0;
+      for (let z = 0; z < MAP.length; z++) {
+        for (let x = 0; x < MAP[z].length; x++) {
+          const cell = MAP[z][x];
+          const wx = x * TILE;
+          const wz = z * TILE;
+
+          if (cell === 1) {
+            const wall = new THREE.Mesh(wallGeo, wallMat);
+            wall.position.set(wx, 2.1, wz);
+            wall.castShadow = true;
+            wall.receiveShadow = true;
+            scene.add(wall);
+          } else {
+            if ((x + z) % 6 === 0 && !(x === 1 && z === 1)) {
+              const lanternMesh = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.18, 0.18, 0.45, 8),
+                new THREE.MeshBasicMaterial({ color: 0xff4522 })
+              );
+              lanternMesh.position.set(wx, 3.6, wz);
+              scene.add(lanternMesh);
+
+              const pLight = new THREE.PointLight(0xff3b1f, 1.3, 11);
+              pLight.position.set(wx, 3.3, wz);
+              scene.add(pLight);
+              lanterns.push({ light: pLight, phase: Math.random() * 10 });
+            }
+
+            if (cell === 2) {
+              const ped = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.4, 0.5, 0.9, 8),
+                new THREE.MeshStandardMaterial({ color: 0x27272a })
+              );
+              ped.position.set(wx, 0.45, wz);
+              scene.add(ped);
+
+              const scroll = new THREE.Mesh(
+                new THREE.BoxGeometry(0.35, 0.55, 0.06),
+                new THREE.MeshBasicMaterial({ color: 0xfacc15 })
+              );
+              scroll.position.set(wx, 1.35, wz);
+              scene.add(scroll);
+
+              const glow = new THREE.PointLight(0xfacc15, 1.5, 6);
+              glow.position.set(wx, 1.5, wz);
+              scene.add(glow);
+
+              talismans.push({ id: talismanIdx++, mesh: scroll, light: glow, pos: new THREE.Vector3(wx, 1.35, wz), collected: false });
+            }
+
+            if (cell === 3) {
+              exitGateMesh = new THREE.Mesh(
+                new THREE.BoxGeometry(TILE * 0.85, 3.8, 0.4),
+                new THREE.MeshStandardMaterial({ color: 0x7f1d1d, emissive: 0x450a0a })
+              );
+              exitGateMesh.position.set(wx, 1.9, wz);
+              scene.add(exitGateMesh);
+
+              exitLight = new THREE.PointLight(0xef4444, 2.2, 10);
+              exitLight.position.set(wx, 2.4, wz - 1);
+              scene.add(exitLight);
+            }
+          }
+        }
+      }
+
+      const pRig = buildRobloxAvatar(0x2563eb, 0xfcd34d);
+      playerGroup = pRig.group;
+      leftLeg = pRig.lLeg;
+      rightLeg = pRig.rLeg;
+      rightArm = pRig.rArm;
+      playerGroup.position.copy(playerPos);
+      scene.add(playerGroup);
+
+      flashlight = new THREE.SpotLight(0xfffbeb, 5.5, 24, Math.PI / 5.5, 0.45, 1.2);
+      flashlight.castShadow = true;
+      flashlightTarget = new THREE.Object3D();
+      scene.add(flashlight);
+      scene.add(flashlightTarget);
+      flashlight.target = flashlightTarget;
+
+      monsterGroup = buildMonster();
+      monsterGroup.position.copy(monsterPos);
+      scene.add(monsterGroup);
+    }
+
+    // ================= 6. FIREBASE REALTIME CO-OP =================
+    function initFirebaseCoop() {
+      const code = getCleanRoomCode();
+      const t = I18N[currentLang];
+      document.getElementById('ui-coop-status').textContent = t.waitPartner(code);
+
+      roomRef = db.ref('shrine_rooms/' + code);
+
+      // Partner Avatar (Red Jacket)
+      const partnerRig = buildRobloxAvatar(0xdc2626, 0xfde68a);
+      partnerGroup = partnerRig.group;
+      partnerGroup.visible = false;
+      scene.add(partnerGroup);
+
+      // Register Self & Auto-cleanup on disconnect
+      const myRef = roomRef.child('players/' + myPlayerId);
+      myRef.set({ x: playerPos.x, z: playerPos.z, yaw: 0, joinedAt: firebase.database.ServerValue.TIMESTAMP });
+      myRef.onDisconnect().remove();
+
+      // Listen to Players in Room (Determine Host + Partner Position)
+      roomRef.child('players').on('value', snap => {
+        const players = snap.val() || {};
+        const ids = Object.keys(players).sort();
+        isMonsterHost = (ids[0] === myPlayerId);
+
+        let partnerFound = false;
+        for (const pid of ids) {
+          if (pid !== myPlayerId) {
+            partnerFound = true;
+            const p = players[pid];
+            partnerGroup.visible = true;
+            partnerTargetPos.set(p.x, 0, p.z);
+            partnerTargetYaw = p.yaw || 0;
+          }
+        }
+
+        if (partnerFound) {
+          document.getElementById('ui-coop-status').textContent = I18N[currentLang].partnerOnline(code);
+        } else {
+          partnerGroup.visible = false;
+          document.getElementById('ui-coop-status').textContent = I18N[currentLang].waitPartner(code);
+        }
+      });
+
+      // Listen to Shared Talisman Progress
+      roomRef.child('talismans').on('value', snap => {
+        const data = snap.val() || {};
+        Object.keys(data).forEach(idxStr => {
+          if (data[idxStr] === true) {
+            collectTalismanLocal(parseInt(idxStr, 10), false);
+          }
+        });
+      });
+
+      // Listen to Shared Monster Position (for non-host player)
+      roomRef.child('monster').on('value', snap => {
+        const m = snap.val();
+        if (m && !isMonsterHost) {
+          syncedMonsterPos.set(m.x, 0, m.z);
+          monsterGroup.rotation.y = m.rotY || 0;
+        }
+      });
+    }
+
+    // ================= 7. COLLISION & INPUTS =================
+    function canMoveTo(nx, nz) {
+      const r = 0.42;
+      const offsets = [[-r, -r], [r, -r], [-r, r], [r, r]];
+      for (const [ox, oz] of offsets) {
+        const gx = Math.round((nx + ox) / TILE);
+        const gz = Math.round((nz + oz) / TILE);
+        if (gz < 0 || gz >= MAP.length || gx < 0 || gx >= MAP[0].length) return false;
+        if (MAP[gz][gx] === 1) return false;
+      }
+      return true;
+    }
+
+    function setupInputs() {
+      window.addEventListener('keydown', e => {
+        keys[e.code] = true;
+        if (!gameActive || isPaused) return;
+        if (e.code === 'KeyF') toggleFlashlight();
+        if (e.code === 'KeyV') toggleCameraView();
+        if (e.code === 'KeyE') triggerInteract();
+      });
+      window.addEventListener('keyup', e => { keys[e.code] = false; });
+
+      const canvas = document.getElementById('game-canvas');
+      let isDragging = false;
+      canvas.addEventListener('mousedown', () => {
+        if (!gameActive || isPaused) return;
+        isDragging = true;
+        if (canvas.requestPointerLock) canvas.requestPointerLock();
+      });
+      window.addEventListener('mouseup', () => { isDragging = false; });
+      window.addEventListener('mousemove', e => {
+        if (!gameActive || isPaused) return;
+        if (document.pointerLockElement === canvas || isDragging) {
+          yaw -= e.movementX * 0.003;
+          pitch = Math.max(-0.9, Math.min(0.75, pitch - e.movementY * 0.0025));
+        }
+      });
+
+      // Touch Look on Canvas (for iOS / Android)
+      let lookTouchId = null, lastLookX = 0, lastLookY = 0;
+      canvas.addEventListener('touchstart', e => {
+        if (!gameActive || isPaused) return;
+        const touch = e.changedTouches[0];
+        lookTouchId = touch.identifier;
+        lastLookX = touch.clientX;
+        lastLookY = touch.clientY;
+      }, { passive: true });
+
+      canvas.addEventListener('touchmove', e => {
+        if (!gameActive || isPaused || lookTouchId === null) return;
+        for (const touch of e.changedTouches) {
+          if (touch.identifier === lookTouchId) {
+            const dx = touch.clientX - lastLookX;
+            const dy = touch.clientY - lastLookY;
+            lastLookX = touch.clientX;
+            lastLookY = touch.clientY;
+            yaw -= dx * 0.0055;
+            pitch = Math.max(-0.9, Math.min(0.75, pitch - dy * 0.0045));
+          }
+        }
+      }, { passive: true });
+
+      canvas.addEventListener('touchend', e => {
+        for (const touch of e.changedTouches) {
+          if (touch.identifier === lookTouchId) lookTouchId = null;
+        }
+      });
+
+      // Mobile Virtual Joystick & Buttons
+      if ('ontouchstart' in window) {
+        document.getElementById('mobile-controls').style.display = 'block';
+        const pad = document.getElementById('touch-joystick');
+        let startX = 0, startY = 0;
+        pad.addEventListener('touchstart', e => {
+          e.stopPropagation();
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+        });
+        pad.addEventListener('touchmove', e => {
+          e.stopPropagation();
+          const dx = e.touches[0].clientX - startX;
+          const dy = e.touches[0].clientY - startY;
+          keys['KeyW'] = dy < -14;
+          keys['KeyS'] = dy > 14;
+          keys['KeyA'] = dx < -14;
+          keys['KeyD'] = dx > 14;
+        });
+        pad.addEventListener('touchend', e => {
+          e.stopPropagation();
+          keys['KeyW'] = keys['KeyS'] = keys['KeyA'] = keys['KeyD'] = false;
+        });
+        document.getElementById('m-interact').onclick = triggerInteract;
+        document.getElementById('m-flash').onclick = toggleFlashlight;
+        document.getElementById('m-cam').onclick = toggleCameraView;
+        document.getElementById('m-sprint').ontouchstart = () => keys['ShiftLeft'] = true;
+        document.getElementById('m-sprint').ontouchend = () => keys['ShiftLeft'] = false;
+      }
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    }
+
+    function toggleFlashlight() {
+      if (battery <= 0) return;
+      flashlightOn = !flashlightOn;
+      flashlight.visible = flashlightOn;
+    }
+
+    function toggleCameraView() {
+      isThirdPerson = !isThirdPerson;
+      playerGroup.visible = isThirdPerson;
+    }
+
+    function triggerInteract() {
+      if (!nearbyInteractable) return;
+      if (nearbyInteractable.type === 'talisman') {
+        const item = nearbyInteractable.data;
+        if (item.collected) return;
+        collectTalismanLocal(item.id, true);
+        if (roomRef) {
+          roomRef.child('talismans/' + item.id).set(true);
+        }
+      } else if (nearbyInteractable.type === 'exit' && collectedCount >= 3) {
+        endGame(true);
+      }
+    }
+
+    function collectTalismanLocal(id, showStory) {
+      const item = talismans[id];
+      if (!item || item.collected) return;
+      item.collected = true;
+      item.mesh.visible = false;
+      item.light.intensity = 0;
+      collectedCount++;
+      playChime();
+
+      const t = I18N[currentLang];
+      if (collectedCount >= 3) {
+        document.getElementById('ui-objective').textContent = t.objEscape;
+        exitGateMesh.material.color.setHex(0x16a34a);
+        exitGateMesh.material.emissive.setHex(0x15803d);
+        exitLight.color.setHex(0x4ade80);
+      } else {
+        document.getElementById('ui-objective').textContent = t.objCollect(collectedCount, 3);
+      }
+
+      if (showStory) {
+        isPaused = true;
+        if (document.exitPointerLock) document.exitPointerLock();
+        const lore = t.lores[id] || t.lores[0];
+        document.getElementById('lore-title').textContent = lore.title;
+        document.getElementById('lore-body').textContent = lore.body;
+        document.getElementById('lore-modal').style.display = 'flex';
+      }
+    }
+
+    function closeLore() {
+      document.getElementById('lore-modal').style.display = 'none';
+      isPaused = false;
+    }
+
+    // ================= 8. GAME LOOP & MONSTER AI =================
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (!gameActive) return;
+
+      const dt = Math.min(clock.getDelta(), 0.05);
+      const elapsed = clock.getElapsedTime();
+
+      lanterns.forEach(l => {
+        l.light.intensity = 1.1 + Math.sin(elapsed * 9 + l.phase) * 0.25;
+      });
+
+      talismans.forEach(t => {
+        if (!t.collected) {
+          t.mesh.rotation.y += dt * 1.8;
+          t.mesh.position.y = 1.35 + Math.sin(elapsed * 3 + t.id) * 0.08;
+        }
+      });
+
+      if (partnerGroup && partnerGroup.visible) {
+        partnerGroup.position.lerp(partnerTargetPos, 0.25);
+        partnerGroup.rotation.y = partnerTargetYaw;
+      }
+
+      if (!isPaused) {
+        updatePlayer(dt);
+        updateMonster(dt, elapsed);
+        checkInteractions();
+        syncFirebase(elapsed);
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    function updatePlayer(dt) {
+      let forward = 0, right = 0;
+      if (keys['KeyW'] || keys['ArrowUp']) forward += 1;
+      if (keys['KeyS'] || keys['ArrowDown']) forward -= 1;
+      if (keys['KeyD'] || keys['ArrowRight']) right += 1;
+      if (keys['KeyA'] || keys['ArrowLeft']) right -= 1;
+
+      const moving = forward !== 0 || right !== 0;
+      const wantsSprint = (keys['ShiftLeft'] || keys['ShiftRight']) && moving && stamina > 5;
+
+      if (wantsSprint) {
+        stamina = Math.max(0, stamina - 28 * dt);
+      } else {
+        stamina = Math.min(100, stamina + 16 * dt);
+      }
+
+      document.getElementById('stamina-fill').style.width = stamina + '%';
+      document.getElementById('stamina-val').textContent = Math.round(stamina) + '%';
+
+      if (flashlightOn && battery > 0) {
+        battery = Math.max(0, battery - 0.65 * dt);
+        if (battery === 0) { flashlightOn = false; flashlight.visible = false; }
+      }
+      document.getElementById('battery-fill').style.width = battery + '%';
+      document.getElementById('battery-val').textContent = Math.round(battery) + '%';
+
+      const speed = wantsSprint ? 6.4 : 3.7;
+      if (moving) {
+        const sin = Math.sin(yaw);
+        const cos = Math.cos(yaw);
+        const vx = (-sin * forward + cos * right);
+        const vz = (-cos * forward - sin * right);
+        const len = Math.hypot(vx, vz) || 1;
+
+        const nextX = playerPos.x + (vx / len) * speed * dt;
+        const nextZ = playerPos.z + (vz / len) * speed * dt;
+
+        if (canMoveTo(nextX, playerPos.z)) playerPos.x = nextX;
+        if (canMoveTo(playerPos.x, nextZ)) playerPos.z = nextZ;
+
+        walkTime += dt * (wantsSprint ? 14 : 9);
+        leftLeg.rotation.x = Math.sin(walkTime) * 0.65;
+        rightLeg.rotation.x = -Math.sin(walkTime) * 0.65;
+        playFootstep(wantsSprint);
+      } else {
+        leftLeg.rotation.x *= 0.85;
+        rightLeg.rotation.x *= 0.85;
+      }
+
+      playerGroup.position.copy(playerPos);
+      playerGroup.rotation.y = yaw;
+
+      const lookDir = new THREE.Vector3(
+        -Math.sin(yaw) * Math.cos(pitch),
+        Math.sin(pitch),
+        -Math.cos(yaw) * Math.cos(pitch)
+      ).normalize();
+
+      if (isThirdPerson) {
+        const camOffset = new THREE.Vector3(
+          Math.sin(yaw) * 2.6,
+          2.35 - pitch * 1.1,
+          Math.cos(yaw) * 2.6
+        );
+        camera.position.copy(playerPos).add(camOffset);
+        const lookAtPoint = playerPos.clone().add(new THREE.Vector3(0, 1.7, 0)).add(lookDir.clone().multiplyScalar(6));
+        camera.lookAt(lookAtPoint);
+      } else {
+        camera.position.set(playerPos.x, 1.95, playerPos.z);
+        camera.lookAt(camera.position.clone().add(lookDir));
+      }
+
+      flashlight.position.set(playerPos.x, 1.55, playerPos.z);
+      flashlightTarget.position.copy(flashlight.position).add(lookDir.multiplyScalar(10));
+    }
+
+    function updateMonster(dt, elapsed) {
+      if (isMonsterHost) {
+        // Choose closest active player (local or partner)
+        let chaseTargetPos = playerPos;
+        let minDist = monsterPos.distanceTo(playerPos);
+
+        if (partnerGroup && partnerGroup.visible) {
+          const dPartner = monsterPos.distanceTo(partnerGroup.position);
+          if (dPartner < minDist) {
+            minDist = dPartner;
+            chaseTargetPos = partnerGroup.position;
+          }
+        }
+
+        const isSprinting = (keys['ShiftLeft'] || keys['ShiftRight']) && (keys['KeyW'] || keys['KeyS'] || keys['KeyA'] || keys['KeyD']);
+        const detectRange = isSprinting ? 14.5 : 9.5;
+
+        let target = waypoints[monsterWaypointIdx];
+        let speed = 2.75 + collectedCount * 0.35;
+
+        if (minDist < detectRange) {
+          target = chaseTargetPos;
+          speed = 4.35 + collectedCount * 0.25;
+        } else if (monsterPos.distanceTo(target) < 1.2) {
+          monsterWaypointIdx = (monsterWaypointIdx + 1) % waypoints.length;
+          target = waypoints[monsterWaypointIdx];
+        }
+
+        const dir = target.clone().sub(monsterPos);
+        dir.y = 0;
+        if (dir.length() > 0.05) {
+          dir.normalize();
+          const mx = monsterPos.x + dir.x * speed * dt;
+          const mz = monsterPos.z + dir.z * speed * dt;
+          if (canMoveTo(mx, monsterPos.z)) monsterPos.x = mx;
+          if (canMoveTo(monsterPos.x, mz)) monsterPos.z = mz;
+          monsterGroup.rotation.y = Math.atan2(dir.x, dir.z);
+        }
+      } else {
+        monsterPos.lerp(syncedMonsterPos, 0.2);
+      }
+
+      monsterGroup.position.set(monsterPos.x, Math.sin(elapsed * 4) * 0.12, monsterPos.z);
+      monsterHead.rotation.z = Math.sin(elapsed * 13) * 0.18;
+
+      const distToMe = monsterPos.distanceTo(playerPos);
+      const danger = Math.max(0, Math.min(1, (13 - distToMe) / 11));
+      document.getElementById('danger-overlay').style.background =
+        `radial-gradient(circle, transparent 42%, rgba(160, 0, 0, ${danger * 0.65}) 100%)`;
+      playHeartbeat(danger);
+
+      if (distToMe < 1.15) {
+        playJumpscareSound();
+        endGame(false);
+      }
+    }
+
+    function checkInteractions() {
+      const t = I18N[currentLang];
+      const prompt = document.getElementById('interact-prompt');
+      nearbyInteractable = null;
+
+      for (const item of talismans) {
+        if (!item.collected && playerPos.distanceTo(item.pos) < 2.3) {
+          nearbyInteractable = { type: 'talisman', data: item };
+          prompt.textContent = t.promptTalisman;
+          prompt.style.display = 'block';
+          return;
+        }
+      }
+
+      if (exitGateMesh && playerPos.distanceTo(exitGateMesh.position) < 2.8) {
+        nearbyInteractable = { type: 'exit' };
+        prompt.textContent = collectedCount >= 3 ? t.promptExitOpen : t.promptExitLocked;
+        prompt.style.display = 'block';
+        return;
+      }
+
+      prompt.style.display = 'none';
+    }
+
+    function syncFirebase(elapsed) {
+      if (!roomRef || elapsed - lastNetSync < 0.09) return;
+      lastNetSync = elapsed;
+
+      roomRef.child('players/' + myPlayerId).update({
+        x: Number(playerPos.x.toFixed(2)),
+        z: Number(playerPos.z.toFixed(2)),
+        yaw: Number(yaw.toFixed(2))
+      });
+
+      if (isMonsterHost) {
+        roomRef.child('monster').set({
+          x: Number(monsterPos.x.toFixed(2)),
+          z: Number(monsterPos.z.toFixed(2)),
+          rotY: Number(monsterGroup.rotation.y.toFixed(2))
+        });
+      }
+    }
+
+    function startGame() {
+      initAudio();
+      initScene();
+      setupInputs();
+      initFirebaseCoop();
+
+      const t = I18N[currentLang];
+      document.getElementById('ui-objective').textContent = t.objCollect(0, 3);
+      document.getElementById('start-screen').style.display = 'none';
+      document.getElementById('hud').style.display = 'flex';
+
+      gameActive = true;
+      animate();
+    }
+
+    function endGame(won) {
+      gameActive = false;
+      if (document.exitPointerLock) document.exitPointerLock();
+      const t = I18N[currentLang];
+      document.getElementById('end-title').textContent = won ? t.winTitle : t.loseTitle;
+      document.getElementById('end-title').style.color = won ? '#4ade80' : '#ef4444';
+      document.getElementById('end-desc').textContent = won ? t.winDesc : t.loseDesc;
+      document.getElementById('end-screen').style.display = 'flex';
+    }
+  </script>
+</body>
+</html>
