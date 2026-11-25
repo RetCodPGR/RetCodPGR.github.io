@@ -2,1992 +2,217 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Our Virtual Desk ✨</title>
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#1e1714" />
-  <link id="dynamicManifest" rel="manifest" />
-
-  <!-- Firebase Realtime Database & Storage SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload & Streaming Video (.mp4 / .mov)</title>
   <style>
-    :root {
-      --bg-main: #1e1714;
-      --bg-secondary: #2a211d;
-      --card-surface: #332823;
-      --card-border: rgba(255, 248, 238, 0.12);
-      --accent-primary: #fef08a;
-      --accent-secondary: #fbcfe8;
-      --glow-1: rgba(254, 240, 138, 0.08);
-      --glow-2: rgba(251, 207, 232, 0.08);
-      --butter: #fef08a;
-      --pink: #fbcfe8;
-      --mint: #bbf7d0;
-      --sky: #bae6fd;
-      --cream: #fffdf9;
-      --ink: #29201c;
-      --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
-      --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      --font-hand: "Brush Script MT", "Segoe Print", "Bradley Hand", "Kaiti SC", "STKaiti", cursive;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-
-    body.theme-guest {
-      --bg-main: #23151e;
-      --bg-secondary: #311d2a;
-      --card-surface: #3b2433;
-      --card-border: rgba(251, 207, 232, 0.18);
-      --accent-primary: #fbcfe8;
-      --accent-secondary: #bae6fd;
-      --glow-1: rgba(251, 207, 232, 0.13);
-      --glow-2: rgba(186, 230, 253, 0.10);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    @keyframes fadeSlideUp {
-      from { opacity: 0; transform: translateY(14px) scale(0.985); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    @keyframes popIn {
-      0% { opacity: 0; transform: scale(0.9) translateY(8px); }
-      100% { opacity: 1; transform: scale(1) translateY(0); }
-    }
-
-    @keyframes frameSwitch {
-      0% { opacity: 0.35; transform: rotate(-1deg) scale(0.965); }
-      100% { opacity: 1; transform: rotate(-1deg) scale(1); }
-    }
-
-    @keyframes modalBackdropIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes modalCardIn {
-      from { opacity: 0; transform: scale(0.92) translateY(12px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.8); }
-    }
-
-    @keyframes petFloat {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-7px); }
-    }
-
-    @keyframes petWalkBounce {
-      0%, 100% { transform: translateX(-8px) translateY(0px) rotate(-3deg); }
-      25% { transform: translateX(0px) translateY(-8px) rotate(0deg); }
-      50% { transform: translateX(8px) translateY(0px) rotate(3deg); }
-      75% { transform: translateX(0px) translateY(-8px) rotate(0deg); }
-    }
-
-    @keyframes petHappyJump {
-      0% { transform: translateY(0) scale(1); }
-      30% { transform: translateY(-22px) scale(1.08); }
-      55% { transform: translateY(0) scale(0.95); }
-      80% { transform: translateY(-9px) scale(1.03); }
-      100% { transform: translateY(0) scale(1); }
-    }
-
-    @keyframes tailWag {
-      0%, 100% { transform: rotate(-10deg); }
-      50% { transform: rotate(16deg); }
-    }
-
-    @keyframes coinFloatUp {
-      0% { opacity: 0; transform: translateY(12px) scale(0.85); }
-      20% { opacity: 1; transform: translateY(0) scale(1.05); }
-      80% { opacity: 1; transform: translateY(-18px) scale(1); }
-      100% { opacity: 0; transform: translateY(-30px) scale(0.95); }
-    }
-
     body {
-      background-color: var(--bg-main);
-      background-image:
-        radial-gradient(rgba(255, 244, 214, 0.08) 1px, transparent 1px),
-        radial-gradient(circle at 15% 15%, var(--glow-1), transparent 42%),
-        radial-gradient(circle at 85% 80%, var(--glow-2), transparent 42%);
-      background-size: 24px 24px, 100% 100%, 100% 100%;
-      color: var(--cream);
-      font-family: var(--font-ui);
+      background: #f5f6f8;
+      color: #1a1a1a;
       min-height: 100vh;
-      padding: 18px 16px 48px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: background-color 0.45s var(--ease-spring);
-    }
-
-    button, select, input, label.btn {
-      transition: transform 0.2s var(--ease-spring), background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, opacity 0.2s ease;
-    }
-    button:active, label.btn:active {
-      transform: scale(0.95);
-    }
-    button:disabled {
-      opacity: 0.48;
-      cursor: not-allowed;
-      transform: none !important;
-    }
-
-    .lang-select {
-      background: rgba(255, 255, 255, 0.09);
-      border: 1px solid var(--card-border);
-      color: var(--cream);
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-family: var(--font-ui);
-      font-size: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-      outline: none;
-    }
-    .lang-select:hover { background: rgba(255, 255, 255, 0.16); }
-    .lang-select option { background: #1e1714; color: #fffdf9; }
-
-    /* ================= LIVE NOTIFICATION TOAST BANNER ================= */
-    .live-toast-banner {
-      position: fixed;
-      top: 16px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-140%);
-      width: calc(100% - 28px);
-      max-width: 440px;
-      background: rgba(34, 24, 28, 0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1.5px solid var(--accent-secondary);
-      border-radius: 20px;
-      padding: 13px 16px;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      opacity: 0;
-      pointer-events: none;
-      transition: transform 0.45s var(--ease-spring), opacity 0.35s ease;
-    }
-    .live-toast-banner.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .toast-icon-circle {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(251, 207, 232, 0.18);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.25rem;
-      flex-shrink: 0;
-    }
-    .toast-content { flex: 1; min-width: 0; }
-    .toast-title { font-size: 0.72rem; font-weight: 800; color: var(--accent-primary); text-transform: uppercase; letter-spacing: 0.6px; }
-    .toast-body { font-size: 0.85rem; font-weight: 700; color: var(--cream); margin-top: 2px; line-height: 1.35; }
-
-    .floating-coin-pop {
-      position: fixed;
-      bottom: 28px;
-      right: 24px;
-      background: var(--butter);
-      color: var(--ink);
-      font-weight: 800;
-      font-size: 0.85rem;
-      padding: 8px 14px;
-      border-radius: 999px;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.4);
-      z-index: 1900;
-      pointer-events: none;
-      animation: coinFloatUp 1.5s var(--ease-spring) forwards;
-    }
-
-    /* ================= LAYAR MASUK ROOM ================= */
-    #connectGate {
-      width: 100%;
-      max-width: 440px;
-      margin: auto;
-      background: var(--card-surface);
-      border: 1px solid var(--card-border);
-      border-radius: 28px;
-      padding: 26px 24px;
-      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
-      display: none;
-      flex-direction: column;
-      gap: 16px;
-      animation: fadeSlideUp 0.45s var(--ease-spring);
-    }
-
-    .gate-top-bar { display: flex; justify-content: flex-end; }
-    .gate-header { text-align: center; }
-    .gate-header h1 { font-size: 1.5rem; font-weight: 800; color: var(--butter); margin-top: 6px; }
-    .gate-header p { font-size: 0.82rem; color: rgba(255, 253, 249, 0.68); margin-top: 4px; line-height: 1.45; }
-
-    .gate-mode-tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      background: rgba(0, 0, 0, 0.28);
-      padding: 4px;
-      border-radius: 14px;
-    }
-
-    .gate-mode-btn {
-      border: none;
-      background: transparent;
-      color: rgba(255, 253, 249, 0.65);
-      padding: 9px 10px;
-      border-radius: 10px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .gate-mode-btn.active {
-      background: var(--butter);
-      color: var(--ink);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    }
-
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-group label { font-size: 0.75rem; font-weight: 700; color: rgba(255, 253, 249, 0.78); }
-    .gate-input-row { display: flex; gap: 8px; align-items: stretch; }
-    .gate-input {
-      flex: 1;
-      min-width: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.26);
-      border: 1px solid rgba(255, 248, 238, 0.16);
-      border-radius: 12px;
-      padding: 11px 13px;
-      color: var(--cream);
-      font-family: var(--font-ui);
-      font-size: 0.88rem;
-      font-weight: 600;
-      outline: none;
-    }
-    .gate-input:focus { border-color: var(--butter); box-shadow: 0 0 0 3px rgba(254, 240, 138, 0.12); }
-    .gate-input::placeholder { color: rgba(255, 253, 249, 0.35); font-weight: 400; }
-
-    #genRoomCodeBtn {
-      white-space: nowrap;
-      flex-shrink: 0;
-      padding: 0 13px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .gate-error {
-      background: rgba(248, 113, 113, 0.15);
-      border: 1px solid rgba(248, 113, 113, 0.4);
-      color: #fecaca;
-      padding: 9px 12px;
-      border-radius: 12px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      display: none;
-      text-align: center;
-      animation: popIn 0.25s var(--ease-spring);
-    }
-
-    .btn-connect-submit {
-      width: 100%;
-      background: var(--butter);
-      color: var(--ink);
-      border: none;
-      border-radius: 14px;
-      padding: 13px;
-      font-size: 0.92rem;
-      font-weight: 800;
-      cursor: pointer;
-    }
-    .btn-connect-submit:hover { background: #fde047; transform: translateY(-1px); }
-
-    /* ================= HALAMAN UTAMA ================= */
-    #deskApp {
-      display: none;
-      width: 100%;
-      flex-direction: column;
-      align-items: center;
-      animation: fadeSlideUp 0.5s var(--ease-spring);
-    }
-
-    header {
-      width: 100%;
-      max-width: 980px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .brand h1 { font-size: 1.3rem; font-weight: 800; color: var(--accent-primary); transition: color 0.35s ease; }
-    .brand-sub { font-size: 0.74rem; color: rgba(255, 253, 249, 0.68); font-weight: 600; }
-
-    .header-actions {
-      display: flex;
-      gap: 7px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .room-pill-btn {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--card-border);
-      color: var(--cream);
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .room-pill-btn:hover { background: rgba(255, 255, 255, 0.16); }
-
-    .notif-bell-btn {
-      position: relative;
-      background: rgba(255, 255, 255, 0.09);
-      border: 1px solid var(--card-border);
-      color: var(--cream);
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .notif-unread-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #fb7185;
-      box-shadow: 0 0 8px #fb7185;
-      display: none;
-    }
-
-    .leave-btn {
-      background: rgba(248, 113, 113, 0.14);
-      border: 1px solid rgba(248, 113, 113, 0.35);
-      color: #fecaca;
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .leave-btn:hover { background: rgba(248, 113, 113, 0.25); }
-
-    .live-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(187, 247, 208, 0.14);
-      border: 1px solid rgba(187, 247, 208, 0.35);
-      color: var(--mint);
-      padding: 5px 12px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-
-    .live-dot {
-      width: 8px; height: 8px;
-      background: var(--mint);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--mint);
-      animation: pulse 1.8s infinite;
-    }
-
-    /* ================= PAGE SWITCHER ================= */
-    .main-page-nav {
-      width: 100%;
-      max-width: 980px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--card-border);
-      padding: 5px;
-      border-radius: 18px;
-      margin-bottom: 18px;
-    }
-
-    .page-nav-btn {
-      border: none;
-      background: transparent;
-      color: rgba(255, 253, 249, 0.7);
-      padding: 10px 14px;
-      border-radius: 13px;
-      font-size: 0.85rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .page-nav-btn:hover:not(.active) {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--cream);
-    }
-    .page-nav-btn.active {
-      background: var(--accent-primary);
-      color: var(--ink);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
-    }
-
-    .coin-pill-mini {
-      background: rgba(0, 0, 0, 0.18);
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 0.74rem;
-      font-weight: 800;
-    }
-
-    /* ================= PAGE 1: MEJA VIRTUAL ================= */
-    .bento-grid {
-      width: 100%;
-      max-width: 980px;
-      display: grid;
-      grid-template-columns: 1.15fr 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    @media (max-width: 780px) {
-      .bento-grid { grid-template-columns: 1fr; }
-    }
-
-    .left-stack { display: flex; flex-direction: column; gap: 20px; }
-
-    .widget {
-      background: var(--card-surface);
-      border: 1px solid var(--card-border);
-      border-radius: 26px;
-      padding: 20px;
-      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
-      animation: fadeSlideUp 0.5s var(--ease-spring);
-      transition: background-color 0.4s var(--ease-spring), border-color 0.4s ease;
-    }
-
-    .widget-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .widget-title {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      font-weight: 800;
-      color: rgba(255, 253, 249, 0.72);
-    }
-
-    .polaroid-action-btns {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    /* 3 TAB POLAROID & VIDEO */
-    .polaroid-tabs-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 5px;
-      background: rgba(0, 0, 0, 0.28);
-      padding: 4px;
-      border-radius: 14px;
-      margin-bottom: 14px;
-    }
-
-    .p-tab-btn {
-      border: none;
-      background: transparent;
-      color: rgba(255, 253, 249, 0.65);
-      padding: 8px 6px;
-      border-radius: 10px;
-      font-size: 0.73rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      text-align: center;
-      line-height: 1.2;
-    }
-
-    .p-tab-btn:hover:not(.active) {
-      color: var(--cream);
-      background: rgba(255, 255, 255, 0.06);
-    }
-
-    .p-tab-btn.active {
-      background: var(--accent-primary);
-      color: var(--ink);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.22);
-      transform: scale(1.01);
-    }
-
-    .tab-count-pill {
-      background: rgba(0, 0, 0, 0.16);
-      padding: 1px 6px;
-      border-radius: 999px;
-      font-size: 0.68rem;
-    }
-
-    /* POLAROID FRAME */
-    .polaroid-frame {
-      background: var(--cream);
-      padding: 14px 14px 20px;
-      border-radius: 8px;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
-      transform: rotate(-1deg);
-      position: relative;
-      transition: transform 0.35s var(--ease-spring), box-shadow 0.35s ease;
-    }
-    .polaroid-frame.animate-switch {
-      animation: frameSwitch 0.34s var(--ease-spring);
-    }
-
-    .photo-stack-container {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-    }
-
-    .photo-box-stack-bg1, .photo-box-stack-bg2 {
-      position: absolute;
-      inset: 0;
-      background: var(--bg-secondary);
-      border-radius: 4px;
-      border: 2px dashed rgba(255,255,255,0.2);
-      transition: transform 0.35s var(--ease-spring), opacity 0.35s ease;
-    }
-    .photo-box-stack-bg1 { transform: rotate(3deg) scale(0.95); opacity: 0.6; }
-    .photo-box-stack-bg2 { transform: rotate(-3deg) scale(0.9); opacity: 0.3; }
-
-    .photo-box {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      background: #1a1412;
-      border-radius: 4px;
-      overflow: hidden;
-      touch-action: none;
-      z-index: 2;
-    }
-
-    canvas#polaroidCanvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-      cursor: crosshair;
-    }
-    canvas#polaroidCanvas.readonly-mode { cursor: default; }
-
-    /* TOMBOL DOWNLOAD DI SUDUT ATAS POLAROID */
-    .polaroid-top-actions {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 12;
-      display: flex;
-      gap: 6px;
-    }
-
-    .polaroid-download-btn {
-      background: rgba(25, 20, 18, 0.78);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      color: var(--cream);
-      border: 1px solid rgba(255, 255, 255, 0.32);
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 0.74rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: none;
-      align-items: center;
-      gap: 4px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.38);
-    }
-    .polaroid-download-btn:hover {
-      background: var(--accent-primary);
-      color: var(--ink);
-      border-color: var(--accent-primary);
-    }
-
-    .stack-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.65);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.25);
-      width: 34px; height: 34px;
-      border-radius: 50%;
-      font-weight: 800;
-      cursor: pointer;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .stack-nav:hover { background: rgba(0, 0, 0, 0.88); transform: translateY(-50%) scale(1.08); }
-    .stack-nav:active { transform: translateY(-50%) scale(0.92); }
-    .stack-prev { left: 8px; }
-    .stack-next { right: 8px; }
-
-    .stack-meta-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 6px;
-      padding: 0 4px;
-      gap: 6px;
-    }
-
-    .stack-indicator { font-size: 0.75rem; font-weight: 700; color: rgba(0,0,0,0.65); }
-
-    .delete-single-btn {
-      background: rgba(41, 32, 28, 0.08);
-      border: none;
-      color: #991b1b;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .delete-single-btn:hover { background: rgba(153, 27, 27, 0.16); }
-
-    .polaroid-caption {
-      width: 100%;
-      border: none;
-      background: transparent;
-      font-family: var(--font-hand);
-      font-size: 1.55rem;
-      font-weight: 700;
-      color: var(--ink);
-      text-align: center;
-      margin-top: 6px;
-      outline: none;
-    }
-
-    /* ================= VIDEO STREAM & SAVE WIDGET ================= */
-    .video-stage-box {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 10;
-      background: #140f0d;
-      border: 1.5px solid var(--card-border);
-      border-radius: 18px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #videoPlayer {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: #000;
-      display: none;
-    }
-
-    .video-empty-placeholder {
-      padding: 20px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      color: rgba(255, 253, 249, 0.74);
-      font-size: 0.84rem;
-      font-weight: 700;
-    }
-
-    .video-format-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(20, 15, 13, 0.78);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      color: var(--accent-primary);
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      font-weight: 800;
-      z-index: 8;
-      display: none;
-    }
-
-    .video-upload-progress-wrap {
-      width: 100%;
-      margin-top: 10px;
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .video-upload-status-text {
-      font-size: 0.74rem;
-      font-weight: 700;
-      color: var(--accent-primary);
-      text-align: center;
-    }
-
-    .video-meta-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 8px;
-      gap: 8px;
-    }
-    .video-stack-indicator {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: rgba(255, 253, 249, 0.68);
-    }
-    .video-delete-btn {
-      background: rgba(248, 113, 113, 0.14);
-      border: 1px solid rgba(248, 113, 113, 0.3);
-      color: #fecaca;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 4px 9px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: none;
-    }
-    .video-delete-btn:hover { background: rgba(248, 113, 113, 0.26); }
-
-    .video-caption-input {
-      width: 100%;
-      margin-top: 10px;
-      background: rgba(0, 0, 0, 0.24);
-      border: 1px solid rgba(255, 248, 238, 0.14);
-      border-radius: 12px;
-      padding: 9px 12px;
-      color: var(--cream);
-      font-family: var(--font-ui);
-      font-size: 0.84rem;
-      font-weight: 600;
-      outline: none;
-      text-align: center;
-    }
-    .video-caption-input:focus { border-color: var(--accent-primary); }
-
-    .video-download-bar {
-      display: none;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-      align-items: center;
-      justify-content: space-between;
-      animation: fadeSlideUp 0.3s var(--ease-spring);
-    }
-
-    .gallery-info-bar {
-      margin-top: 14px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px dashed var(--card-border);
-      border-radius: 14px;
-      padding: 10px 14px;
-      text-align: center;
-      font-size: 0.78rem;
-      color: rgba(255, 253, 249, 0.78);
-      display: none;
-      animation: fadeSlideUp 0.3s var(--ease-spring);
-    }
-
-    .swatches {
-      display: flex;
-      gap: 7px;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.24);
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .swatch {
-      width: 24px; height: 24px;
-      border-radius: 50%;
-      border: 2px solid rgba(0, 0, 0, 0.35);
-      cursor: pointer;
-    }
-    .swatch.active {
-      border-color: #fff;
-      transform: scale(1.22);
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.65);
-    }
-
-    .btn {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--cream);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 7px 12px;
-      border-radius: 12px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-    }
-    .btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.18); transform: translateY(-1px); }
-    .btn-primary {
-      background: var(--accent-primary);
-      color: var(--ink);
-      border: none;
-    }
-    .btn-primary:hover:not(:disabled) { filter: brightness(1.05); }
-
-    /* MODALS */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.82);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      z-index: 999;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      animation: modalBackdropIn 0.25s ease;
-    }
-    .modal-card {
-      background: var(--card-surface);
-      border: 1px solid var(--card-border);
-      border-radius: 22px;
-      padding: 22px;
-      width: 100%;
-      max-width: 400px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      box-shadow: 0 24px 48px rgba(0,0,0,0.5);
-      animation: modalCardIn 0.3s var(--ease-spring);
-    }
-    .camera-view-box {
-      width: 290px;
-      height: 290px;
-      background: #000;
-      border-radius: 16px;
-      overflow: hidden;
-      position: relative;
-      border: 2px solid var(--accent-primary);
-    }
-    #cameraVideo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    #cameraVideo.mirrored {
-      transform: scaleX(-1);
-    }
-    .crop-preview-container {
-      width: 280px;
-      height: 280px;
-      background: #111;
-      border-radius: 12px;
-      overflow: hidden;
-      position: relative;
-      touch-action: none;
-      border: 2px dashed rgba(255,255,255,0.3);
-    }
-    #cropCanvas { width: 100%; height: 100%; display: block; cursor: grab; }
-    .crop-controls { width: 100%; display: flex; flex-direction: column; gap: 8px; }
-    .crop-controls label { font-size: 0.75rem; font-weight: 700; color: rgba(255,253,249,0.7); }
-    .crop-controls input[type="range"] { width: 100%; accent-color: var(--accent-primary); }
-
-    .notif-list-box {
-      width: 100%;
-      max-height: 280px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .notif-item-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 10px 12px;
-      font-size: 0.8rem;
-      line-height: 1.35;
-    }
-    .notif-item-time {
-      font-size: 0.68rem;
-      color: rgba(255, 253, 249, 0.5);
-      margin-top: 3px;
-    }
-
-    /* RIGHT COLUMN: CLOCKS + GPS LOCATION + UNIFIED STATUS */
-    .right-stack { display: flex; flex-direction: column; gap: 20px; }
-    .clocks-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 480px) { .clocks-row { grid-template-columns: 1fr; } }
-
-    .clock-pill {
-      background: var(--bg-secondary);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      transition: border-color 0.3s ease, transform 0.25s var(--ease-spring);
-    }
-    .clock-pill.active-owner { border-color: var(--accent-primary); }
-    .clock-city { font-size: 0.78rem; font-weight: 800; color: var(--accent-primary); }
-    .clock-city.partner { color: var(--accent-secondary); }
-
-    .clock-time-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .clock-time { font-size: 1.55rem; font-weight: 800; line-height: 1.1; }
-    .clock-location-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: rgba(255, 253, 249, 0.88);
-      padding: 4px 8px;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      max-width: 135px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .unified-status-select {
-      width: 100%;
-      background: rgba(254, 240, 138, 0.09);
-      color: var(--accent-primary);
-      border: 1px solid rgba(254, 240, 138, 0.28);
-      border-radius: 11px;
-      padding: 8px 10px;
-      font-family: var(--font-ui);
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-      outline: none;
-    }
-    .unified-status-select option { background: #1e1714; color: #fffdf9; }
-
-    .custom-status-wrap {
-      display: none;
-      width: 100%;
-      align-items: center;
-      gap: 5px;
-      animation: popIn 0.2s var(--ease-spring);
-    }
-    .unified-status-input {
-      flex: 1;
-      min-width: 0;
-      background: rgba(254, 240, 138, 0.12);
-      color: var(--accent-primary);
-      border: 1px solid var(--accent-primary);
-      border-radius: 11px;
-      padding: 8px 10px;
-      font-family: var(--font-ui);
-      font-size: 0.8rem;
-      font-weight: 600;
-      outline: none;
-    }
-    .unified-status-input::placeholder { color: rgba(255, 253, 249, 0.45); font-weight: 400; }
-    .switch-template-btn {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: var(--cream);
-      border-radius: 10px;
-      padding: 7px 9px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .partner-unified-status {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 11px;
-      padding: 8px 10px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--accent-secondary);
-      min-height: 36px;
-      display: flex;
-      align-items: center;
-    }
-
-    /* STICKY NOTES */
-    .notes-section-label {
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: rgba(255, 253, 249, 0.6);
-      margin-bottom: 8px;
-    }
-
-    .notes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-    .notes-grid:last-child { margin-bottom: 0; }
-
-    .sticky {
-      border-radius: 16px; padding: 12px; color: var(--ink); min-height: 114px;
-      display: flex; flex-direction: column; justify-content: space-between;
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-      animation: popIn 0.3s var(--ease-spring);
-      transition: transform 0.2s var(--ease-spring);
-    }
-    .sticky:hover { transform: translateY(-2px); }
-    .sticky textarea {
-      width: 100%; border: none; background: transparent; resize: none;
-      font-family: var(--font-hand); font-size: 1.25rem; font-weight: 700; color: var(--ink); outline: none; flex: 1;
-    }
-    .sticky-readonly-text {
-      font-family: var(--font-hand);
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.25;
-      word-break: break-word;
-    }
-    .sticky-footer {
-      display: flex; justify-content: space-between; align-items: flex-end; gap: 6px;
-      font-size: 0.68rem; font-weight: 700; opacity: 0.82; margin-top: 6px;
-      border-top: 1px dashed rgba(41, 32, 28, 0.22);
-      padding-top: 5px;
-    }
-    .sticky-right-meta {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-left: auto;
-      text-align: right;
-    }
-    .sticky-datetime-stack {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      line-height: 1.15;
-    }
-    .sticky-time-tag {
-      font-size: 0.64rem;
-      font-weight: 800;
-      opacity: 0.78;
-      white-space: nowrap;
-    }
-    .sticky-date-tag {
-      font-size: 0.66rem;
-      font-weight: 800;
-      opacity: 0.92;
-      white-space: nowrap;
-    }
-    .del-note { background: none; border: none; font-weight: 800; cursor: pointer; color: var(--ink); }
-
-    .empty-notes-box {
-      grid-column: 1 / -1;
-      background: rgba(0, 0, 0, 0.18);
-      border: 1px dashed var(--card-border);
-      border-radius: 14px;
-      padding: 14px;
-      text-align: center;
-      font-size: 0.78rem;
-      color: rgba(255, 253, 249, 0.55);
-    }
-
-    /* ================= COUPLE PET SYSTEM ================= */
-    #petView {
-      display: none;
-      width: 100%;
-      max-width: 980px;
-      flex-direction: column;
-      gap: 20px;
-      animation: fadeSlideUp 0.45s var(--ease-spring);
-    }
-
-    .breed-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin: 14px 0;
-    }
-    @media (min-width: 720px) {
-      .breed-grid { grid-template-columns: repeat(4, 1fr); }
-    }
-
-    .breed-card {
-      background: var(--bg-secondary);
-      border: 2px solid var(--card-border);
-      border-radius: 20px;
-      padding: 14px 10px;
-      text-align: center;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      transition: transform 0.25s var(--ease-spring), border-color 0.25s ease, background-color 0.25s ease;
-    }
-    .breed-card:hover { transform: translateY(-3px); border-color: rgba(254, 240, 138, 0.45); }
-    .breed-card.selected {
-      border-color: var(--accent-primary);
-      background: rgba(254, 240, 138, 0.12);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
-    }
-    .breed-name { font-size: 0.9rem; font-weight: 800; color: var(--cream); }
-    .breed-desc { font-size: 0.72rem; color: rgba(255, 253, 249, 0.68); line-height: 1.35; }
-
-    /* PANEL PERSETUJUAN 2 PIHAK (ADOPSI & TELANTARKAN) */
-    .consent-banner-box {
-      background: rgba(254, 240, 138, 0.12);
-      border: 1.5px solid var(--accent-primary);
-      border-radius: 18px;
-      padding: 14px 16px;
-      margin-top: 14px;
-      display: none;
-      flex-direction: column;
-      gap: 10px;
-      animation: popIn 0.3s var(--ease-spring);
-    }
-    .consent-banner-box.danger {
-      background: rgba(248, 113, 113, 0.14);
-      border-color: rgba(248, 113, 113, 0.55);
-    }
-    .consent-banner-title {
-      font-size: 0.84rem;
-      font-weight: 800;
-      color: var(--accent-primary);
-      line-height: 1.4;
-    }
-    .consent-banner-box.danger .consent-banner-title {
-      color: #fecaca;
-    }
-    .consent-banner-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .pet-dashboard-grid {
-      display: grid;
-      grid-template-columns: 1.05fr 1fr;
-      gap: 20px;
-    }
-    @media (max-width: 780px) {
-      .pet-dashboard-grid { grid-template-columns: 1fr; }
-    }
-
-    .pet-stage-box {
-      background: radial-gradient(circle at 50% 65%, rgba(254, 240, 138, 0.16), rgba(0, 0, 0, 0.28));
-      border: 1px solid var(--card-border);
-      border-radius: 22px;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      min-height: 275px;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .pet-speech-bubble {
-      background: var(--cream);
-      color: var(--ink);
-      padding: 7px 14px;
-      border-radius: 18px;
-      font-size: 0.77rem;
-      font-weight: 800;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.28);
-      margin-bottom: 10px;
-      text-align: center;
-      max-width: 92%;
-      line-height: 1.35;
-      animation: popIn 0.3s var(--ease-spring);
-    }
-
-    .pet-status-alert-pill {
-      padding: 5px 12px;
-      border-radius: 999px;
-      font-size: 0.72rem;
-      font-weight: 800;
-      margin-bottom: 10px;
-      text-align: center;
-      display: none;
-    }
-    .pet-status-alert-pill.warn-obesity {
-      background: rgba(251, 146, 60, 0.2);
-      border: 1px solid rgba(251, 146, 60, 0.55);
-      color: #fed7aa;
-    }
-    .pet-status-alert-pill.warn-malnutrition {
-      background: rgba(248, 113, 113, 0.2);
-      border: 1px solid rgba(248, 113, 113, 0.55);
-      color: #fecaca;
-    }
-    .pet-status-alert-pill.info-exercising {
-      background: rgba(186, 230, 253, 0.2);
-      border: 1px solid rgba(186, 230, 253, 0.55);
-      color: #bae6fd;
-    }
-
-    .pet-svg-outer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.5s var(--ease-spring), filter 0.4s ease;
-    }
-
-    .pet-svg-wrap {
-      width: 155px;
-      height: 155px;
-      animation: petFloat 3s ease-in-out infinite;
-    }
-    .pet-svg-wrap.exercising-walk {
-      animation: petWalkBounce 1.1s ease-in-out infinite;
-    }
-    .pet-svg-wrap.happy-jump {
-      animation: petHappyJump 0.75s var(--ease-spring);
-    }
-    .pet-tail {
-      transform-origin: 140px 135px;
-      animation: tailWag 1.1s ease-in-out infinite;
-    }
-
-    .pet-action-btns-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      justify-content: center;
-      margin-top: 12px;
-    }
-
-    .pet-manage-row {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-top: 12px;
-      padding-top: 10px;
-      border-top: 1px dashed var(--card-border);
-      flex-wrap: wrap;
-    }
-
-    .death-cooldown-banner {
-      background: rgba(248, 113, 113, 0.14);
-      border: 1px solid rgba(248, 113, 113, 0.42);
-      border-radius: 18px;
       padding: 16px;
+    }
+    .video-card {
+      width: 100%;
+      max-width: 520px;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      border: 1px solid #e5e7eb;
+    }
+    h2 {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+    p.sub {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+    .upload-area {
+      display: block;
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 20px 14px;
       text-align: center;
-      margin-bottom: 14px;
-      color: #fecaca;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      background: #f8fafc;
+    }
+    .upload-area:hover,
+    .upload-area.dragover {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+    .upload-area input[type="file"] {
       display: none;
     }
-
-    .stat-bars {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 14px;
-    }
-    .stat-row { display: flex; flex-direction: column; gap: 4px; }
-    .stat-label-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.74rem;
-      font-weight: 700;
-      color: rgba(255, 253, 249, 0.8);
-    }
-    .progress-track {
-      width: 100%;
-      height: 9px;
-      background: rgba(0, 0, 0, 0.35);
-      border-radius: 999px;
-      overflow: hidden;
-      position: relative;
-    }
-    .progress-fill {
-      height: 100%;
-      border-radius: 999px;
-      transition: width 0.5s var(--ease-spring), background-color 0.4s ease;
-    }
-
-    .shop-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .shop-item-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .shop-item-top { display: flex; align-items: center; gap: 8px; }
-    .shop-item-icon { font-size: 1.5rem; }
-    .shop-item-name { font-size: 0.82rem; font-weight: 800; color: var(--cream); }
-    .shop-item-effect { font-size: 0.7rem; color: var(--mint); font-weight: 600; }
-
-    .mission-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .mission-row {
-      background: rgba(0, 0, 0, 0.22);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 9px 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.78rem;
+    .upload-title {
       font-weight: 600;
+      font-size: 14px;
+      color: #1e293b;
     }
-    .mission-reward-tag {
-      background: rgba(254, 240, 138, 0.16);
-      color: var(--butter);
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 0.72rem;
-      font-weight: 800;
+    .upload-hint {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    .player-wrapper {
+      display: none;
+      margin-top: 16px;
+    }
+    video {
+      width: 100%;
+      max-height: 360px;
+      border-radius: 12px;
+      background: #000;
+      display: block;
+    }
+    .meta-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #f1f5f9;
+    }
+    .file-info {
+      font-size: 12px;
+      color: #475569;
+      word-break: break-all;
+    }
+    .btn-save {
+      display: inline-block;
+      padding: 9px 14px;
+      background: #111827;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
       white-space: nowrap;
+      transition: background 0.2s;
     }
-    .mission-reward-tag.done {
-      background: rgba(187, 247, 208, 0.16);
-      color: var(--mint);
+    .btn-save:hover {
+      background: #374151;
+    }
+    .error-msg {
+      display: none;
+      margin-top: 10px;
+      font-size: 12px;
+      color: #dc2626;
+      background: #fef2f2;
+      padding: 8px 12px;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
+  <div class="video-card">
+    <h2>Upload &amp; Streaming Video</h2>
+    <p class="sub">Mendukung format <strong>.mp4</strong> dan <strong>.mov</strong>, langsung putar dan simpan.</p>
 
-  <!-- LIVE NOTIFICATION TOAST -->
-  <div id="liveToastBanner" class="live-toast-banner" role="alert">
-    <div class="toast-icon-circle" id="liveToastIcon">📸</div>
-    <div class="toast-content">
-      <div class="toast-title" id="liveToastTitle">New Update ✨</div>
-      <div class="toast-body" id="liveToastBody">Partner waiting for you to see his/her cute picture ~</div>
-    </div>
-  </div>
+    <label class="upload-area" id="dropZone">
+      <input type="file" id="videoFileInput" accept="video/mp4,video/quicktime,.mp4,.mov" />
+      <div class="upload-title">Klik untuk pilih video atau tarik file ke sini</div>
+      <div class="upload-hint">Format didukung: MP4, MOV</div>
+    </label>
 
-  <!-- LAYAR 1: CONNECT ROOM PRIVAT -->
-  <div id="connectGate">
-    <div class="gate-top-bar">
-      <select class="lang-select" id="gateLangSelect" aria-label="Language">
-        <option value="id">🇮🇩 Bahasa Indonesia</option>
-        <option value="en">🇬🇧 English</option>
-        <option value="zh">🇨🇳 简体中文</option>
-      </select>
-    </div>
+    <div class="error-msg" id="errorMsg"></div>
 
-    <div class="gate-header">
-      <div style="font-size: 2.2rem;">🔐🧸</div>
-      <h1>Our Virtual Desk</h1>
-      <p id="gateSubtitle">Masukkan nama panggilanmu dan hubungkan room privat khusus berdua.</p>
-    </div>
-
-    <div class="gate-mode-tabs">
-      <button type="button" class="gate-mode-btn active" id="modeCreateBtn">✨ Buat Room Baru</button>
-      <button type="button" class="gate-mode-btn" id="modeJoinBtn">💌 Gabung / Masuk Room</button>
-    </div>
-
-    <div class="form-group">
-      <label for="userNameInput" id="lblUserName">Nama Panggilanmu (ID Tampilan)</label>
-      <input type="text" id="userNameInput" class="gate-input" maxlength="16" placeholder="Contoh: Galih / Sayang..." />
-    </div>
-
-    <div class="form-group">
-      <label for="roomCodeInput" id="lblRoomCode">Kode Room Privat</label>
-      <div class="gate-input-row">
-        <input type="text" id="roomCodeInput" class="gate-input" maxlength="20" placeholder="COZY-8492" style="text-transform:uppercase;" />
-        <button type="button" class="btn" id="genRoomCodeBtn">🎲 Acak</button>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="roomPinInput" id="lblRoomPin">PIN / Password Rahasia Room</label>
-      <input type="password" id="roomPinInput" class="gate-input" maxlength="16" placeholder="Masukkan PIN rahasia berdua..." />
-    </div>
-
-    <div class="gate-error" id="gateErrorBox"></div>
-
-    <button type="button" class="btn-connect-submit" id="connectSubmitBtn">Masuk & Connect Room ✨</button>
-  </div>
-
-  <!-- LAYAR 2: HALAMAN UTAMA -->
-  <div id="deskApp">
-    <header>
-      <div class="brand">
-        <span style="font-size: 1.7rem;">🧸</span>
-        <div>
-          <h1 id="headerTitle">Meja Virtual</h1>
-          <div class="brand-sub" id="headerSubtitle">Terhubung berdua secara privat</div>
-        </div>
-      </div>
-
-      <div class="header-actions">
-        <button type="button" class="room-pill-btn" id="copyInviteBtn">
-          🔑 Room: <span id="headerRoomCode">---</span>
-        </button>
-
-        <div class="live-badge">
-          <span class="live-dot"></span>
-          <span id="syncStatus">Live Synced ✓</span>
-        </div>
-
-        <button type="button" class="notif-bell-btn" id="notifBellBtn" title="Notifikasi">
-          🔔 <span class="notif-unread-dot" id="notifUnreadDot"></span>
-        </button>
-
-        <select class="lang-select" id="appLangSelect" aria-label="Language">
-          <option value="id">🇮🇩 ID</option>
-          <option value="en">🇬🇧 EN</option>
-          <option value="zh">🇨🇳 中文</option>
-        </select>
-
-        <button type="button" class="leave-btn" id="leaveRoomBtn">Keluar</button>
-      </div>
-    </header>
-
-    <!-- NAVIGASI ANTAR PAGE DALAM SATU HALAMAN -->
-    <nav class="main-page-nav">
-      <button type="button" class="page-nav-btn active" id="navDeskTab">
-        <span id="navDeskLabel">🧸 Meja Virtual</span>
-      </button>
-      <button type="button" class="page-nav-btn" id="navPetTab">
-        <span id="navPetLabel">🐾 Peliharaan Kita</span>
-        <span class="coin-pill-mini" id="navCoinBadge">🪙 0</span>
-      </button>
-    </nav>
-
-    <!-- ================= PAGE 1: MEJA VIRTUAL ================= -->
-    <main class="bento-grid" id="deskView">
-      <!-- LEFT STACK: POLAROID + VIDEO MEMORIES -->
-      <div class="left-stack">
-        <!-- POLAROID WIDGET -->
-        <section class="widget">
-          <div class="widget-header">
-            <span class="widget-title" id="polaroidWidgetTitle">📸 Live Polaroid Widget</span>
-            <div class="polaroid-action-btns">
-              <button type="button" class="btn btn-primary" id="openCameraBtn">📷 Kamera</button>
-              <label class="btn" id="uploadLabel" style="cursor:pointer;">
-                <span id="uploadBtnText">🖼️ Galeri</span>
-                <input type="file" id="photoInput" accept="image/*" hidden />
-              </label>
-              <input type="file" id="fallbackCameraInput" accept="image/*" capture="user" hidden />
-            </div>
-          </div>
-
-          <div class="polaroid-tabs-3">
-            <button type="button" class="p-tab-btn active" id="pTabUpload">
-              <span id="pTabUploadLabel">✨ Potret & Coret</span>
-            </button>
-            <button type="button" class="p-tab-btn" id="pTabSelf">
-              <span id="pTabSelfLabel">🎨 Polaroid Kamu</span>
-              <span class="tab-count-pill" id="selfCountBadge">0</span>
-            </button>
-            <button type="button" class="p-tab-btn" id="pTabPartner">
-              <span id="pTabPartnerLabel">💌 Dari Pasangan</span>
-              <span class="tab-count-pill" id="partnerCountBadge">0</span>
-            </button>
-          </div>
-
-          <div class="polaroid-frame" id="polaroidFrame">
-            <div class="photo-stack-container">
-              <div class="photo-box-stack-bg2" id="stackBg2" style="display:none;"></div>
-              <div class="photo-box-stack-bg1" id="stackBg1" style="display:none;"></div>
-
-              <div class="photo-box">
-                <div class="polaroid-top-actions">
-                  <button type="button" class="polaroid-download-btn" id="downloadPolaroidBtn" title="Download dengan Watermark">
-                    ⬇️ <span id="downloadBtnText">Unduh</span>
-                  </button>
-                </div>
-                <canvas id="polaroidCanvas" width="600" height="600"></canvas>
-                <button type="button" class="stack-nav stack-prev" id="prevPhotoBtn">&lt;</button>
-                <button type="button" class="stack-nav stack-next" id="nextPhotoBtn">&gt;</button>
-              </div>
-            </div>
-            <div class="stack-meta-row">
-              <div class="stack-indicator" id="stackIndicator">Kanvas Baru</div>
-              <button type="button" class="delete-single-btn" id="deleteSinglePhotoBtn" style="display:none;">🗑️ Hapus foto ini</button>
-            </div>
-            <input id="captionInput" class="polaroid-caption" value="miss you today ♡" maxlength="36" />
-          </div>
-
-          <div class="toolbar" id="toolbarSection">
-            <div class="swatches" id="swatchBar">
-              <button type="button" class="swatch active" data-color="#fef08a" style="background:#fef08a;"></button>
-              <button type="button" class="swatch" data-color="#fbcfe8" style="background:#fbcfe8;"></button>
-              <button type="button" class="swatch" data-color="#bbf7d0" style="background:#bbf7d0;"></button>
-              <button type="button" class="swatch" data-color="#bae6fd" style="background:#bae6fd;"></button>
-              <button type="button" class="swatch" data-color="#fca5a5" style="background:#fca5a5;"></button>
-              <button type="button" class="swatch" data-color="#ffffff" style="background:#ffffff;"></button>
-              <button type="button" class="btn" id="undoDrawBtn" style="padding:4px 8px; font-size:0.75rem; border-radius:999px;">↩</button>
-            </div>
-            <div style="display:flex; gap:6px;">
-              <button type="button" class="btn" id="clearDraftBtn">Reset Kanvas</button>
-              <button type="button" class="btn btn-primary" id="sendLiveBtn">Kirim ke Dia ✨ (+25 🪙)</button>
-            </div>
-          </div>
-
-          <div class="gallery-info-bar" id="galleryInfoBar"></div>
-        </section>
-
-        <!-- NEW: VIDEO UPLOAD, LIVE STREAMING & SAVE (.MP4 / .MOV) WIDGET -->
-        <section class="widget" id="videoWidget">
-          <div class="widget-header">
-            <span class="widget-title" id="videoWidgetTitle">🎬 Live Video Memories</span>
-            <label class="btn btn-primary" id="uploadVideoLabel" style="cursor:pointer;">
-              <span id="uploadVideoBtnText">📤 Upload .MP4 / .MOV</span>
-              <input type="file" id="videoInput" accept="video/mp4,video/quicktime,.mp4,.mov" hidden />
-            </label>
-          </div>
-
-          <div class="polaroid-tabs-3">
-            <button type="button" class="p-tab-btn active" id="vTabUpload">
-              <span id="vTabUploadLabel">✨ Upload & Preview</span>
-            </button>
-            <button type="button" class="p-tab-btn" id="vTabSelf">
-              <span id="vTabSelfLabel">🎞️ Video Kamu</span>
-              <span class="tab-count-pill" id="selfVideoCountBadge">0</span>
-            </button>
-            <button type="button" class="p-tab-btn" id="vTabPartner">
-              <span id="vTabPartnerLabel">💌 Dari Pasangan</span>
-              <span class="tab-count-pill" id="partnerVideoCountBadge">0</span>
-            </button>
-          </div>
-
-          <div class="video-stage-box" id="videoStageBox">
-            <span class="video-format-badge" id="videoFormatBadge">.MP4</span>
-            <video id="videoPlayer" controls playsinline webkit-playsinline preload="metadata"></video>
-            <div class="video-empty-placeholder" id="videoEmptyPlaceholder">
-              <div style="font-size:2rem;">🎥✨</div>
-              <div id="videoEmptyText">Pilih video .MP4 atau .MOV untuk diputar & dikirim 🎬</div>
-            </div>
-            <button type="button" class="stack-nav stack-prev" id="prevVideoBtn" style="display:none;">&lt;</button>
-            <button type="button" class="stack-nav stack-next" id="nextVideoBtn" style="display:none;">&gt;</button>
-          </div>
-
-          <div class="video-upload-progress-wrap" id="videoUploadProgressWrap">
-            <div class="video-upload-status-text" id="videoUploadStatusText">Mengunggah video... 0%</div>
-            <div class="progress-track">
-              <div class="progress-fill" id="videoUploadProgressBar" style="width:0%; background:var(--mint);"></div>
-            </div>
-          </div>
-
-          <div class="video-meta-row">
-            <span class="video-stack-indicator" id="videoStackIndicator">Siap Upload (.MP4 / .MOV)</span>
-            <button type="button" class="video-delete-btn" id="deleteSingleVideoBtn">🗑️ Hapus video ini</button>
-          </div>
-
-          <input
-            type="text"
-            id="videoCaptionInput"
-            class="video-caption-input"
-            maxlength="60"
-            value="our cute moment 🎬♡"
-            placeholder="Tulis caption video..."
-          />
-
-          <div class="toolbar" id="videoToolbarSection" style="justify-content:flex-end;">
-            <div style="display:flex; gap:8px;">
-              <button type="button" class="btn" id="clearVideoDraftBtn">Reset</button>
-              <button type="button" class="btn btn-primary" id="sendVideoLiveBtn">Kirim Video ✨</button>
-            </div>
-          </div>
-
-          <div class="video-download-bar" id="videoDownloadBar">
-            <button type="button" class="btn btn-primary" id="downloadVideoMp4Btn">⬇️ Save .MP4</button>
-            <button type="button" class="btn" id="downloadVideoMovBtn">⬇️ Save .MOV</button>
-          </div>
-        </section>
-      </div>
-
-      <!-- RIGHT: CLOCKS + GPS LOCATION + STICKY NOTES -->
-      <div class="right-stack">
-        <section class="widget">
-          <div class="widget-header">
-            <span class="widget-title" id="tzWidgetTitle">🕰️ Zona Waktu & Lokasi</span>
-            <button type="button" class="btn" id="requestGpsBtn" style="font-size:0.7rem; padding:4px 8px;">📍 Sync GPS</button>
-          </div>
-          <div class="clocks-row">
-            <div class="clock-pill active-owner">
-              <div class="clock-city" id="leftClockLabel">Kamu</div>
-              <div class="clock-time-row">
-                <div class="clock-time" id="leftClockTime">--:--</div>
-                <div class="clock-location-badge" id="leftLocationBadge">📍 GPS Off</div>
-              </div>
-
-              <select class="unified-status-select" id="activeStatusSelect"></select>
-              <div class="custom-status-wrap" id="customStatusWrap">
-                <input
-                  type="text"
-                  id="activeCustomStatusInput"
-                  class="unified-status-input"
-                  maxlength="50"
-                  placeholder="✍️ Tulis status / pesan singkat..."
-                />
-                <button type="button" class="switch-template-btn" id="backToTemplatesBtn" title="Pilih dari template">📋</button>
-              </div>
-            </div>
-
-            <div class="clock-pill">
-              <div class="clock-city partner" id="rightClockLabel">Menunggu Pasangan...</div>
-              <div class="clock-time-row">
-                <div class="clock-time" id="rightClockTime">--:--</div>
-                <div class="clock-location-badge" id="rightLocationBadge">📍 --</div>
-              </div>
-              <div class="partner-unified-status" id="partnerStatusDisplay">💭 Menunggu terhubung</div>
-            </div>
-          </div>
-        </section>
-
-        <section class="widget" style="flex:1;">
-          <div class="widget-header">
-            <span class="widget-title" id="notesWidgetTitle">🗒️ Live Sticky Notes</span>
-            <button type="button" class="btn btn-primary" id="addNoteBtn">+ Note Baru (+15 🪙)</button>
-          </div>
-
-          <div class="notes-section-label">
-            <span id="ownNotesTitle">✍️ Catatanmu</span>
-          </div>
-          <div class="notes-grid" id="ownNotesGrid"></div>
-
-          <div class="notes-section-label">
-            <span id="incomingNotesTitle">💌 Catatan dari Pasangan</span>
-          </div>
-          <div class="notes-grid" id="incomingNotesGrid"></div>
-        </section>
-      </div>
-    </main>
-
-    <!-- ================= PAGE 2: SISTEM PELIHARAAN VIRTUAL ================= -->
-    <section id="petView">
-      <div class="widget" id="petAdoptionSection">
-        <div class="widget-header">
-          <span class="widget-title" id="adoptWidgetTitle">🏡 Adopsi Peliharaan Bersama</span>
-          <span class="coin-pill-mini" style="background:var(--butter); color:var(--ink);" id="adoptCoinInfo">🪙 0</span>
-        </div>
-
-        <div class="death-cooldown-banner" id="deathCooldownBanner"></div>
-
-        <p id="adoptSubtitle" style="font-size:0.82rem; color:rgba(255,253,249,0.75); line-height:1.45;">
-          Pilih satu anak anjing menggemaskan untuk dirawat berdua! Selesaikan misi harian untuk mengumpulkan koin makanan.
-        </p>
-
-        <div class="breed-grid" id="breedSelectionGrid"></div>
-
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-          <input type="text" id="petNameInput" class="gate-input" maxlength="16" placeholder="Beri nama peliharaan (Contoh: Mochi)..." />
-          <button type="button" class="btn btn-primary" id="adoptPetBtn" style="padding:11px 18px;">Adopsi Sekarang 🐾</button>
-        </div>
-
-        <!-- PANEL PERSETUJUAN ADOPSI 2 PIHAK -->
-        <div class="consent-banner-box" id="adoptConsentBanner">
-          <div class="consent-banner-title" id="adoptConsentText"></div>
-          <div class="consent-banner-actions" id="adoptConsentActions"></div>
-        </div>
-      </div>
-
-      <div class="pet-dashboard-grid" id="petCareSection" style="display:none;">
-        <div class="widget">
-          <div class="widget-header">
-            <span class="widget-title" id="petRoomTitle">🐾 Ruang Peliharaan Kita</span>
-            <span class="coin-pill-mini" style="background:var(--butter); color:var(--ink);" id="petLevelBadge">Lv. 1</span>
-          </div>
-
-          <div class="pet-stage-box" id="petStageBox">
-            <div class="pet-speech-bubble" id="petSpeechBubble">Woof! Aku senang bertemu kalian ♡</div>
-            <div class="pet-status-alert-pill" id="petStatusAlertPill"></div>
-            <div class="pet-svg-outer" id="petSvgOuter">
-              <div class="pet-svg-wrap" id="petSvgContainer"></div>
-            </div>
-            <div style="margin-top:10px; text-align:center;">
-              <div style="font-size:1.1rem; font-weight:800; color:var(--accent-primary);" id="petDisplayName">Mochi</div>
-              <div style="font-size:0.74rem; color:rgba(255,253,249,0.68); font-weight:700;" id="petBreedLabel">Shiba Inu</div>
-              <div style="display:inline-block; margin-top:5px; background:rgba(255,255,255,0.09); border:1px solid rgba(255,255,255,0.16); padding:3px 10px; border-radius:999px; font-size:0.72rem; font-weight:800; color:var(--mint);" id="petAgeStageBadge">🎂 Usia: 0 Hari (Bayi)</div>
-            </div>
-            <div class="pet-action-btns-row">
-              <button type="button" class="btn" id="petHeadBtn" style="font-size:0.75rem;">🖐️ Elus Kepala (+5 🪙)</button>
-              <button type="button" class="btn btn-primary" id="walkPetBtn" style="font-size:0.75rem;">🏃 Jalan-Jalan (12 Jam / +50 EXP)</button>
-            </div>
-          </div>
-
-          <div class="stat-bars">
-            <div class="stat-row">
-              <div class="stat-label-row">
-                <span id="lblFullness">🍖 Kenyang (80 / 100 / 150)</span>
-                <span id="petFullnessText">80 / 100 (Maks 150)</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill" id="petFullnessBar" style="width:53%; background:var(--butter);"></div>
-              </div>
-            </div>
-
-            <div class="stat-row">
-              <div class="stat-label-row">
-                <span id="lblHappiness">💖 Kebahagiaan (Happiness)</span>
-                <span id="petHappinessText">85 / 100</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill" id="petHappinessBar" style="width:85%; background:var(--pink);"></div>
-              </div>
-            </div>
-
-            <div class="stat-row">
-              <div class="stat-label-row">
-                <span id="lblExp">⭐ EXP Level</span>
-                <span id="petExpText">0 / 100 EXP</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill" id="petExpBar" style="width:0%; background:var(--mint);"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- GANTI NAMA 1X & TELANTARKAN ANJING (2-PIHAK) -->
-          <div class="pet-manage-row">
-            <button type="button" class="btn" id="renamePetBtn" style="font-size:0.73rem;">✏️ Ganti Nama (1x)</button>
-            <button type="button" class="leave-btn" id="abandonPetBtn" style="font-size:0.73rem;">💔 Telantarkan</button>
-          </div>
-
-          <!-- PANEL PERSETUJUAN TELANTARKAN 2 PIHAK -->
-          <div class="consent-banner-box danger" id="abandonConsentBanner">
-            <div class="consent-banner-title" id="abandonConsentText"></div>
-            <div class="consent-banner-actions" id="abandonConsentActions"></div>
-          </div>
-        </div>
-
-        <div class="right-stack">
-          <div class="widget">
-            <div class="widget-header">
-              <span class="widget-title" id="petShopTitle">🛒 Toko Makanan & Mainan</span>
-              <span class="coin-pill-mini" style="background:var(--butter); color:var(--ink);" id="shopCoinDisplay">🪙 0</span>
-            </div>
-            <div class="shop-grid" id="petShopGrid"></div>
-          </div>
-
-          <div class="widget">
-            <div class="widget-header">
-              <span class="widget-title" id="missionWidgetTitle">🎯 Misi Harian Koin</span>
-            </div>
-            <div class="mission-list" id="petMissionList"></div>
-            <div style="margin-top:12px; font-size:0.74rem; color:rgba(255,253,249,0.68);" id="lastPetCareLog"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- MODAL KAMERA LIVE -->
-  <div id="cameraModal" class="modal-overlay">
-    <div class="modal-card">
-      <span class="widget-title" id="cameraModalTitle">Kamera Polaroid 📷</span>
-      <div class="camera-view-box">
-        <video id="cameraVideo" class="mirrored" autoplay playsinline muted></video>
-      </div>
-      <div style="display:flex; gap:10px; width:100%; justify-content:center;">
-        <button type="button" class="btn" id="switchCamBtn">🔄 Balik Kamera</button>
-        <button type="button" class="btn btn-primary" id="capturePhotoBtn">📸 Jepret!</button>
-        <button type="button" class="btn" id="closeCameraBtn">Tutup</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL CROPPER -->
-  <div id="cropModal" class="modal-overlay">
-    <div class="modal-card" style="max-width: 420px;">
-      <span class="widget-title" id="cropModalTitle">Sesuaikan Ukuran Foto ✂️</span>
-      <div class="crop-preview-container">
-        <canvas id="cropCanvas" width="400" height="400"></canvas>
-      </div>
-      <div class="crop-controls">
-        <label id="cropZoomLabel">Geser / Zoom Foto agar pas:</label>
-        <input type="range" id="zoomRange" min="0.5" max="3" step="0.05" value="1" />
-      </div>
-      <div style="display:flex; gap:10px; width:100%; justify-content:flex-end; margin-top:4px;">
-        <button type="button" class="btn" id="cancelCropBtn">Batal</button>
-        <button type="button" class="btn btn-primary" id="applyCropBtn">Gunakan Foto ✓</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL RIWAYAT NOTIFIKASI -->
-  <div id="notifModal" class="modal-overlay">
-    <div class="modal-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
-        <span class="widget-title" id="notifModalTitle">🔔 Notifikasi Pasangan</span>
-        <button type="button" class="btn" id="enablePushNotifBtn" style="font-size:0.7rem; padding:4px 9px;">Aktifkan Push</button>
-      </div>
-      <div class="notif-list-box" id="notifListContainer"></div>
-      <div style="display:flex; gap:10px; width:100%; justify-content:flex-end;">
-        <button type="button" class="btn" id="clearNotifBtn">Bersihkan</button>
-        <button type="button" class="btn btn-primary" id="closeNotifBtn">Tutup</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL GANTI NAMA PELIHARAAN (1X) -->
-  <div id="renamePetModal" class="modal-overlay">
-    <div class="modal-card" style="max-width: 360px; text-align: center;">
-      <div style="font-size: 1.9rem;">✏️🐾</div>
-      <h3 id="renameModalTitle" style="font-size: 1.05rem; color: var(--accent-primary);">Ganti Nama Peliharaan</h3>
-      <p id="renameModalDesc" style="font-size: 0.8rem; color: rgba(255,253,249,0.75); line-height: 1.4;">
-        Nama peliharaan hanya dapat diubah 1 kali setelah diadopsi.
-      </p>
-      <input type="text" id="renamePetInput" class="gate-input" maxlength="16" placeholder="Nama baru..." />
-      <div style="display:flex; gap:10px; width:100%;">
-        <button type="button" class="btn" id="cancelRenamePetBtn" style="flex:1;">Batal</button>
-        <button type="button" class="btn btn-primary" id="confirmRenamePetBtn" style="flex:1;">Simpan Nama</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL TELANTARKAN PELIHARAAN (MENGAJUKAN KE PASANGAN) -->
-  <div id="abandonPetModal" class="modal-overlay">
-    <div class="modal-card" style="max-width: 360px; text-align: center;">
-      <div style="font-size: 2rem;">💔🐾</div>
-      <h3 id="abandonModalTitle" style="font-size: 1.05rem; color: #fecaca;">Telantarkan Peliharaan?</h3>
-      <p id="abandonModalDesc" style="font-size: 0.82rem; color: rgba(255,253,249,0.75); line-height: 1.45;">
-        Permintaan menelantarkan peliharaan akan dikirim ke pasanganmu. Peliharaan baru akan dilepas setelah kedua pihak menyetujuinya.
-      </p>
-      <div style="display:flex; gap:10px; width:100%;">
-        <button type="button" class="btn" id="cancelAbandonPetBtn" style="flex:1;">Batal</button>
-        <button type="button" class="leave-btn" id="confirmAbandonPetBtn" style="flex:1; padding: 9px 12px;">Ajukan Persetujuan</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL KONFIRMASI KELUAR -->
-  <div id="exitConfirmModal" class="modal-overlay">
-    <div class="modal-card" style="max-width: 360px; text-align: center;">
-      <div style="font-size: 2rem;">🚪🧸</div>
-      <h3 id="exitModalTitle" style="font-size: 1.05rem; color: var(--accent-primary);">Keluar dari Room?</h3>
-      <p id="exitModalDesc" style="font-size: 0.82rem; color: rgba(255,253,249,0.75); line-height: 1.45;">
-        Kamu bisa masuk kembali kapan saja menggunakan Kode Room dan Password/PIN yang sama.
-      </p>
-      <div style="display:flex; gap:10px; width:100%; margin-top:4px;">
-        <button type="button" class="btn" id="cancelExitBtn" style="flex:1;">Batal</button>
-        <button type="button" class="leave-btn" id="confirmExitBtn" style="flex:1; padding: 9px 12px;">Ya, Keluar</button>
+    <div class="player-wrapper" id="playerWrapper">
+      <video id="videoPlayer" controls playsinline preload="metadata"></video>
+      <div class="meta-bar">
+        <span class="file-info" id="videoMeta"></span>
+        <a class="btn-save" id="downloadVideoBtn" download="video.mp4">Simpan Video</a>
       </div>
     </div>
   </div>
 
   <script>
-    // ================= 1. INISIALISASI FIREBASE & VARIABEL GLOBAL =================
-    const firebaseConfig = {
-      apiKey: "AIzaSyBF1LP9H26mRntsYXlkjm6Ebp3aR1QI8yU",
-      authDomain: "widg-350f9.firebaseapp.com",
-      databaseURL: "https://widg-350f9-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "widg-350f9",
-      storageBucket: "widg-350f9.firebasestorage.app",
-      messagingSenderId: "297142153662",
-      appId: "1:297142153662:web:482b285695838b838949ef",
-      measurementId: "G-GG6Q8PM583"
-    };
+    (() => {
+      const dropZone = document.getElementById("dropZone");
+      const input = document.getElementById("videoFileInput");
+      const playerWrapper = document.getElementById("playerWrapper");
+      const player = document.getElementById("videoPlayer");
+      const meta = document.getElementById("videoMeta");
+      const downloadBtn = document.getElementById("downloadVideoBtn");
+      const errorMsg = document.getElementById("errorMsg");
 
-    let db = null;
-    let storage = null;
-    try {
-      if (typeof firebase !== "undefined") {
-        if (!firebase.apps.length) {
-          firebase.initializeApp(firebaseConfig);
-        }
-        db = firebase.database();
-        if (firebase.storage) {
-          storage = firebase.storage();
-        }
+      let currentObjectUrl = null;
+
+      function showError(msg) {
+        errorMsg.textContent = msg;
+        errorMsg.style.display = "block";
       }
-    } catch (e) {
-      console.error("Firebase init warning:", e);
-    }
 
-    const HOUR_MS = 3600000;
-    const DAY_MS = 86400000;
-    const WEEK_MS = 7 * DAY_MS;
-    const EXERCISE_DURATION_MS = 12 * HOUR_MS;
+      function clearError() {
+        errorMsg.textContent = "";
+        errorMsg.style.display = "none";
+      }
 
-    // Referensi DOM Utama
-    const connectGate = document.getElementById("connectGate");
-    const deskApp = document.getElementById("deskApp");
-    const modeCreateBtn = document.getElementById("modeCreateBtn");
-    const modeJoinBtn = document.getElementById("modeJoinBtn");
-    const genRoomCodeBtn = document.getElementById("genRoomCodeBtn");
-    const userNameInput = document.getElementById("userNameInput");
-    const roomCodeInput = document.getElementById("roomCodeInput");
-    const roomPinInput = document.getElementById("roomPinInput");
-    const gateErrorBox = document.getElementById("gateErrorBox");
-    const connectSubmitBtn = document.getElementById("connectSubmitBtn");
-    const gateLangSelect = document.getElementById("gateLangSelect");
-    const appLangSelect = document.getElementById("appLangSelect");
+      function handleFile(file) {
+        if (!file) return;
+        clearError();
 
-    const navDeskTab = document.getElementById("navDeskTab");
-    const navPetTab = document.getElementById("navPetTab");
-    const deskView = document.getElementById("deskView");
-    const petView = document.getElementById("petView");
+        const allowedExt = /\.(mp4|mov)$/i.test(file.name);
+        const allowedMime = ["video/mp4", "video/quicktime"].includes(file.type);
 
-    const activeStatusSelect = document.getElementById("activeStatusSelect");
-    const customStatusWrap = document.getElementById("customStatusWrap");
-    const activeCustomStatusInput = document.getElementById("activeCustomStatusInput");
-    const backToTemplatesBtn = document.getElementById("backToTemplatesBtn");
+        if (!allowedExt && !allowedMime) {
+          showError("Format tidak didukung. Gunakan file .mp4 atau .mov.");
+          input.value = "";
+          return;
+        }
 
-    const cameraModal = document.getElementById("cameraModal");
-    const cameraVideo = document.getElementById("cameraVideo");
-    const openCameraBtn = document.getElementById("openCameraBtn");
-    const switchCamBtn = document.
+        if (currentObjectUrl) {
+          URL.revokeObjectURL(currentObjectUrl);
+        }
+
+        currentObjectUrl = URL.createObjectURL(file);
+        player.src = currentObjectUrl;
+        playerWrapper.style.display = "block";
+        player.load();
+
+        const extMatch = file.name.match(/\.(mp4|mov)$/i);
+        const ext = extMatch ? extMatch[0].toLowerCase() : ".mp4";
+        downloadBtn.href = currentObjectUrl;
+        downloadBtn.download = `video-${Date.now()}${ext}`;
+
+        const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+        meta.textContent = `${file.name} (${sizeMB} MB)`;
+      }
+
+      input.addEventListener("change", (e) => {
+        handleFile(e.target.files && e.target.files[0]);
+      });
+
+      dropZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropZone.classList.add("dragover");
+      });
+
+      dropZone.addEventListener("dragleave", () => {
+        dropZone.classList.remove("dragover");
+      });
+
+      dropZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropZone.classList.remove("dragover");
+        const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (file) handleFile(file);
+      });
+    })();
+  </script>
+</body>
+</html>
+
